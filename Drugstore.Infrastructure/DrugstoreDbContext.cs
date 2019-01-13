@@ -1,15 +1,16 @@
-﻿using System;
-using Drugstore.Core;
+﻿using Drugstore.Core;
 using Microsoft.EntityFrameworkCore;
 namespace Drugstore.Infrastructure
 {
-    public class DrugstoreDbContext: DbContext
+    public class DrugstoreDbContext : DbContext
     {
         public DrugstoreDbContext(DbContextOptions<DrugstoreDbContext> options)
-            :base(options)
-        {
+            : base(options) { }
 
-        }
-        public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<Doctor> Doctors{ get; set; }
+        public DbSet<Nurse> Nurses { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<MedicineOnStock> Medicines { get; set; }
     }
 }

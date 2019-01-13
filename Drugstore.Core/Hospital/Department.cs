@@ -5,14 +5,12 @@ using System.Text;
 
 namespace Drugstore.Core
 {
-    public class Medicine
+    public class Department
     {
         [Key]
-        public int MedicineID { get; set; }
-        public uint Quantity { get; set; }
+        public int ID { get; set; }
         [MaxLength(50)]
         public string Name { get; set; }
-        public float Price { get; set; }
 
     }
 }
