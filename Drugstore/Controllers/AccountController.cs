@@ -68,7 +68,7 @@ namespace Drugstore.Controllers
                         .PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(role ?? "/");
+                        return RedirectToAction("Index", role);
                     }
                 }
                 ModelState.AddModelError(nameof(LoginModel.Email),

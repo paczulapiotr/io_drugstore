@@ -1,0 +1,30 @@
+﻿@model ICollection<Department>
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        @foreach (var department in Model)
+        {
+            <tr>
+                <td>@department.ID</td>
+                <td>@department.Name</td>
+                <td>
+                    <form action="EditDepartment" method="get">
+                        <input value="@department.ID" name="departmentId" type="hidden" />
+                        <Button>Edit</Button>
+                    </form>
+                </td>
+            </tr>
+
+        }
+    </table>
+</div>
