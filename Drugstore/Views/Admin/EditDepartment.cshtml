@@ -1,0 +1,10 @@
+﻿@model Department
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<form action="EditDepartment" method="post">
+    <input type="text" asp-for="Name" />
+    <input type="hidden" asp-for="ID" />
+    <input type="submit" />
+</form>
