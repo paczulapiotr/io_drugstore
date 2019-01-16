@@ -1,9 +1,4 @@
-﻿
-$primary-color: #36b59e;
-$primary-color-dark: #1e9a84;
-$primary-color-bright: #68dbc7;
-$secondary-color-dark: #2b3039;
-$secondary-color-bright: #5c6677;
+﻿@import '_variables.scss';
 
 body {
 }
@@ -25,40 +20,42 @@ footer {
 body .mainSection {
     height: 92vh;
 
+    input {
+
+        &:hover,
+        &:focus,
+        &:active {
+            border-color: $primary-color-dark;
+            box-shadow: 0 0 0 0.1rem $primary-colo-darker;
+        }
+    }
+
     button {
         background-color: $primary-color;
-        border-color: #1e9a84;
-        color: white;
-    }
+        border-color: $primary-color-dark;
+        box-shadow: 0 0 0 0.1rem $primary-colo-darker;
+        color: $white;
 
-    button:hover {
-        background-color: #68dbc7;
-        border-color: #1e9a84;
-        box-shadow: 0 0 0 0.1rem #56eed57e;
-    }
+        &:hover,
+        &:focus {
+            color: $white;
+            background-color: $primary-color-dark;
+            border-color: $primary-color-dark;
+            box-shadow: 0 0 0 0.1rem $primary-colo-darker;
+        }
 
-    button:focus {
-        background-color: #68dbc7;
-        border-color: #1e9a84;
-        box-shadow: 0 0 0 0.1rem #56eed53a;
-    }
-
-    button:not(:disabled):not(.disabled):active {
-        background-color: #1e9a84;
-        border-color: #1e9a84;
-        box-shadow: 0;
-    }
-
-    button:not(:disabled):not(.disabled):active:focus {
-        background-color: #1e9a84;
-        border-color: #1e9a84;
-        box-shadow: 0 0 0 0.1rem #56eed53a;
+        &:not(:disabled):not(.disabled):active:focus,
+        &:not(:disabled):not(.disabled):active {
+            color: $white;
+            background-color: $primary-color-bright;
+            border-color: $white;
+        }
     }
 
 
     h {
-        background-color: #36b59e;
-        border-color: #1e9a84;
+        background-color: $primary-color;
+        border-color: $primary-colo-darker;
     }
 }
 

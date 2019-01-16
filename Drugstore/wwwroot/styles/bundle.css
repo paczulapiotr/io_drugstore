@@ -15,39 +15,38 @@ body .mainSection {
   height: 92vh;
 }
 
+body .mainSection input:hover,
+body .mainSection input:focus,
+body .mainSection input:active {
+  border-color: #1e9a84;
+  box-shadow: 0 0 0 0.1rem #0c7965;
+}
+
 body .mainSection button {
   background-color: #36b59e;
   border-color: #1e9a84;
+  box-shadow: 0 0 0 0.1rem #0c7965;
   color: white;
 }
 
-body .mainSection button:hover {
-  background-color: #68dbc7;
-  border-color: #1e9a84;
-  box-shadow: 0 0 0 0.1rem #56eed57e;
-}
-
+body .mainSection button:hover,
 body .mainSection button:focus {
-  background-color: #68dbc7;
+  color: white;
+  background-color: #1e9a84;
   border-color: #1e9a84;
-  box-shadow: 0 0 0 0.1rem #56eed53a;
+  box-shadow: 0 0 0 0.1rem #0c7965;
 }
 
+body .mainSection button:not(:disabled):not(.disabled):active:focus,
 body .mainSection button:not(:disabled):not(.disabled):active {
-  background-color: #1e9a84;
-  border-color: #1e9a84;
-  box-shadow: 0;
-}
-
-body .mainSection button:not(:disabled):not(.disabled):active:focus {
-  background-color: #1e9a84;
-  border-color: #1e9a84;
-  box-shadow: 0 0 0 0.1rem #56eed53a;
+  color: white;
+  background-color: #68dbc7;
+  border-color: white;
 }
 
 body .mainSection h {
   background-color: #36b59e;
-  border-color: #1e9a84;
+  border-color: #0c7965;
 }
 
 /*
@@ -55,16 +54,41 @@ body .mainSection h {
 .mainSection {
   display: flex;
   justify-content: center;
-  background-image: linear-gradient(to bottom left, #36b59e, #68dbc7);
+  background-image: linear-gradient(to bottom, #2b3039, #68dbc7);
   align-self: stretch;
 }
 
 .loginPanel {
-  padding: 3%;
+  display: flex;
   border-radius: 10px;
-  width: 40vw;
+  width: 60vw;
+  min-width: 820px;
   height: 40vh;
+  min-height: 500px;
   align-self: center;
   background-image: linear-gradient(to bottom left, #2b3039, #5c6677);
   color: white;
+  box-shadow: 0.5em 0.5em 0.2em #303030;
+  border: 2px solid #1e9a84;
+}
+
+.loginPanel .leftPanel {
+  background-image: linear-gradient(to bottom left, #0c7965, #68dbc7);
+  height: 100%;
+  width: 50%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.loginPanel .leftPanel h1 {
+  padding: 0.3em;
+  align-self: center;
+}
+
+.loginPanel .rightPanel {
+  margin: 2em;
+  height: 100%;
+  width: 50%;
+  padding: 1em;
 }

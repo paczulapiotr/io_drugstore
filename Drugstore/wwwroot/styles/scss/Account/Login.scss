@@ -1,17 +1,49 @@
-﻿
+﻿@import '../_variables.scss';
+
+
 .mainSection {
 	display: flex;
 	justify-content: center;
-	background-image: linear-gradient(to bottom left, #36b59e, #68dbc7);
+	background-image: linear-gradient(to bottom, $secondary-color-dark, $primary-color-bright);
 	align-self: stretch;
+
 }
 
 .loginPanel {
-	padding: 3%;
+	display: flex;
 	border-radius: 10px;
-	width: 40vw;
+	width: 60vw;
+	min-width: 820px;
 	height: 40vh;
+	min-height: 500px;
 	align-self: center;
 	background-image: linear-gradient(to bottom left, #2b3039, #5c6677);
 	color: white;
+	box-shadow: 0.5em 0.5em 0.2em rgb(48, 48, 48);
+	border: 2px solid $primary-color-dark;
+
+
+	.leftPanel{
+		background-image: linear-gradient(to bottom left, $primary-colo-darker, $primary-color-bright);
+		height: 100%;
+		width: 50%;
+		display: flex;
+		text-align: center;
+		justify-content: center;
+		h1 {
+			padding: 0.3em;
+			align-self: center;
+		}
+	}
+
+	.rightPanel{
+		margin: 2em;
+		height: 100%;
+		width: 50%;
+		padding: 1em;
+	}
+
+
+
+
 }
