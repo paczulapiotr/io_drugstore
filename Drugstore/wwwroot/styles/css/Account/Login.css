@@ -1,0 +1,14 @@
+.mainSection {
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient(to bottom left, #36b59e, #68dbc7);
+  align-self: stretch; }
+
+.loginPanel {
+  padding: 3%;
+  border-radius: 10px;
+  width: 40vw;
+  height: 40vh;
+  align-self: center;
+  background-image: linear-gradient(to bottom left, #2b3039, #5c6677);
+  color: white; }

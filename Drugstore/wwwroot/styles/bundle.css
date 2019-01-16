@@ -1,0 +1,70 @@
+header {
+  text-align: center;
+  height: 5vh;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 3vh;
+  text-align: center;
+}
+
+body .mainSection {
+  height: 92vh;
+}
+
+body .mainSection button {
+  background-color: #36b59e;
+  border-color: #1e9a84;
+  color: white;
+}
+
+body .mainSection button:hover {
+  background-color: #68dbc7;
+  border-color: #1e9a84;
+  box-shadow: 0 0 0 0.1rem #56eed57e;
+}
+
+body .mainSection button:focus {
+  background-color: #68dbc7;
+  border-color: #1e9a84;
+  box-shadow: 0 0 0 0.1rem #56eed53a;
+}
+
+body .mainSection button:not(:disabled):not(.disabled):active {
+  background-color: #1e9a84;
+  border-color: #1e9a84;
+  box-shadow: 0;
+}
+
+body .mainSection button:not(:disabled):not(.disabled):active:focus {
+  background-color: #1e9a84;
+  border-color: #1e9a84;
+  box-shadow: 0 0 0 0.1rem #56eed53a;
+}
+
+body .mainSection h {
+  background-color: #36b59e;
+  border-color: #1e9a84;
+}
+
+/*
+*/
+.mainSection {
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient(to bottom left, #36b59e, #68dbc7);
+  align-self: stretch;
+}
+
+.loginPanel {
+  padding: 3%;
+  border-radius: 10px;
+  width: 40vw;
+  height: 40vh;
+  align-self: center;
+  background-image: linear-gradient(to bottom left, #2b3039, #5c6677);
+  color: white;
+}

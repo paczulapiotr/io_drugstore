@@ -4,5 +4,11 @@
     "inputFiles": [
       "wwwroot/style/css/site.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/styles/bundle.min.css",
+    "inputFiles": [
+      "wwwroot/styles/bundle.css"
+    ]
   }
 ]
