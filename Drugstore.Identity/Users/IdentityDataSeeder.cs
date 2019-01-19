@@ -11,7 +11,7 @@ namespace Drugstore.Identity
 {
     public static class IdentityDataSeeder
     {
-        public static async void Initialize(IServiceProvider serviceProvider)
+        public static void Initialize(IServiceProvider serviceProvider)
         {
             var passwordHasher = new PasswordHasher<SystemUser>();
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
@@ -25,7 +25,7 @@ namespace Drugstore.Identity
             {
                 if (!roleManager.Roles.Any(r => r.Name == role))
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    roleManager.CreateAsync(new IdentityRole(role)).Wait();
                 }
             }
             CreateTestUsers(serviceProvider, roles);
