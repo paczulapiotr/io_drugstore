@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Drugstore.Identity;
+using Drugstore.Data;
 
 namespace Drugstore
 {
@@ -32,6 +33,7 @@ namespace Drugstore
             services.AddIdentity<SystemUser, IdentityRole>()
                 .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddTransient<IRepository, DrugstoreRepository>();
             services.ConfigureApplicationCookie(opt =>
             {
                 opt.LoginPath = "/Account/Login";
@@ -49,9 +51,11 @@ namespace Drugstore
                 using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     // Insert data in database
-                    IdentityDataSeeder.Initialize(scope.ServiceProvider);
+                    DataSeeder.InitializeDepartments(scope.ServiceProvider);
+                    DataSeeder.InitializeUsers(scope.ServiceProvider);
                 }
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();

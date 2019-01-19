@@ -11,6 +11,7 @@ namespace Drugstore.Identity
         Doctor,
         Nurse,
         InternalPharmacist,
-        ExternalPharmacist
+        ExternalPharmacist,
+        Storekeeper
     }
 }
