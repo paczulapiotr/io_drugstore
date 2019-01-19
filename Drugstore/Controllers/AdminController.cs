@@ -14,14 +14,12 @@ namespace Drugstore.Controllers
     public class AdminController : Controller
     {
         private readonly DrugstoreDbContext drugstore;
-        private readonly UsersDbContext users;
         private readonly UserManager<SystemUser> userManager;
         private const int pageSize = 10;
 
-        public AdminController(DrugstoreDbContext drugstore, UsersDbContext users, UserManager<SystemUser> userManager)
+        public AdminController(DrugstoreDbContext drugstore, UserManager<SystemUser> userManager)
         {
             this.drugstore = drugstore;
-            this.users = users;
             this.userManager = userManager;
         }
 
@@ -32,14 +30,14 @@ namespace Drugstore.Controllers
         public IActionResult Departments()
         {
             #region Seed data
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Anestezjologii i Intensywnej Terapii" });
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chirurgii Ogólnej" });
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chirurgii Ogólnej i Onkologicznej" });
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chirurgii Urazowo – Ortopedycznej" });
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chorób Płuc i Chemioterapii" });
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chorób Wewnętrznych i Geriatrii" });
-            //drugstore.Departments.Add(new Core.Department() { Name = "Oddział Kardiologiczny" });
-            //drugstore.SaveChanges();
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Anestezjologii i Intensywnej Terapii" });
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chirurgii Ogólnej" });
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chirurgii Ogólnej i Onkologicznej" });
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chirurgii Urazowo – Ortopedycznej" });
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chorób Płuc i Chemioterapii" });
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Chorób Wewnętrznych i Geriatrii" });
+            drugstore.Departments.Add(new Core.Department() { Name = "Oddział Kardiologiczny" });
+            drugstore.SaveChanges();
             #endregion
 
             return View(drugstore.Departments.ToList());
@@ -63,7 +61,7 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Users(int page = 1)
         {
-            var pagedUsers = users.Users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var pagedUsers = userManager.Users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return View(pagedUsers);
         }
         [HttpGet]

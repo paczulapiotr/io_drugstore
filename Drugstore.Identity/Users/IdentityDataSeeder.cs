@@ -13,7 +13,6 @@ namespace Drugstore.Identity
     {
         public static async void Initialize(IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetService<UserManager<SystemUser>>();
             var passwordHasher = new PasswordHasher<SystemUser>();
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
             string[] roles = new string[] { UserRoleTypes.Admin.ToString(),
@@ -30,7 +29,6 @@ namespace Drugstore.Identity
                 }
             }
             CreateTestUsers(serviceProvider, roles);
-            await serviceProvider.GetService<UsersDbContext>().SaveChangesAsync();
         }
 
         private static void CreateTestUsers(IServiceProvider serviceProvider, string[] roles)
@@ -49,10 +47,11 @@ namespace Drugstore.Identity
                     userTemplate.UserName = role;
                     userTemplate.PasswordHash = passwordHash;
                     userTemplate.Email = role+"@local.host";
+
                     var result = userManager.CreateAsync(userTemplate).Result;
+                        result = userManager.AddToRoleAsync(userTemplate, role).Result;
                     if (result.Succeeded)
                     {
-                        result = userManager.AddToRoleAsync(userTemplate, role).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception("Error while adding" + role + " to identity database!");

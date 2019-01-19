@@ -44,7 +44,6 @@ namespace Drugstore.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            IdentityDataSeeder.Initialize(serviceProvider);
             ViewBag.returnUrl = returnUrl;
             return View();
         }

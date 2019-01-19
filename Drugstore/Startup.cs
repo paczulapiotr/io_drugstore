@@ -29,10 +29,8 @@ namespace Drugstore
         {
             services.AddDbContext<DrugstoreDbContext>(options => 
             options.UseSqlServer(Configuration["Data:ConnectionStrings:WarehouseConnection"]));
-            services.AddDbContext<UsersDbContext>(options =>
-            options.UseSqlServer(Configuration["Data:ConnectionStrings:IdentityConnection"]));
             services.AddIdentity<SystemUser, IdentityRole>()
-                .AddEntityFrameworkStores<UsersDbContext>()
+                .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(opt =>
             {
@@ -46,7 +44,14 @@ namespace Drugstore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
+            if (env.IsDevelopment())
+            {
+                using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    // Insert data in database
+                    IdentityDataSeeder.Initialize(scope.ServiceProvider);
+                }
+            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();

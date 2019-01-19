@@ -1,8 +1,10 @@
 ﻿using Drugstore.Core;
+using Drugstore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace Drugstore.Infrastructure
 {
-    public class DrugstoreDbContext : DbContext
+    public class DrugstoreDbContext : IdentityDbContext<SystemUser>
     {
         public DrugstoreDbContext(DbContextOptions<DrugstoreDbContext> options)
             : base(options) { }
