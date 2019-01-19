@@ -1,6 +1,7 @@
 ﻿using Drugstore.Core;
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
+using Drugstore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -82,12 +83,31 @@ namespace Drugstore.Controllers
             await userManager.SetPhoneNumberAsync(user, userData.PhoneNumber);
             await userManager.SetEmailAsync(user, userData.Email);
             await userManager.SetUserNameAsync(user, userData.UserName);
-            await userManager.ConfirmEmailAsync(user, 
+            await userManager.ConfirmEmailAsync(user,
                 userManager.GenerateEmailConfirmationTokenAsync(user).Result);
 
             return RedirectToAction("Users");
         }
 
+        [HttpGet]
+        public ViewResult AddUser()
+        {
+            var departments = drugstore.Departments.ToList();
+            var data = new CreateNewUserData { Departments = departments };
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public IActionResult AddUser(NewUserModel userModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Users");
+            }
+
+            return RedirectToAction("AddUser");
+        }
 
 
     }

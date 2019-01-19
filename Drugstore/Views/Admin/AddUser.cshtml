@@ -1,0 +1,63 @@
+﻿@model CreateNewUserData
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<div class="newUserPanel">
+
+    <form action="AddUser" method="post">
+
+        <div class="form-group">
+            <label asp-for="UserModel.Username">User Name:</label>
+            <input class="form-control" asp-for="UserModel.Username" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.Password">Pass:</label>
+            <input class="form-control" asp-for="UserModel.Password" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.ConfirmPassword">Confirm Password:</label>
+            <input class="form-control" asp-for="UserModel.ConfirmPassword" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.FirstName">First Name:</label>
+            <input class="form-control" asp-for="UserModel.FirstName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.SecondName">Second Name:</label>
+            <input class="form-control" asp-for="UserModel.SecondName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.PhoneNumber">Phone number:</label>
+            <input class="form-control" asp-for="UserModel.PhoneNumber" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.Email">Email:</label>
+            <input class="form-control" asp-for="UserModel.Email" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.Role">Role:</label>
+            <select class="form-control" asp-for="UserModel.Role">
+                @foreach (UserRoleTypes role in (UserRoleTypes[])Enum.GetValues(typeof(UserRoleTypes)))
+                {
+                    <option value="@role">@role.ToString()</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.DepartmentID">Department:</label>
+            <select class="form-control" asp-for="UserModel.DepartmentID">
+                @foreach (Department department in Model.Departments)
+                {
+                    <option value="@department.ID">@department.Name</option>
+                }
+            </select>
+        </div>
+        <button class="btn">Dodaj</button>
+
+    </form>
+    <form action="Users" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+
+</div>

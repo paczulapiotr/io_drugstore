@@ -53,6 +53,11 @@ body .mainSection h {
 
 /*
 */
+.mainSection .users .tableHeader {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em;
+}
 .mainSection {
   display: flex;
   justify-content: center;

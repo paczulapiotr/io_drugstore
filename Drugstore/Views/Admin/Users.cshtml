@@ -2,40 +2,47 @@
 @{
     ViewData["Title"] = "Edit Users";
 }
-
-<table class="table container">
-    <thead>
-        <tr>
-            <th>User name</th>
-            <th>email</th>
-            <th>is confirmed</th>
-            <th>phone number</th>
-            <th>Edytuj</th>
-            <th>Usuń</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+<div class="users">
+    <div class="tableHeader">
+        <h1>Current users:</h1>
+        <form id="addUser" asp-action="AddUser" method="Get">
+            <button class="btn">Add User</button>
+        </form>
+    </div>
+    <table class="table container">
+        <thead>
             <tr>
-                <td>@user.UserName</td>
-                <td>@user.Email</td>
-                <td>@user.EmailConfirmed</td>
-                <td>@user.PhoneNumber</td>
-                <td>
-                    <form action="EditUser" method="get">
-                        <button class="btn">Edytuj</button>
-                        <input type="hidden" name="id" value="@user.Id" />
-                    </form>
-                </td>
-                <td>
-                    <form action="DeleteUser" method="post">
-                        <button class="btn">Usuń</button>
-                        <input type="hidden" name="id" value="@user.Id" />
-                    </form>
-
-                </td>
+                <th>User name</th>
+                <th>email</th>
+                <th>is confirmed</th>
+                <th>phone number</th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.EmailConfirmed</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        <form action="EditUser" method="get">
+                            <button class="btn">Edytuj</button>
+                            <input type="hidden" name="id" value="@user.Id" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="DeleteUser" method="post">
+                            <button class="btn">Usuń</button>
+                            <input type="hidden" name="id" value="@user.Id" />
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
