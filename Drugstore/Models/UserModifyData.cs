@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drugstore.Models
 {
-    public class CreateNewUserData
+    public class UserModifyData
     {
-        public NewUserModel UserModel { get; set; }
+        public UserModel UserModel { get; set; }
         public List<Department> Departments{ get; set; }
     }
 }

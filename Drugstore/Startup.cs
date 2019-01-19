@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Drugstore.Identity;
+using Drugstore.Data;
 
 namespace Drugstore
 {
@@ -29,11 +30,10 @@ namespace Drugstore
         {
             services.AddDbContext<DrugstoreDbContext>(options => 
             options.UseSqlServer(Configuration["Data:ConnectionStrings:WarehouseConnection"]));
-            services.AddDbContext<UsersDbContext>(options =>
-            options.UseSqlServer(Configuration["Data:ConnectionStrings:IdentityConnection"]));
             services.AddIdentity<SystemUser, IdentityRole>()
-                .AddEntityFrameworkStores<UsersDbContext>()
+                .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddTransient<IRepository, DrugstoreRepository>();
             services.ConfigureApplicationCookie(opt =>
             {
                 opt.LoginPath = "/Account/Login";
@@ -46,6 +46,15 @@ namespace Drugstore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    // Insert data in database
+                    DataSeeder.InitializeDepartments(scope.ServiceProvider);
+                    DataSeeder.InitializeUsers(scope.ServiceProvider);
+                }
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
