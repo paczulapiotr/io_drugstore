@@ -5,12 +5,13 @@ header {
 footer {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 99%;
   height: 3vh;
   text-align: center; }
 
 body .mainSection {
-  height: 92vh; }
+  height: 92vh;
+  color: white; }
   body .mainSection input:hover, body .mainSection input:focus, body .mainSection input:active {
     border-color: #1e9a84;
     box-shadow: 0 0 0 0.1rem #0c7965; }
@@ -18,7 +19,8 @@ body .mainSection {
     background-color: #36b59e;
     border-color: #1e9a84;
     box-shadow: 0 0 0 0.1rem #0c7965;
-    color: white; }
+    color: white;
+    margin: 0.5em; }
     body .mainSection button:hover, body .mainSection button:focus {
       color: white;
       background-color: #1e9a84;

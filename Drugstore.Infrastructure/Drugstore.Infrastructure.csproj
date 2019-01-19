@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Drugstore.Core\Drugstore.Core.csproj" />
+    <ProjectReference Include="..\Drugstore.Identity\Drugstore.Identity.csproj" />
   </ItemGroup>
 
 </Project>

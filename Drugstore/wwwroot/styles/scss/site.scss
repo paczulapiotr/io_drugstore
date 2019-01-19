@@ -11,7 +11,7 @@ header {
 footer {
     position: fixed;
     bottom: 0;
-    width: 100%;
+    width: 99%;
     height: 3vh;
     text-align: center;
 }
@@ -19,7 +19,7 @@ footer {
 
 body .mainSection {
     height: 92vh;
-
+    color: white;
     input {
 
         &:hover,
@@ -35,6 +35,7 @@ body .mainSection {
         border-color: $primary-color-dark;
         box-shadow: 0 0 0 0.1rem $primary-colo-darker;
         color: $white;
+        margin: 0.5em;
 
         &:hover,
         &:focus {

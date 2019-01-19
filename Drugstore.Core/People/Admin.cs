@@ -1,6 +1,6 @@
 ﻿namespace Drugstore.Core
 {
-    public class Nurse : Person
+    public class Admin : Person
     {
     }
 }

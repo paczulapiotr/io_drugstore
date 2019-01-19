@@ -1,0 +1,56 @@
+﻿@model UserModifyData
+@{
+    ViewData["Title"] = "Edit Users";
+}
+
+
+<div class="editUser">
+    <h1>Edit user:</h1>
+    <form action="EditUser" method="post">
+        <input type="hidden" asp-for="UserModel.Role"/>
+        <input type="hidden" asp-for="UserModel.SystemUserId" />
+        <div class="form-group">
+            <label asp-for="UserModel.FirstName">First Name</label>
+            <input class="form-control" asp-for="UserModel.FirstName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.SecondName">Second Name</label>
+            <input class="form-control" asp-for="UserModel.SecondName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.UserName">UserName</label>
+            <input class="form-control" asp-for="UserModel.UserName" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.Email">Email</label>
+            <input class="form-control" type="email" asp-for="UserModel.Email" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.Password">Password</label>
+            <input class="form-control" type="password" asp-for="UserModel.Password" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.ConfirmPassword">Confirm Password</label>
+            <input class="form-control" type="password" asp-for="UserModel.ConfirmPassword" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.PhoneNumber">Phone number</label>
+            <input class="form-control" asp-for="UserModel.PhoneNumber" />
+        </div>
+        <div class="form-group">
+            <label asp-for="UserModel.DepartmentID">Department</label>
+            <select asp-for="UserModel.DepartmentID">
+                @foreach (var department in Model.Departments)
+                {
+                    <option value="@department.ID">@department.Name</option>
+                }
+            </select>
+        </div>
+
+
+        <button class="btn">Zapisz</button>
+    </form>
+    <form action="Users" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

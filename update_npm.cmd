@@ -1,0 +1,2 @@
+cd Drugstore
+npm install

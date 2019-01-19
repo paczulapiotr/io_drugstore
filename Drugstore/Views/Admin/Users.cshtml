@@ -1,4 +1,51 @@
-﻿
+﻿@model List<UserModel>
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Edit Users";
 }
+<div class="users">
+    <div class="tableHeader">
+        <h1>Current users:</h1>
+        <form id="addUser" asp-action="AddUser" method="Get">
+            <button class="btn">Add User</button>
+        </form>
+    </div>
+    <table class="table container">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@(user.FirstName + " " +user.SecondName)</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        <form action="EditUser" method="get">
+                            <button class="btn">Edytuj</button>
+                            <input type="hidden" name="userId" value="@user.SystemUserId" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="DeleteUser" method="post">
+                            <button class="btn">Usuń</button>
+                            <input type="hidden" name="userId" value="@user.SystemUserId" />
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="Index" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

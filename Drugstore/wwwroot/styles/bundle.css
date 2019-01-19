@@ -6,13 +6,14 @@ header {
 footer {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 99%;
   height: 3vh;
   text-align: center;
 }
 
 body .mainSection {
   height: 92vh;
+  color: white;
 }
 
 body .mainSection input:hover,
@@ -27,6 +28,7 @@ body .mainSection button {
   border-color: #1e9a84;
   box-shadow: 0 0 0 0.1rem #0c7965;
   color: white;
+  margin: 0.5em;
 }
 
 body .mainSection button:hover,
@@ -91,4 +93,14 @@ body .mainSection h {
   height: 100%;
   width: 50%;
   padding: 1em;
+}
+.mainSection .departments .tableHeader {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em;
+}
+.mainSection .users .tableHeader {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em;
 }
