@@ -1,8 +1,11 @@
 ﻿using Drugstore.Core;
+using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Drugstore.Controllers
 {
@@ -10,10 +13,15 @@ namespace Drugstore.Controllers
     public class AdminController : Controller
     {
         private readonly DrugstoreDbContext drugstore;
+        private readonly UsersDbContext users;
+        private readonly UserManager<SystemUser> userManager;
+        private const int pageSize = 10;
 
-        public AdminController(DrugstoreDbContext drugstore)
+        public AdminController(DrugstoreDbContext drugstore, UsersDbContext users, UserManager<SystemUser> userManager)
         {
             this.drugstore = drugstore;
+            this.users = users;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -50,9 +58,37 @@ namespace Drugstore.Controllers
             return RedirectToAction("Departments");
         }
 
-        public IActionResult Users()
+
+        [HttpGet]
+        public IActionResult Users(int page = 1)
         {
-            return View();
+            var pagedUsers = users.Users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            return View(pagedUsers);
         }
+        [HttpGet]
+        public IActionResult EditUser(string id)
+        {
+            var user = userManager.FindByIdAsync(id).Result;
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(SystemUser userData)
+        {
+            var user = userManager.FindByIdAsync(userData.Id).Result;
+            user.Email = userData.Email;
+            user.PhoneNumber = user.PhoneNumber;
+            user.UserName = user.UserName;
+            await userManager.SetPhoneNumberAsync(user, userData.PhoneNumber);
+            await userManager.SetEmailAsync(user, userData.Email);
+            await userManager.SetUserNameAsync(user, userData.UserName);
+            await userManager.ConfirmEmailAsync(user, 
+                userManager.GenerateEmailConfirmationTokenAsync(user).Result);
+
+            return RedirectToAction("Users");
+        }
+
+
+
     }
 }
