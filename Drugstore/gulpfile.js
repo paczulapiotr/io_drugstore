@@ -1,4 +1,4 @@
-/// <binding BeforeBuild='clean-css, sass, bundle, minify-css' ProjectOpened='sass:watch' />
+/// <binding BeforeBuild='clean-css, sass, bundle, minify-css, load-bootstrap' ProjectOpened='sass:watch' />
 'use strict';
  
 var gulp = require('gulp');
@@ -10,6 +10,11 @@ var clean = require('gulp-clean');
 
 sass.compiler = require('node-sass');
 
+
+gulp.task('load-bootstrap', function () {
+    return gulp.src('./node_modules/bootstrap/dist/css/bootstrap.min.css')
+            .pipe(gulp.dest('./wwwroot/styles'))
+    });
 
 gulp.task('clean-css', function () {
     return gulp.src('./wwwroot/styles/**/*.css', { read: false })

@@ -1,0 +1,33 @@
+﻿@model List<Patient>
+@{
+    ViewData["Title"] = "Find Patient";
+}
+<div>
+    <form asp-action="FindPatient" method="get">
+        <input name="search" />
+        <button class="btn">Znajdź</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@(patient.FirstName + " " + patient.SecondName)</td>
+                    <td>
+                        <form action="AddPrescription" method="get">
+                            <input type="hidden" value="@patient.ID" />
+                            <button class="btn">Wybierz</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

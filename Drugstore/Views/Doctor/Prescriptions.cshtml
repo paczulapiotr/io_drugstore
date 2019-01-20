@@ -1,0 +1,42 @@
+﻿@model List<MedicalPrescription>
+@{
+    ViewData["Title"] = "Prescriptions";
+}
+
+<div class="prescriptions">
+    <div class="tableHeader">
+        <h1>Prescription list</h1>
+        <form action="AddPrescription" method="get">
+            <button class="btn">Add New</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Creation Time</th>
+                <th>Patient Name</th>
+                <th>Approved</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.CreationTime</td>
+                    <td>@(p.Patient.FirstName + p.Patient.SecondName)</td>
+                    <td>@p.Approved</td>
+                    <td>
+                        <form asp-action="Prescription">
+                            <input name="prescriptionId" type="hidden" value="@p.ID" />
+                            <button class="btn">View</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <form asp-action="Index" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

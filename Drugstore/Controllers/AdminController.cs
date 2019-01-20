@@ -85,7 +85,6 @@ namespace Drugstore.Controllers
         {
             var pagedUsers = userManager.Users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             List<UserModel> users = pagedUsers.Select(u => repository.GetUser(u.Id)).ToList();
-
             return View(users);
         }
         [HttpGet]
