@@ -1,13 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Find Medicine";
+    ViewData["Title"] = "New Prescription";
 }
 <div class="newPrescriptionPanel">
+
+    <div class="prescriptionPanel">
+        <h1>Nowa recepta:</h1>
+        <div class="prescriptionOrder">
+            <h5>Pacjent: <span></span></h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nazwa leku</th>
+                        <th>Cena za sztuke</th>
+                        <th>Ilość</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <form asp-action="Index" method="get">
+            <button class="btn">Powrót</button>
+        </form>
+        <button class="btn create">Stwórz</button>
+    </div>
     <div class="patientPanel">
+        <h1>Znajdź pacjenta:</h1>
         <div class="patientSearch">
-            <input name="search" />
+            <input class="form-control" name="search" />
             <button class="btn">Znajdź</button>
         </div>
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Full Name</th>
@@ -19,11 +42,12 @@
         </table>
     </div>
     <div class="medicinePanel">
+        <h1>Wybierz leki:</h1>
         <div class="medicineSearch">
-            <input name="search" />
+            <input class="form-control" name="search" />
             <button class="btn">Znajdź</button>
         </div>
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -37,23 +61,5 @@
 
         </table>
     </div>
-    <div class="prescriptionPanel">
-        <h1></h1>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-
-        </table>
-    </div>
-
-
 </div>
 <script src="~/js/Doctor//AddPrescription.js"></script>

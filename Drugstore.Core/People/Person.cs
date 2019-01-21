@@ -10,6 +10,7 @@ namespace Drugstore.Core
         [Required]
         [MaxLength(50)]
         public string FirstName { get; set; }
+        [Required]
         [MaxLength(50)]
         public string SecondName { get; set; }
         public Department Department { get; set; }

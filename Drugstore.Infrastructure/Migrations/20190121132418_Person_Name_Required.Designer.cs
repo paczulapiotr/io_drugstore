@@ -4,14 +4,16 @@ using Drugstore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Drugstore.Infrastructure.Migrations
 {
     [DbContext(typeof(DrugstoreDbContext))]
-    partial class DrugstoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190121132418_Person_Name_Required")]
+    partial class Person_Name_Required
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

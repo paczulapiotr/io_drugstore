@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Drugstore.Core;
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
+using Drugstore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Drugstore.Core;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Drugstore.Controllers
 {
@@ -59,9 +58,38 @@ namespace Drugstore.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPrescription(MedicalPrescription prescription)
+        public IActionResult AddPrescription([FromBody]PrescriptionModel prescription)
         {
-            return View();
+            if (ModelState.IsValid && prescription.Medicines.Length > 0)
+            {
+                var systemUser = userManager.GetUserAsync(User).Result;
+                var doctor = context.Doctors.First(d => d.SystemUser.Id == systemUser.Id);
+                var patient = context.Patients.First(p => p.ID == prescription.Patient.ID);
+
+                var assignedMedicines = prescription.Medicines.Select(m =>
+                {
+                    m.StockMedicine = context.Medicines
+                        .First(med => med.ID == m.StockMedicine.ID);
+                    return m;
+                }).ToList();
+
+
+                doctor.IssuedPresciptions.Add(new MedicalPrescription
+                {
+                    Medicines = assignedMedicines,
+                    Doctor = doctor,
+                    Patient = patient,
+                    CreationTime = DateTime.Now,
+                    Approved = false
+
+                });
+                context.SaveChanges();
+                return Json(new { valid = true });
+            }
+            else
+            {
+                return Json(new { valid = false });
+            }
         }
 
         [HttpGet]
@@ -85,7 +113,7 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult FindPatient(string search)
         {
-            
+
             var filteredPatients = context.Patients
                 .Where(p => (p.FirstName + " " + p.SecondName)
                 .Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
@@ -95,7 +123,7 @@ namespace Drugstore.Controllers
             return Json(filteredPatients);
         }
 
-       
+
 
         [HttpGet]
         public IActionResult FindMedicine(string search)
@@ -109,17 +137,6 @@ namespace Drugstore.Controllers
             return Json(filteredMedicine);
         }
 
-        [HttpGet]
-        public IActionResult Patients()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult FindMedicine(int medicineId, int quantity)
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult TreatmentHistory()

@@ -1,0 +1,49 @@
+﻿@import '../_variables.scss';
+
+.mainSection {
+    .newPrescriptionPanel {
+        display: flex;
+
+        .prescriptionPanel,
+        .patientPanel,
+        .medicinePanel {
+            margin: 1em;
+            padding: 1em;
+            border: 2px solid $secondary-color-dark;
+            border-radius: 1%;
+            background-color: $secondary-color-bright;
+        }
+
+        .patientPanel,
+        .medicinePanel {
+            .patientSearch,
+            .medicineSearch {
+                display: flex;
+
+                .form-control {
+                    display: inline;
+                    margin: .5em;
+                }
+            }
+        }
+
+
+
+
+        .prescriptionPanel {
+            position: relative;
+
+            .create {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+
+            form {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+            }
+        }
+    }
+}
