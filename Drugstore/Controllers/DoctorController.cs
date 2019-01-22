@@ -128,6 +128,21 @@ namespace Drugstore.Controllers
         [HttpPost]
         public IActionResult DeletePrescription(int prescriptionId)
         {
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors
+                .Include(d=>d.IssuedPresciptions)
+                .ThenInclude(p => p.Medicines)
+                .First(d => d.SystemUser.Id == user.Id);
+            var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
+            var medicines = prescription.Medicines.ToList();
+            foreach (var medicine in medicines)
+            {
+                prescription.Medicines.Remove(medicine);
+            }
+
+            doctor.IssuedPresciptions.Remove(prescription);
+            context.SaveChanges();
+
             return RedirectToAction("Prescriptions");
         }
 
