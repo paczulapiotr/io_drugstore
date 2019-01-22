@@ -1,5 +1,60 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model MedicalPrescription
 @{
+    ViewData["Title"] = "Prescription";
 }
+
+<div class="prescription">
+    <div class="tableHeader">
+        <h1>Prescription Details:</h1>
+        <form asp-action="Prescriptions" method="get">
+            <button class="btn">Powrót</button>
+        </form>
+        <form asp-action="EditPrescription" method="get">
+            <input type="hidden" name="prescriptionId" value="@Model.ID" />
+            <button class="btn">Edytuj</button>
+        </form>
+        <form asp-action="DeletePrescription" method="post">
+            <input type="hidden" name="prescriptionId" value="@Model.ID" />
+            <button class="btn">Usuń</button>
+        </form>
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Imie i nazwisko</th>
+                <td>@(Model.Patient.FirstName+" "+Model.Patient.SecondName)</td>
+            </tr>
+            <tr>
+                <th>Data wypisania</th>
+                <td>@Model.CreationTime</td>
+            </tr>
+            <tr>
+                <th>Zatwierdzona?</th>
+                <td>@Model.Approved</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            <tr>
+                <th>Nazwa</th>
+                <th>Cena za sztuke</th>
+                <th>Refundacja?</th>
+                <th>Kategoria</th>
+                <th>Ilość</th>
+            </tr>
+            @foreach (var p in Model.Medicines)
+            {
+                <tr>
+                    <td>@p.StockMedicine.Name</td>
+                    <td>@p.StockMedicine.PricePerOne</td>
+                    <td>@p.StockMedicine.IsRefunded</td>
+                    <td>@p.StockMedicine.MedicineCategory</td>
+                    <td>@p.AssignedQuantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

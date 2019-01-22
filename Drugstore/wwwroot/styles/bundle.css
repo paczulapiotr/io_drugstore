@@ -148,3 +148,6 @@ body .mainSection h {
   bottom: 0;
   left: 0;
 }
+.mainSection .prescription .tableHeader {
+  display: flex;
+}

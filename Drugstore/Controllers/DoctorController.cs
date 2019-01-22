@@ -37,6 +37,7 @@ namespace Drugstore.Controllers
             var prescriptions = context
                 .Doctors
                 .Include(d => d.IssuedPresciptions)
+                .ThenInclude(p => p.Patient)
                 .First(d => d.SystemUser.Id == user.Id)
                 .IssuedPresciptions
                 .Take(PageSize)
@@ -48,7 +49,17 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Prescription(int prescriptionId)
         {
-            return View();
+            var user = userManager.GetUserAsync(User).Result;
+            var prescription = context
+                .Doctors
+                .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Patient)
+                  .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Medicines).ThenInclude(a=>a.StockMedicine)
+                .First(d => d.SystemUser.Id == user.Id)
+                .IssuedPresciptions
+                .First(p => p.ID == prescriptionId);
+            prescription.Doctor = null;
+
+            return View(prescription);
         }
 
         [HttpGet]
@@ -93,15 +104,25 @@ namespace Drugstore.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditPrescription(int presciptionId)
+        public IActionResult EditPrescription(int prescriptionId)
         {
-            return View();
+            var user = userManager.GetUserAsync(User).Result;
+            var prescription = context
+                .Doctors
+                .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Patient)
+                  .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Medicines).ThenInclude(a => a.StockMedicine)
+                .First(d => d.SystemUser.Id == user.Id)
+                .IssuedPresciptions
+                .First(p => p.ID == prescriptionId);
+            prescription.Doctor = null;
+
+            return View(prescription);
         }
 
         [HttpPost]
         public IActionResult EditPrescription(MedicalPrescription prescription)
         {
-            return View();
+            return RedirectToAction("Prescriptions");
         }
 
         [HttpPost]
@@ -123,8 +144,6 @@ namespace Drugstore.Controllers
             return Json(filteredPatients);
         }
 
-
-
         [HttpGet]
         public IActionResult FindMedicine(string search)
         {
@@ -136,7 +155,6 @@ namespace Drugstore.Controllers
 
             return Json(filteredMedicine);
         }
-
 
         [HttpGet]
         public IActionResult TreatmentHistory()
