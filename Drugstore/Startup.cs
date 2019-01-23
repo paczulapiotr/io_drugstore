@@ -39,7 +39,6 @@ namespace Drugstore
                 opt.LoginPath = "/Account/Login";
                 opt.AccessDeniedPath = "/Account/AccessDenied";
             });
-            services.AddSession();
             services.AddMvc();
         }
 
@@ -56,15 +55,15 @@ namespace Drugstore
                 }
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action}",
+                    defaults: new { controller = "Account", action = "Redirect" }
+                    );
             });
         }
     }
