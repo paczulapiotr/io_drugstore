@@ -6,10 +6,15 @@
     <title>@ViewData["Title"] - Drugstore</title>
     <link rel="stylesheet" type="text/css" href="~/styles//bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="~/styles//bundle.min.css" />
-  
+
 </head>
 <body>
-    <header>HEADER</header>
+    <header>
+        <span>HEADER</span>
+        <form class="logout" action="/Account/Logout" method="post">
+            <button class="btn">Logout</button>
+        </form>
+    </header>
     <div class="mainSection">
         @RenderBody()
     </div>

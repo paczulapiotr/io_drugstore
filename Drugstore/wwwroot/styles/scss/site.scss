@@ -6,6 +6,9 @@ body {
 header {
     text-align: center;
     height: 5vh;
+    display: flex;
+    justify-content: space-between;
+
 }
 
 footer {
@@ -20,6 +23,7 @@ footer {
 body .mainSection {
     height: 92vh;
     color: white;
+
     input {
 
         &:hover,

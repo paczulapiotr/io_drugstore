@@ -1,6 +1,8 @@
 header {
   text-align: center;
   height: 5vh;
+  display: flex;
+  justify-content: space-between;
 }
 
 footer {
