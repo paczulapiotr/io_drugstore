@@ -1,11 +1,9 @@
 
 .mainSection {
-	.prescription {
-		.tableHeader {
-			display: flex;
-		}
-	}
-
-
-
+    .prescription {
+        .tableHeader {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
 }

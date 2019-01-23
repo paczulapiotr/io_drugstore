@@ -118,6 +118,50 @@ namespace Drugstore.Controllers
 
             return View(prescription);
         }
+        [HttpGet]
+        public IActionResult GetPrescriptionMedicines(int prescriptionId)
+        {
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors
+                .Include(d => d.IssuedPresciptions)
+                .ThenInclude(p => p.Medicines)
+                .ThenInclude(m => m.StockMedicine)
+                .First(d => d.SystemUser.Id == user.Id);
+            var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
+            var medicines = prescription.Medicines.ToList();
+
+            return Json(medicines);
+        }
+
+        [HttpPost]
+        public IActionResult EditMedicines([FromBody]AssignedMedicine[] medicines, int prescriptionId)
+        {
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors
+                .Include(d => d.IssuedPresciptions)
+                .ThenInclude(p => p.Medicines)
+                .First(d => d.SystemUser.Id == user.Id);
+            var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
+            prescription.CreationTime = DateTime.Now;
+
+            var meds = prescription.Medicines.ToList();
+            foreach (var m in meds)
+            {
+                prescription.Medicines.Remove(m);
+            }
+
+            foreach (var m in medicines)
+            {
+                prescription.Medicines.Add(new AssignedMedicine
+                {
+                    StockMedicine = context.Medicines.First(med=>med.ID==m.StockMedicine.ID),
+                    AssignedQuantity = m.AssignedQuantity
+                });
+            }
+
+            context.SaveChanges();
+            return Json(new { valid = true });
+        }
 
         [HttpPost]
         public IActionResult EditPrescription(MedicalPrescription prescription)

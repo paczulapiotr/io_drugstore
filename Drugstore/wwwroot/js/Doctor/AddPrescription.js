@@ -225,8 +225,8 @@ function prescription() {
         medicine(search);
     }
 
-	prescriptionSaveButton.onclick = (event) => {
-		savePrescription(event.target);
+	prescriptionSaveButton.onclick = ({target}) => {
+		savePrescription(target);
 	}
 };
 prescription();

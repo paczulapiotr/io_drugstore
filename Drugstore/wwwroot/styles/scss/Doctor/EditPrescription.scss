@@ -1,0 +1,35 @@
+﻿@import '../_variables.scss';
+
+
+.mainSection {
+    .editPrescription {
+        display: flex;
+
+        .editedPrescriptionPanel,
+        .medicineSearchPanel {
+            margin: 1em;
+            padding: 1em;
+            background-color: $secondary-color-bright;
+            border: 2px solid $secondary-color-dark;
+            border-radius: 1%;
+        }
+
+        .editedPrescriptionPanel {
+            .tableHeader {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+
+        .medicineSearchPanel {
+            .searchBar {
+                display:flex;
+                justify-content:space-between;
+                input {
+                    margin:0.5em;
+                }
+            }
+        }
+    }
+}
+
