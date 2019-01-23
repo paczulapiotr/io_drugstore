@@ -19,5 +19,7 @@ namespace Drugstore.Core
         public DateTime CreationTime { get; set; }
         [Required]
         public ICollection<AssignedMedicine> Medicines { get; set; }
+        [Required]
+        public bool Approved { get; set; } = false;
     }
 }

@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container">
+    <form asp-action="Prescriptions" method="get">
+        <button class="btn">Wystawione Recepty</button>
+    </form>
+    <form asp-action="NewPrescription" method="get">
+        <button class="btn">Wystaw Nową Recepte</button>
+    </form>
+    <form asp-action="TreatmentHistory" method="get">
+        <button class="btn">Historia leczenia</button>
+    </form>
+</div>

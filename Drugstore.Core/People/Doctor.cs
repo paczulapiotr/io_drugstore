@@ -5,6 +5,6 @@ namespace Drugstore.Core
 {
     public class Doctor : Person
     {
-        public ICollection<MedicalPrescription> IssuedPresciptions { get; set; }
+        public ICollection<MedicalPrescription> IssuedPresciptions { get; set; } = new HashSet<MedicalPrescription>();
     }
 }

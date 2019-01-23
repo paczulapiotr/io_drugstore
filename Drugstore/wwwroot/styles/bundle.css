@@ -104,3 +104,77 @@ body .mainSection h {
   justify-content: space-between;
   margin: 0.5em;
 }
+.mainSection .newPrescriptionPanel {
+  display: flex;
+}
+
+.mainSection .newPrescriptionPanel .prescriptionPanel,
+.mainSection .newPrescriptionPanel .patientPanel,
+.mainSection .newPrescriptionPanel .medicinePanel {
+  margin: 1em;
+  padding: 1em;
+  border: 2px solid #2b3039;
+  border-radius: 1%;
+  background-color: #5c6677;
+}
+
+.mainSection .newPrescriptionPanel .patientPanel .patientSearch,
+.mainSection .newPrescriptionPanel .patientPanel .medicineSearch,
+.mainSection .newPrescriptionPanel .medicinePanel .patientSearch,
+.mainSection .newPrescriptionPanel .medicinePanel .medicineSearch {
+  display: flex;
+}
+
+.mainSection .newPrescriptionPanel .patientPanel .patientSearch .form-control,
+.mainSection .newPrescriptionPanel .patientPanel .medicineSearch .form-control,
+.mainSection .newPrescriptionPanel .medicinePanel .patientSearch .form-control,
+.mainSection .newPrescriptionPanel .medicinePanel .medicineSearch .form-control {
+  display: inline;
+  margin: .5em;
+}
+
+.mainSection .newPrescriptionPanel .prescriptionPanel {
+  position: relative;
+}
+
+.mainSection .newPrescriptionPanel .prescriptionPanel .create {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.mainSection .newPrescriptionPanel .prescriptionPanel form {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.mainSection .editPrescription {
+  display: flex;
+}
+
+.mainSection .editPrescription .editedPrescriptionPanel,
+.mainSection .editPrescription .medicineSearchPanel {
+  margin: 1em;
+  padding: 1em;
+  background-color: #5c6677;
+  border: 2px solid #2b3039;
+  border-radius: 1%;
+}
+
+.mainSection .editPrescription .editedPrescriptionPanel .tableHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mainSection .editPrescription .medicineSearchPanel .searchBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mainSection .editPrescription .medicineSearchPanel .searchBar input {
+  margin: 0.5em;
+}
+.mainSection .prescription .tableHeader {
+  display: flex;
+  justify-content: space-between;
+}

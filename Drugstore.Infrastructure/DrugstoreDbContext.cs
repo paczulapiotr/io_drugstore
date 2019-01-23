@@ -16,8 +16,8 @@ namespace Drugstore.Infrastructure
         public DbSet<ExternalPharmacist> ExternalPharmacists { get; set; }
         public DbSet<InternalPharmacist> InternalPharmacists { get; set; }
         public DbSet<Storekeeper> Storekeepers{ get; set; }
+
         public DbSet<Department> Departments { get; set; }
         public DbSet<MedicineOnStock> Medicines { get; set; }
-
     }
 }
