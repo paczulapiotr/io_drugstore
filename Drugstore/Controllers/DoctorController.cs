@@ -147,7 +147,7 @@ namespace Drugstore.Controllers
             var meds = prescription.Medicines.ToList();
             foreach (var m in meds)
             {
-                prescription.Medicines.Remove(m);
+                context.AssignedMedicines.Remove(m);
             }
 
             foreach (var m in medicines)
@@ -181,10 +181,10 @@ namespace Drugstore.Controllers
             var medicines = prescription.Medicines.ToList();
             foreach (var medicine in medicines)
             {
-                prescription.Medicines.Remove(medicine);
+                context.AssignedMedicines.Remove(medicine);
             }
 
-            doctor.IssuedPresciptions.Remove(prescription);
+            context.MedicalPrescriptions.Remove(prescription);
             context.SaveChanges();
 
             return RedirectToAction("Prescriptions");
