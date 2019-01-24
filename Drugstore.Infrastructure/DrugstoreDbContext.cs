@@ -19,5 +19,7 @@ namespace Drugstore.Infrastructure
 
         public DbSet<Department> Departments { get; set; }
         public DbSet<MedicineOnStock> Medicines { get; set; }
+        public DbSet<MedicalPrescription> MedicalPrescriptions { get; set; }
+        public DbSet<AssignedMedicine> AssignedMedicines { get; set; }
     }
 }
