@@ -216,9 +216,31 @@ namespace Drugstore.Controllers
         }
 
         [HttpGet]
-        public IActionResult TreatmentHistory()
+        public IActionResult Patients(string patientName="")
         {
-            return View();
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors
+                .Include(d => d.IssuedPresciptions)
+                .ThenInclude(p=>p.Patient)
+                .ThenInclude(p=>p.Department)
+                .First(d => d.SystemUser.Id == user.Id);
+
+            var patients = doctor.IssuedPresciptions
+                .Select(p => p.Patient)
+                .Where(p=>p.FullName.Contains(patientName))
+                .Select(p=>p)
+                .Take(PageSize);
+
+            return View(patients);
+        }
+
+        [HttpGet]
+        public IActionResult TreatmentHistory(int patientId)
+        {
+            var patient = context.Patients
+                //.Include(p=>p.TreatmentHistory).ThenInclude(t=>t.)
+                .Single(p => p.ID == patientId);
+            return View(patient.TreatmentHistory);
         }
     }
 }
