@@ -176,7 +176,72 @@ body .mainSection h {
 .mainSection .editPrescription .medicineSearchPanel .searchBar input {
   margin: 0.5em;
 }
+body .mainSection .doctorPatients .headerTitle {
+  margin: 1em;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+}
+
+body .mainSection .doctorPatients .searchBar form {
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+}
+
+body .mainSection .doctorPatients .searchBar form input {
+  max-width: 600px;
+  min-width: 200px;
+  margin: 0.5em;
+}
+
+body .mainSection .doctorPatients .tableContainer {
+  padding: 2em;
+  border: 2px solid #2b3039;
+  border-radius: 1%;
+  background-color: #5c6677;
+  min-height: 70vh;
+}
 .mainSection .prescription .tableHeader {
+  display: flex;
+  justify-content: space-between;
+}
+body .mainSection .prescriptionDetailsPanel {
+  margin: 2em;
+  padding: 2em;
+  border: 2px solid #2b3039;
+  border-radius: 1%;
+  background-color: #5c6677;
+  min-height: 70vh;
+  position: relative;
+}
+
+body .mainSection .prescriptionDetailsPanel button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 2em;
+}
+body .mainSection .treatmentHistoryPanel {
+  margin: 2em;
+  padding: 2em;
+  border: 2px solid #2b3039;
+  border-radius: 1%;
+  background-color: #5c6677;
+  min-height: 70vh;
+  position: relative;
+}
+
+body .mainSection .treatmentHistoryPanel table {
+  margin-top: 2em;
+}
+
+body .mainSection .treatmentHistoryPanel .tableFooter {
+  position: absolute;
+  margin: 2em;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
 }

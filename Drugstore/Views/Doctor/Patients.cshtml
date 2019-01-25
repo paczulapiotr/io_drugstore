@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Patient>
+@{
+    ViewData ["Title"] = "Patients";
+}
+
+<div class="doctorPatients container">
+    <div class="headerTitle">
+        <h2>Pacjenci:</h2>
+        <form asp-action="Index" method="get">
+            <button class="btn">Powrót</button>
+        </form>
+    </div>
+    <div class="searchBar">
+        <form asp-action="Patients" method="get">
+            <input class="form-control" name="patientName" />
+            <button class="btn">Znajdź</button>
+        </form>
+    </div>
+    <div class="tableContainer">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Imie i nazwisko</th>
+                    <th>Oddział</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.FullName</td>
+                        <td>@p.Department.Name</td>
+                        <td>
+                            <form asp-action="TreatmentHistory" method="get">
+                                <input name="patientId" value="@p.ID" type="hidden" />
+                                <button class="btn">Historia leczenia</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

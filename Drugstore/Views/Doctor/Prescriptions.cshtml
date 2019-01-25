@@ -24,7 +24,7 @@
             {
                 <tr>
                     <td>@p.CreationTime</td>
-                    <td>@(p.Patient.FirstName + p.Patient.SecondName)</td>
+                    <td>@(p.Patient.FullName)</td>
                     <td>@p.Approved</td>
                     <td>
                         <form asp-action="Prescription" method="get">

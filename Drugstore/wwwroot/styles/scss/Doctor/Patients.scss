@@ -1,0 +1,37 @@
+﻿@import '../_variables.scss';
+
+
+body {
+	.mainSection {
+
+
+
+		.doctorPatients {
+			.headerTitle {
+				margin: 1em;
+				display: flex;
+				justify-content: space-between;
+				border-bottom: 2px solid black;
+			}
+			.searchBar form {
+				margin: 1em;
+				display: flex;
+				justify-content:center;
+				input {
+					max-width: 600px;
+					min-width: 200px;
+					margin: 0.5em;
+				}
+			}
+			.tableContainer {
+				padding: 2em;
+				border: 2px solid $secondary-color-dark;
+				border-radius: 1%;
+				background-color: $secondary-color-bright;
+				min-height: 70vh;
+			}
+		}
+	}
+
+
+}
