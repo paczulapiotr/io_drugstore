@@ -55,16 +55,6 @@ body .mainSection h {
 
 /*
 */
-.mainSection .departments .tableHeader {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.5em;
-}
-.mainSection .users .tableHeader {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.5em;
-}
 .mainSection {
   display: flex;
   justify-content: center;
@@ -105,6 +95,16 @@ body .mainSection h {
   height: 100%;
   width: 50%;
   padding: 1em;
+}
+.mainSection .departments .tableHeader {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em;
+}
+.mainSection .users .tableHeader {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em;
 }
 .mainSection .newPrescriptionPanel {
   display: flex;
