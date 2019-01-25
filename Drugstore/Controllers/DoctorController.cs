@@ -53,7 +53,7 @@ namespace Drugstore.Controllers
             var prescription = context
                 .Doctors
                 .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Patient)
-                  .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Medicines).ThenInclude(a=>a.StockMedicine)
+                  .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Medicines).ThenInclude(a => a.StockMedicine)
                 .First(d => d.SystemUser.Id == user.Id)
                 .IssuedPresciptions
                 .First(p => p.ID == prescriptionId);
@@ -134,7 +134,7 @@ namespace Drugstore.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditMedicines([FromBody]AssignedMedicine[] medicines, int prescriptionId)
+        public IActionResult EditMedicines([FromBody]AssignedMedicine [] medicines, int prescriptionId)
         {
             var user = userManager.GetUserAsync(User).Result;
             var doctor = context.Doctors
@@ -154,7 +154,7 @@ namespace Drugstore.Controllers
             {
                 prescription.Medicines.Add(new AssignedMedicine
                 {
-                    StockMedicine = context.Medicines.First(med=>med.ID==m.StockMedicine.ID),
+                    StockMedicine = context.Medicines.First(med => med.ID == m.StockMedicine.ID),
                     AssignedQuantity = m.AssignedQuantity
                 });
             }
@@ -174,7 +174,7 @@ namespace Drugstore.Controllers
         {
             var user = userManager.GetUserAsync(User).Result;
             var doctor = context.Doctors
-                .Include(d=>d.IssuedPresciptions)
+                .Include(d => d.IssuedPresciptions)
                 .ThenInclude(p => p.Medicines)
                 .First(d => d.SystemUser.Id == user.Id);
             var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
@@ -216,31 +216,44 @@ namespace Drugstore.Controllers
         }
 
         [HttpGet]
-        public IActionResult Patients(string patientName="")
+        public IActionResult Patients(string patientName = "")
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var doctor = context.Doctors
-                .Include(d => d.IssuedPresciptions)
-                .ThenInclude(p=>p.Patient)
-                .ThenInclude(p=>p.Department)
-                .First(d => d.SystemUser.Id == user.Id);
+            string searchCondition = patientName ?? "";
 
-            var patients = doctor.IssuedPresciptions
-                .Select(p => p.Patient)
-                .Where(p=>p.FullName.Contains(patientName))
-                .Select(p=>p)
+            var patients = context.Patients
+                .Include(p => p.Department)
+                .Where(p => p.FullName.Contains(searchCondition))
+                .OrderByDescending(p=>p.FullName)
+                .Select(p => p)
                 .Take(PageSize);
 
             return View(patients);
         }
 
         [HttpGet]
-        public IActionResult TreatmentHistory(int patientId)
+        public IActionResult TreatmentHistory(int patientId, int page = 1)
         {
             var patient = context.Patients
-                //.Include(p=>p.TreatmentHistory).ThenInclude(t=>t.)
+                .Include(p => p.TreatmentHistory).ThenInclude(t => t.Doctor)
                 .Single(p => p.ID == patientId);
-            return View(patient.TreatmentHistory);
+            var prescriptions = patient.TreatmentHistory
+                .OrderByDescending(p => p.CreationTime)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize);
+
+            return View(prescriptions);
+        }
+
+        [HttpGet]
+        public IActionResult PrescriptionDetails(int prescriptionId)
+        {
+            var prescription = context.MedicalPrescriptions
+                .Include(p => p.Patient)
+                .Include(p => p.Doctor)
+                .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
+                .Single(p => p.ID == prescriptionId);
+
+            return View(prescription);
         }
     }
 }

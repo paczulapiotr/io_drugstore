@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Drugstore.Core
 {
@@ -8,7 +6,5 @@ namespace Drugstore.Core
     {
         public ICollection<MedicalPrescription> TreatmentHistory { get; set; } = new HashSet<MedicalPrescription>();
 
-        [NotMapped]
-        public string FullName { get => FirstName + " " + SecondName; }
     }
 }
