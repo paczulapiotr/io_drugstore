@@ -3,4 +3,5 @@ obj/
 .vs/
 node_modules/
 *.css
-css/
+bundle.css
+bundle.min.css
