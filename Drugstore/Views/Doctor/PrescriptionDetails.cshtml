@@ -3,8 +3,8 @@
     ViewData ["Title"] = "Recepta";
 }
 
-<div class="prescriptionDetailsPanel">
-    <div class="tableHeader">
+<div class="prescription-details-panel">
+    <div class="table-header">
     <h2>Szczegóły recepty:</h2>
     </div>
     <table class="table">
@@ -19,7 +19,7 @@
             </tr>
             <tr>
                 <th>Została zatwierdzona?</th>
-                <td>@Model.Approved</td>
+                <td>@Model.VerificationState.ToString()</td>
             </tr>
             <tr>
                 <th>Nazwa leku</th>
@@ -38,7 +38,7 @@
             }
         </tbody>
     </table>
-    <div class="tableFooter">
+    <div class="table-footer">
         <form asp-action="TreatmentHistory" method="get">
             <input value="@Model.Patient.ID" name="patientId" type="hidden" />
             <button class="btn">Powrót</button>

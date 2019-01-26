@@ -3,14 +3,14 @@
     ViewData ["Title"] = "Patients";
 }
 
-<div class="doctorPatients container">
-    <div class="headerTitle">
+<div class="doctor-patients container">
+    <div class="header-title">
         <h2>Pacjenci:</h2>
         <form asp-action="Index" method="get">
             <button class="btn">Powrót</button>
         </form>
     </div>
-    <div class="searchBar">
+    <div class="search-bar">
         <form asp-action="Patients" method="get">
             <input class="form-control" name="patientName" />
             <button class="btn">Znajdź</button>

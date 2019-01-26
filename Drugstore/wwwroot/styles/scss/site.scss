@@ -20,7 +20,7 @@ footer {
 }
 
 
-body .mainSection {
+body .main-section {
     height: 92vh;
     color: white;
 
@@ -30,14 +30,14 @@ body .mainSection {
         &:focus,
         &:active {
             border-color: $primary-color-dark;
-            box-shadow: 0 0 0 0.1rem $primary-colo-darker;
+            box-shadow: 0 0 0 0.1rem $primary-color-darker;
         }
     }
 
     button {
         background-color: $primary-color;
         border-color: $primary-color-dark;
-        box-shadow: 0 0 0 0.1rem $primary-colo-darker;
+        box-shadow: 0 0 0 0.1rem $primary-color-darker;
         color: $white;
         margin: 0.5em;
 
@@ -46,7 +46,7 @@ body .mainSection {
             color: $white;
             background-color: $primary-color-dark;
             border-color: $primary-color-dark;
-            box-shadow: 0 0 0 0.1rem $primary-colo-darker;
+            box-shadow: 0 0 0 0.1rem $primary-color-darker;
         }
 
         &:not(:disabled):not(.disabled):active:focus,
@@ -60,7 +60,7 @@ body .mainSection {
 
     h {
         background-color: $primary-color;
-        border-color: $primary-colo-darker;
+        border-color: $primary-color-darker;
     }
 }
 

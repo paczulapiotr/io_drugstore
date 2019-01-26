@@ -1,0 +1,19 @@
+﻿@import '../_variables.scss';
+
+
+body {
+    .main-section {
+        .internal-prescription {
+            .table-header {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            border: 2px solid $secondary-color-dark;
+            background-color: $secondary-color-bright;
+            border-radius: 1%;
+            margin: 2em;
+            padding: 2em;
+        }
+    }
+}

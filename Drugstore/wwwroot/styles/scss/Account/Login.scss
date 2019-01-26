@@ -1,7 +1,7 @@
 ﻿@import '../_variables.scss';
 
 
-.mainSection {
+.main-section {
 	display: flex;
 	justify-content: center;
 	background-image: linear-gradient(to bottom, $secondary-color-dark, $primary-color-bright);
@@ -9,7 +9,7 @@
 
 }
 
-.loginPanel {
+.login-panel {
 	display: flex;
 	border-radius: 10px;
 	width: 60vw;
@@ -23,8 +23,8 @@
 	border: 2px solid $primary-color-dark;
 
 
-	.leftPanel{
-		background-image: linear-gradient(to bottom left, $primary-colo-darker, $primary-color-bright);
+	.left-panel{
+		background-image: linear-gradient(to bottom left, $primary-color-darker, $primary-color-bright);
 		height: 100%;
 		width: 50%;
 		display: flex;
@@ -36,7 +36,7 @@
 		}
 	}
 
-	.rightPanel{
+	.right-panel{
 		margin: 2em;
 		height: 100%;
 		width: 50%;

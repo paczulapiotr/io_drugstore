@@ -1,12 +1,12 @@
 ﻿@import '../_variables.scss';
 
-.mainSection {
-    .newPrescriptionPanel {
+.main-section {
+    .new-prescription-panel {
         display: flex;
 
-        .prescriptionPanel,
-        .patientPanel,
-        .medicinePanel {
+        .prescription-panel,
+        .patient-panel,
+        .medicine-panel {
             margin: 1em;
             padding: 1em;
             border: 2px solid $secondary-color-dark;
@@ -14,10 +14,10 @@
             background-color: $secondary-color-bright;
         }
 
-        .patientPanel,
-        .medicinePanel {
-            .patientSearch,
-            .medicineSearch {
+        .patient-panel,
+        .medicine-panel {
+            .patient-search,
+            .medicine-search {
                 display: flex;
 
                 .form-control {
@@ -30,7 +30,7 @@
 
 
 
-        .prescriptionPanel {
+        .prescription-panel {
             position: relative;
 
             .create {

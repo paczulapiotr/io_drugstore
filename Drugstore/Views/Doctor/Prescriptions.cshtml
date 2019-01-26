@@ -4,11 +4,16 @@
 }
 
 <div class="prescriptions">
-    <div class="tableHeader">
+    <div class="table-header">
         <h1>Prescription list</h1>
-        <form asp-action="NewPrescription" method="get">
-            <button class="btn">Add New</button>
-        </form>
+        <div class="action-buttons">
+            <form asp-action="Index" method="get">
+                <button class="btn">Powrót</button>
+            </form>
+            <form asp-action="NewPrescription" method="get">
+                <button class="btn">Add New</button>
+            </form>
+        </div>
     </div>
     <table class="table">
         <thead>
@@ -25,7 +30,7 @@
                 <tr>
                     <td>@p.CreationTime</td>
                     <td>@(p.Patient.FullName)</td>
-                    <td>@p.Approved</td>
+                    <td>@p.VerificationState.ToString()</td>
                     <td>
                         <form asp-action="Prescription" method="get">
                             <input name="prescriptionId" type="hidden" value="@p.ID" />
@@ -36,7 +41,5 @@
             }
         </tbody>
     </table>
-    <form asp-action="Index" method="get">
-        <button class="btn">Powrót</button>
-    </form>
+
 </div>

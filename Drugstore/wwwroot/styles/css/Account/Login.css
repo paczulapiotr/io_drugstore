@@ -1,10 +1,10 @@
-.mainSection {
+.main-section {
   display: flex;
   justify-content: center;
   background-image: linear-gradient(to bottom, #2b3039, #68dbc7);
   align-self: stretch; }
 
-.loginPanel {
+.login-panel {
   display: flex;
   border-radius: 10px;
   width: 60vw;
@@ -16,17 +16,17 @@
   color: white;
   box-shadow: 0.5em 0.5em 0.2em #303030;
   border: 2px solid #1e9a84; }
-  .loginPanel .leftPanel {
+  .login-panel .left-panel {
     background-image: linear-gradient(to bottom left, #0c7965, #68dbc7);
     height: 100%;
     width: 50%;
     display: flex;
     text-align: center;
     justify-content: center; }
-    .loginPanel .leftPanel h1 {
+    .login-panel .left-panel h1 {
       padding: 0.3em;
       align-self: center; }
-  .loginPanel .rightPanel {
+  .login-panel .right-panel {
     margin: 2em;
     height: 100%;
     width: 50%;

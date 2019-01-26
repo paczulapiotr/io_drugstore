@@ -1,0 +1,48 @@
+﻿@{
+    ViewData ["Title"] = "Prescriptions";
+}
+
+@model IEnumerable<MedicalPrescription>
+@{
+    ViewData ["Title"] = "Patients";
+}
+
+<div class="pharmacist-patients container">
+    <div class="header-title">
+        <h2>Pacjenci:</h2>
+    </div>
+    <div class="search-bar">
+        <form asp-action="Index" method="get">
+            <input class="form-control" name="patientName" />
+            <button class="btn">Znajdź</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data wystawienia</th>
+                    <th>Pacjent</th>
+                    <th>Lekarz</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                <tr>
+                    <td>@p.CreationTime</td>
+                    <td>@p.Patient.FullName</td>
+                    <td>@p.Doctor.FullName</td>
+                    <td>
+                        <form asp-action="Prescription" method="get">
+                            <input name="prescriptionId" value="@p.ID" type="hidden" />
+                            <button class="btn">Pokaż</button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -125,7 +125,7 @@ namespace Drugstore.Controllers
                 return RedirectToAction("Users");
             }
 
-            return RedirectToAction("AddUser");
+            return RedirectToAction("add-user");
         }
 
         public IActionResult DeleteUser(string userId)

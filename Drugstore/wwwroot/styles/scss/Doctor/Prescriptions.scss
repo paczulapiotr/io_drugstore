@@ -1,11 +1,11 @@
-
-body {
+﻿body {
     .main-section {
-        .prescription {
-            .table-header {
-                display: flex;
+        .prescriptions {
+            .action-buttons{
+                display:flex;
                 justify-content: space-between;
             }
+
         }
     }
 }
