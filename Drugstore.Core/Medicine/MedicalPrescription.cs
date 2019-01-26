@@ -20,6 +20,6 @@ namespace Drugstore.Core
         [Required]
         public ICollection<AssignedMedicine> Medicines { get; set; }
         [Required]
-        public bool Approved { get; set; } = false;
+        public VerificationState VerificationState { get; set; } = VerificationState.NotVerified;
     }
 }

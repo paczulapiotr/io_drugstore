@@ -83,7 +83,7 @@ namespace Drugstore.Controllers
                     Doctor = doctor,
                     Patient = patient,
                     CreationTime = DateTime.Now,
-                    Approved = false
+                    VerificationState = VerificationState.NotVerified
 
                 });
                 context.SaveChanges();

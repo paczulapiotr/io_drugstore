@@ -3,15 +3,15 @@
     ViewData["Title"] = "Edit Prescription";
 }
 
-<div class="editPrescription">
-    <div class="editedPrescriptionPanel">
-        <div class="tableHeader">
+<div class="edit-prescription">
+    <div class="edited-prescription-panel">
+        <div class="table-header">
             <h1>Prescription Details:</h1>
             <form asp-action="Prescriptions" method="get">
                 <button class="btn">Powrót</button>
             </form>
             <div>
-                <button id="saveButton" value="@Model.ID" class="btn">Zapisz</button>
+                <button id="save-button" value="@Model.ID" class="btn">Zapisz</button>
             </div>
         </div>
         <table class="table patientInfo">
@@ -26,12 +26,12 @@
                 </tr>
                 <tr>
                     <th>Zatwierdzona?</th>
-                    <td>@Model.Approved</td>
+                    <td>@Model.VerificationState.ToString()</td>
                 </tr>
             </tbody>
         </table>
 
-        <table class="table assignedMedicines">
+        <table class="table assigned-medicines">
             <thead>
                 <tr>
                     <th>Nazwa</th>
@@ -47,9 +47,9 @@
 
 
 
-    <div class="medicineSearchPanel">
+    <div class="medicine-search-panel">
         <h1>Wybierz leki:</h1>
-        <div class="searchBar">
+        <div class="search-bar">
             <input class="form-control" name="search" />
             <button class="btn">Znajdź</button>
         </div>
@@ -68,4 +68,4 @@
         </table>
     </div>
 </div>
-<script src="~/js/Doctor//EditPrescription.js"></script>
+<script src="~/js/Doctor/EditPrescription.js"></script>

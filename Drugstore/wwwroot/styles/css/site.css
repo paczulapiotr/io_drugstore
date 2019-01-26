@@ -11,28 +11,28 @@ footer {
   height: 3vh;
   text-align: center; }
 
-body .mainSection {
+body .main-section {
   height: 92vh;
   color: white; }
-  body .mainSection input:hover, body .mainSection input:focus, body .mainSection input:active {
+  body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
     border-color: #1e9a84;
     box-shadow: 0 0 0 0.1rem #0c7965; }
-  body .mainSection button {
+  body .main-section button {
     background-color: #36b59e;
     border-color: #1e9a84;
     box-shadow: 0 0 0 0.1rem #0c7965;
     color: white;
     margin: 0.5em; }
-    body .mainSection button:hover, body .mainSection button:focus {
+    body .main-section button:hover, body .main-section button:focus {
       color: white;
       background-color: #1e9a84;
       border-color: #1e9a84;
       box-shadow: 0 0 0 0.1rem #0c7965; }
-    body .mainSection button:not(:disabled):not(.disabled):active:focus, body .mainSection button:not(:disabled):not(.disabled):active {
+    body .main-section button:not(:disabled):not(.disabled):active:focus, body .main-section button:not(:disabled):not(.disabled):active {
       color: white;
       background-color: #68dbc7;
       border-color: white; }
-  body .mainSection h {
+  body .main-section h {
     background-color: #36b59e;
     border-color: #0c7965; }
 

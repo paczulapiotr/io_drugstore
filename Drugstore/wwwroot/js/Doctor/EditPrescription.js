@@ -1,11 +1,11 @@
 ﻿
 function edit() {
 
-	let medicineSearchButton = document.querySelector('.searchBar button');
-	let medicineSearchInput = document.querySelector('.searchBar input');
-    let tableBody = document.querySelector('.mainSection .editPrescription .assignedMedicines tbody');
-	let medicineSearchTable = document.querySelector('.mainSection .editPrescription .medicineSearchPanel table tbody');
-	let saveButton = document.querySelector('#saveButton');
+	let medicineSearchButton = document.querySelector('.search-bar button');
+	let medicineSearchInput = document.querySelector('.search-bar input');
+    let tableBody = document.querySelector('.main-section .edit-prescription .assigned-medicines tbody');
+	let medicineSearchTable = document.querySelector('.main-section .edit-prescription .medicine-search-panel table tbody');
+	let saveButton = document.querySelector('#save-button');
 	let id = saveButton.value;
 
     let context = [];
@@ -102,7 +102,7 @@ function edit() {
 							orderedMeds[0].assignedQuantity++;
 						}
 						else {
-							let filteredMed = acquiredMedicines.filter(m => m.id == id)[0];
+                            let filteredMed = acquiredMedicines.filter(m => m.id == id)[0];
 							let copy = Object.assign({}, filteredMed);
 							console.log(copy)
 							context.push({

@@ -3,8 +3,8 @@
     ViewData ["Title"] = "Historia Leczenia";
 }
 
-<div class="treatmentHistoryPanel">
-    <div class="tableHeader">
+<div class="treatment-history-panel">
+    <div class="table-header">
         @if (Model.Count() > 0)
         {
 
@@ -32,7 +32,7 @@
                 <tr>
                     <td>@p.CreationTime.ToShortDateString()</td>
                     <td>@p.Doctor.FullName</td>
-                    <td>@p.Approved</td>
+                    <td>@p.VerificationState.ToString()</td>
                     <td>
                         <form asp-action="PrescriptionDetails" method="get">
                             <input value="@p.ID" name="prescriptionId" hidden />
@@ -43,7 +43,7 @@
             }
         </tbody>
     </table>
-    <div class="tableFooter">
+    <div class="table-footer">
         Pagination
         @*<nav aria-label="...">
             <ul class="pagination">

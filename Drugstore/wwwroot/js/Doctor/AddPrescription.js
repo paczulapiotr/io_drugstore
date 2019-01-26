@@ -2,19 +2,19 @@
 function prescription() {
 
     // Patients elements
-    const patientPanel = document.querySelector('.newPrescriptionPanel .patientPanel');
-    const patientInput = patientPanel.querySelector('.patientSearch input');
-    const patientButton = patientPanel.querySelector('.patientSearch button');
+    const patientPanel = document.querySelector('.new-prescription-panel .patient-panel');
+    const patientInput = patientPanel.querySelector('.patient-search input');
+    const patientButton = patientPanel.querySelector('.patient-search button');
     const patientTable = patientPanel.querySelector('table tbody');
 
     // Medicine elements
-    const medicinePanel = document.querySelector('.newPrescriptionPanel .medicinePanel');
-    const medicineInput = medicinePanel.querySelector('.medicineSearch input');
-    const medicineButton = medicinePanel.querySelector('.medicineSearch button');
+    const medicinePanel = document.querySelector('.new-prescription-panel .medicine-panel');
+    const medicineInput = medicinePanel.querySelector('.medicine-search input');
+    const medicineButton = medicinePanel.querySelector('.medicine-search button');
     const medicineTable = medicinePanel.querySelector('table tbody');
 
     // Prescription elemets
-    const prescriptionPanel = document.querySelector('.newPrescriptionPanel .prescriptionPanel');
+    const prescriptionPanel = document.querySelector('.new-prescription-panel .prescription-panel');
     const prescriptionPatient = prescriptionPanel.querySelector('h5 span');
 	const prescriptionTable = prescriptionPanel.querySelector('table tbody');
 	const prescriptionSaveButton = prescriptionPanel.querySelector('.create');
@@ -71,7 +71,7 @@ function prescription() {
 							orderedMeds[0].assignedQuantity++;
 						}
 						else {
-							let filteredMed = acquiredMedicines.filter(m => m.id == id)[0];
+                            let filteredMed = acquiredMedicines.filter(m => m.id == id)[0];
 							let copy = Object.assign({}, filteredMed);
 							context.medicines.push({
 								stockMedicine:copy,

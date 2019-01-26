@@ -2,9 +2,9 @@
 
 body {
 
-    .mainSection {
+    .main-section {
 		
-        .treatmentHistoryPanel {
+        .treatment-history-panel {
 				margin: 2em;
 				padding: 2em;
 				border: 2px solid $secondary-color-dark;
@@ -17,7 +17,7 @@ body {
 					margin-top:2em;
 				}
 				
-				.tableFooter {
+				.table-footer {
 					position: absolute;
 					margin: 2em;
 					bottom: 0;

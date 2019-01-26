@@ -1,12 +1,12 @@
 ﻿@import '../_variables.scss';
 
 
-.mainSection {
-    .editPrescription {
+.main-section {
+    .edit-prescription {
         display: flex;
 
-        .editedPrescriptionPanel,
-        .medicineSearchPanel {
+        .edited-prescription-panel,
+        .medicine-search-panel {
             margin: 1em;
             padding: 1em;
             background-color: $secondary-color-bright;
@@ -14,15 +14,15 @@
             border-radius: 1%;
         }
 
-        .editedPrescriptionPanel {
-            .tableHeader {
+        .edited-prescription-panel {
+            .table-header {
                 display: flex;
                 justify-content: space-between;
             }
         }
 
-        .medicineSearchPanel {
-            .searchBar {
+        .medicine-search-panel {
+            .search-bar {
                 display:flex;
                 justify-content:space-between;
                 input {
