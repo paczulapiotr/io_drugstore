@@ -1,5 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace Drugstore.Core
 {
@@ -8,7 +11,6 @@ namespace Drugstore.Core
     {
         [Key]
         public int ID { get; set; }
-
         public MedicineOnStock StockMedicine { get; set; }
         public uint AssignedQuantity { get; set; }
     }
