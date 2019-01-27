@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <TargetLatestRuntimePath>true</TargetLatestRuntimePath>
+    <TargetLatestRuntimePath>false</TargetLatestRuntimePath>
+    <RuntimeFrameworkVersion>2.1</RuntimeFrameworkVersion>
     <StartupObject></StartupObject>
   </PropertyGroup>
 
