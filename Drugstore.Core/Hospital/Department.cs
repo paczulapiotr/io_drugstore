@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Drugstore.Core
 {
@@ -9,8 +6,8 @@ namespace Drugstore.Core
     {
         [Key]
         public int ID { get; set; }
+
         [MaxLength(50)]
         public string Name { get; set; }
-
     }
 }
