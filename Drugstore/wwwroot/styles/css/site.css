@@ -14,9 +14,11 @@ footer {
 body .main-section {
   height: 92vh;
   color: white; }
-  body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
-    border-color: #1e9a84;
-    box-shadow: 0 0 0 0.1rem #0c7965; }
+  body .main-section input {
+    margin: 0.5em; }
+    body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
+      border-color: #1e9a84;
+      box-shadow: 0 0 0 0.1rem #0c7965; }
   body .main-section button {
     background-color: #36b59e;
     border-color: #1e9a84;

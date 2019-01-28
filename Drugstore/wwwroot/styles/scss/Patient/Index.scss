@@ -1,7 +1,24 @@
-﻿body {
+﻿@import '../_variables.scss';
+
+body {
 	.main-section {
 		.patient-menu {
 
+			.date-picker {
+				display: flex;
+				justify-content: flex-start;
+				input {
+					width: 250px;
+				}
+				padding-bottom: 1em;
+				margin-bottom:1em;
+				border-bottom:2px solid black;
+			}
+			 background-color: $secondary-color-bright;
+			 border:2px solid $secondary-color-dark;
+			 border-radius: 1%;
+			 padding: 2em;
+			 margin: 2em;
 		}
 	}
 }
