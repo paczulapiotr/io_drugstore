@@ -74,7 +74,7 @@ namespace Drugstore.Controllers
                     m.StockMedicine = context.Medicines
                         .First(med => med.ID == m.StockMedicine.ID);
 
-                    m.Cost = m.AssignedQuantity * m.StockMedicine.PricePerOne;
+                    m.PricePerOne = m.StockMedicine.PricePerOne;
 
                     return m;
                 }).ToList();
@@ -143,7 +143,7 @@ namespace Drugstore.Controllers
                 {
                     StockMedicine = stockMedicine,
                     AssignedQuantity = m.AssignedQuantity,
-                    Cost = m.AssignedQuantity * stockMedicine.PricePerOne
+                    PricePerOne = stockMedicine.PricePerOne
                 });
             }
 

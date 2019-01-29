@@ -39,7 +39,7 @@ namespace Drugstore
                     {
                         Id = p.ID,
                         Date = p.CreationTime.ToShortDateString(),
-                        Price = p.Medicines.Sum(m => m.Cost),
+                        Price = p.Medicines.Sum(m => m.PricePerOne*m.AssignedQuantity),
                         Doctor = p.Doctor.FullName
                     })
                     .ToList();

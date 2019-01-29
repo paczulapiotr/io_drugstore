@@ -35,7 +35,7 @@
             </tr>
             <tr>
                 <th>Łączny koszt</th>
-                <td>@Model.Medicines.Sum(m=>m.Cost)</td>
+                <td>@Model.Medicines.Sum(m=>m.PricePerOne*m.AssignedQuantity)</td>
             </tr>
             <tr>
                 <td></td>
