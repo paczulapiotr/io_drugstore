@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th>Całkowity koszt</th>
-                <th>@Model.Medicines.Sum(m=>m.Cost)</th>
+                <th>@Model.Medicines.Sum(m=>m.PricePerOne*m.AssignedQuantity)</th>
             </tr>
             <tr>
                 <td></td>
