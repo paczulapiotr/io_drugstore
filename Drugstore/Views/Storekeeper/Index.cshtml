@@ -1,0 +1,21 @@
+﻿@{ 
+    ViewData ["Title"] = "Home";
+}
+
+<div class="storekeeper-panel">
+    <h1>Upload file:</h1>
+    <div class="update-store-panel">
+        <div>
+            <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                <input name="xmlFile" type="file" />
+                <button class="btn" style="display:block">Upload</button>
+            </form>
+        </div>
+    </div>
+    <h1>Get order:</h1>
+    <div class="get-order-panel">
+        <form asp-action="Download" method="get">
+            <button class="btn">Download latest order</button>
+        </form>
+    </div>
+</div>

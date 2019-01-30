@@ -34,12 +34,14 @@ namespace Drugstore.Identity
             var passwordHasher = new PasswordHasher<SystemUser>();
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
-            string[] roles = new string[] { UserRoleTypes.Admin.ToString(),
+            string[] roles = new string[] {
+                UserRoleTypes.Admin.ToString(),
                 UserRoleTypes.Patient.ToString(),
                 UserRoleTypes.Doctor.ToString(),
                 UserRoleTypes.Nurse.ToString(),
                 UserRoleTypes.InternalPharmacist.ToString(),
-                UserRoleTypes.ExternalPharmacist.ToString() };
+                UserRoleTypes.ExternalPharmacist.ToString(),
+                UserRoleTypes.Storekeeper.ToString()};
             foreach (var role in roles)
             {
                 if (!roleManager.Roles.Any(r => r.Name == role))
