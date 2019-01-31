@@ -37,7 +37,7 @@ namespace Drugstore.Controllers
             return result ? RedirectToAction("Index") : (IActionResult)NotFound();
         }
         [HttpGet]
-        public FileResult Download()
+        public FileStreamResult Download()
         {
             var xmlFile = postXMLStore.Execute();
             return File(xmlFile, 

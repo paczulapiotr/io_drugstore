@@ -43,9 +43,10 @@ namespace Drugstore.UseCases
                XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupply));
 
                FileInfo file = new FileInfo(saveDirectory);
-                using (Stream stream = file.Create())
+                using (MemoryStream stream = new MemoryStream())//file.Create())
                 {
                     xmlFile.CopyToAsync(stream).Wait();
+                    stream.Position = 0;
                     var obj = (XmlMedicineSupply)serializer.Deserialize(stream);
                 }
             }

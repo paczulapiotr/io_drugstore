@@ -1,6 +1,7 @@
 bin/
 obj/
 .vs/
+XML/
 node_modules/
 *.css
 bundle.css

@@ -17,13 +17,37 @@ namespace Drugstore.Models.Seriallization
     [Serializable]
     public class XmlMedicineModel
     {
-        public bool? IsRefunded { get; set; }
-        public int Quantity { get; set; }
-        public string Name { get; set; }
         public int? StockId { get; set; }
+        public string Name { get; set; }
+        public int Quantity { get; set; }
+        public float? PricePerOne { get; set; }
+        public bool? IsRefunded { get; set; }
         public bool? IsNew { get; set; }
         public MedicineCategory? Category { get; set; }
-        public float? PricePerOne { get; set; }
+
+
+        public bool ShouldSerializeStockId()
+        {
+            return StockId.HasValue;
+        }
+        public bool ShouldSerializePricePerOne()
+        {
+            return PricePerOne.HasValue;
+        }
+        public bool ShouldSerializeIsRefunded()
+        {
+            return IsRefunded.HasValue;
+        }
+        public bool ShouldSerializeIsNew()
+        {
+            return IsNew.HasValue;
+        }
+        public bool ShouldSerializeCategory()
+        {
+            return Category.HasValue;
+        }
+    
+        
 
     }
 }

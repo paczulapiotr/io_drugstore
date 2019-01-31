@@ -15,7 +15,7 @@ namespace Drugstore.UseCases
             this.context = context;
         }
 
-        public Stream Execute()
+        public MemoryStream Execute()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupply));
             //string directory = Path.Combine(Directory.GetCurrentDirectory(), "XML", "DOWNLOAD", "example.xml");
@@ -29,8 +29,9 @@ namespace Drugstore.UseCases
                 var model = AutoMapper.Mapper.Map<XmlMedicineModel>(m);
                 supply.Medicines.Add(model);
             }
-            Stream stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream();
             serializer.Serialize(stream, supply);
+            stream.Position = 0;
 
             return stream;
 
