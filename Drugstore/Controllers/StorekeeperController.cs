@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Drugstore.UseCases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +13,16 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Storekeeper")]
     public class StorekeeperController : Controller
     {
+        private readonly GetXMLStoreUpdateToUseCase getXMLStore;
+        private readonly PostXMLStoreOrderListUseCase postXMLStore;
+
+        public StorekeeperController(
+            GetXMLStoreUpdateToUseCase getXMLStore,
+            PostXMLStoreOrderListUseCase postXMLStore)
+        {
+            this.getXMLStore = getXMLStore;
+            this.postXMLStore = postXMLStore;
+        }
         public IActionResult Index()
         {
             return View();
@@ -21,45 +32,20 @@ namespace Drugstore.Controllers
         public IActionResult Upload(IFormFile xmlFile)
         {
 
-            string [] validExtensions = new [] {
-                "text/xml",
-                "application/xml"
-            };
+            var result = getXMLStore.Execute(xmlFile);
 
-            if(!validExtensions.Any(e=>e.Contains(xmlFile.ContentType)))
-            {
-                return NotFound();
-            }
-
-            string saveDirectory = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "XML", "UPLOAD", "store_update_" +
-                DateTime.Now.ToString("yyyy-MM-dd") + ".xml");
-
-            FileInfo file = new FileInfo(saveDirectory);
-            using (Stream stream = file.Create())
-            {
-                xmlFile.CopyToAsync(stream).Wait();
-            }
-
-            return RedirectToAction("Index");
+            return result ? RedirectToAction("Index") : (IActionResult)NotFound();
         }
         [HttpGet]
-        public IActionResult Download()
+        public FileResult Download()
         {
-            string directory = Path.Combine(Directory.GetCurrentDirectory(), "XML", "DOWNLOAD", "example.xml");
-            FileInfo file = new FileInfo(directory);
-            if (file.Exists)
-            {
-                FileStreamResult response = null;
-                using (Stream stream = file.OpenRead())
-                {
-                    response = File(file.OpenRead(), "application/octet-stream", "store_order_" + DateTime.Now.ToString("yyyy-MM-dddd") + ".xml");//FileStreamResult
-                }
+            var xmlFile = postXMLStore.Execute();
+            return File(xmlFile, 
+                "application/octet-stream", 
+                "store_order_" + 
+                DateTime.Now.ToString("yyyy-MM-dddd") + 
+                ".xml");
 
-                return response;
-            }
-            return NotFound();
         }
     }
 }

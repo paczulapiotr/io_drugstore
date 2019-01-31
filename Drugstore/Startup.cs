@@ -37,7 +37,9 @@ namespace Drugstore
                 .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
             services.AddTransient<IRepository, DrugstoreRepository>();
+
             UseCaseDependencyResolver.Resolve(services);
+            MapperProfiler.Run();
 
             services.ConfigureApplicationCookie(opt =>
             {
