@@ -14,7 +14,7 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Doctor")]
     public class DoctorController : Controller
     {
-        const int PageSize = 10;
+        private const int PageSize = 10;
         private readonly DrugstoreDbContext context;
         private readonly UserManager<SystemUser> userManager;
 
