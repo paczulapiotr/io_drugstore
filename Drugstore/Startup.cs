@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Drugstore.Identity;
 using Drugstore.Data;
 using Drugstore.UseCases;
+using Microsoft.Extensions.Logging;
 
 namespace Drugstore
 {
@@ -51,8 +52,11 @@ namespace Drugstore
 
         }
 
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -63,7 +67,7 @@ namespace Drugstore
                     DataSeeder.InitializeUsers(scope.ServiceProvider);
                 }
             }
-
+            loggerFactory.AddFile("Logs/drugstore-{Date}.txt",LogLevel.Warning);
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>

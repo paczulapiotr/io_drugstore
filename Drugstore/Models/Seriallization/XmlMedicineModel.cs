@@ -19,7 +19,7 @@ namespace Drugstore.Models.Seriallization
     {
         public int? StockId { get; set; }
         public string Name { get; set; }
-        public int Quantity { get; set; }
+        public uint Quantity { get; set; }
         public float? PricePerOne { get; set; }
         public bool? IsRefunded { get; set; }
         public bool? IsNew { get; set; }

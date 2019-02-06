@@ -12,6 +12,7 @@ namespace Drugstore
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.IsRefunded, opt => opt.MapFrom(src => src.IsRefunded))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.MedicineCategory))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
                 .ForMember(dest => dest.StockId, opt => opt.MapFrom(src => src.ID))
                 .ForAllOtherMembers(opt => opt.Ignore());
 

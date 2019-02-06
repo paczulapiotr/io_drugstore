@@ -31,11 +31,10 @@ namespace Drugstore.Controllers
         [HttpPost]
         public IActionResult Upload(IFormFile xmlFile)
         {
-
             var result = getXMLStore.Execute(xmlFile);
-
             return result ? RedirectToAction("Index") : (IActionResult)NotFound();
         }
+
         [HttpGet]
         public FileStreamResult Download()
         {
