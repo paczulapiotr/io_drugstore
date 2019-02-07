@@ -1,22 +1,27 @@
-﻿@{ 
+﻿@{
     ViewData ["Title"] = "Home";
 }
 
 <div class="storekeeper-panel">
-    <h1>Upload file:</h1>
-    <div class="update-store-panel">
-        <div>
+    <div class="external-store-panel">
+        <h3 class="header-title">Zewnętrzny magazyn</h3>
+        <div class="update-store-panel">
+            <h6>Załaduj dostawe towaru:</h6>
             <form asp-action="Upload" method="post" enctype="multipart/form-data">
-                <input name="xmlFile" type="file" />
-                <button class="btn" id="upload-button" style="display:block">Upload</button>
+                <input class="btn" name="xmlFile" type="file" />
+                <button class="btn" id="upload-button" style="display:block">Wyślij</button>
+            </form>
+        </div>
+        <div class="get-order-panel">
+            <h6>Pobierz nowe zamówienie:</h6>
+            <form asp-action="Download" method="get">
+                <button class="btn">Pobierz</button>
             </form>
         </div>
     </div>
-    <h1>Get order:</h1>
-    <div class="get-order-panel">
-        <form asp-action="Download" method="get">
-            <button class="btn">Download latest order</button>
-        </form>
+    <div class="internal-store-panel">
+        <h3 class="header-title">Wewnętrzny magazyn</h3>
+        <p><i>FUNKCJONALNOŚĆ NIEDOSTĘPNA</i></p>
     </div>
 </div>
 

@@ -19,18 +19,23 @@ body .main-section {
     body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
       border-color: #1e9a84;
       box-shadow: 0 0 0 0.1rem #0c7965; }
-  body .main-section button {
+  body .main-section button,
+  body .main-section input[type=file] {
     background-color: #36b59e;
     border-color: #1e9a84;
     box-shadow: 0 0 0 0.1rem #0c7965;
     color: white;
     margin: 0.5em; }
-    body .main-section button:hover, body .main-section button:focus {
+    body .main-section button:hover, body .main-section button:focus,
+    body .main-section input[type=file]:hover,
+    body .main-section input[type=file]:focus {
       color: white;
       background-color: #1e9a84;
       border-color: #1e9a84;
       box-shadow: 0 0 0 0.1rem #0c7965; }
-    body .main-section button:not(:disabled):not(.disabled):active:focus, body .main-section button:not(:disabled):not(.disabled):active {
+    body .main-section button:not(:disabled):not(.disabled):active:focus, body .main-section button:not(:disabled):not(.disabled):active,
+    body .main-section input[type=file]:not(:disabled):not(.disabled):active:focus,
+    body .main-section input[type=file]:not(:disabled):not(.disabled):active {
       color: white;
       background-color: #68dbc7;
       border-color: white; }

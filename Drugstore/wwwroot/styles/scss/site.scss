@@ -34,7 +34,8 @@ body .main-section {
         }
     }
 
-    button {
+	button,
+	input[type=file] {
         background-color: $primary-color;
         border-color: $primary-color-dark;
         box-shadow: 0 0 0 0.1rem $primary-color-darker;
