@@ -1,0 +1,77 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+4 - Modelowanie struktury, opracowanie prototypu #1
+Przebieg ćwiczenia:
+
+Opracowanie modelu klas:
+    ♥ w słowniku projektu studenci zaznaczają następujące kategorie terminów:
+    ♥ przedmioty, byty pojęciowe, osoby – są to kandydaci na klasy
+    ♥ wyniki są przenoszone na diagram klas w narzędziu CASE
+    ♥ na diagram studenci nanoszą relacje powiązania i uogólnienia
+    ♥ ostatnią czynnością w tej części jest specyfikacja relacji powiązania (krotność, nazwa, kierunek czytania nazwy)
+
+Szkic architektury systemu:
+    ♥ studenci przygotowują zarys architektury w postaci diagramu wdrożenia UML (podstawowy szkic – węzły, osadzone w nich komponenty i relacje pomiędzy węzłami)
+
+Rozpoczęcie implementacji prototypu:
+    ♥ członkowie sekcji odpowiedzialni za implementację rozpoczynają implementację prototypu #1
+    ♥ prototyp obejmuje bazę danych, główne moduły (bez funkcji) po stronie klienta i ewentualnie po stronie serwera
+
+Artefakty i kryteria oceny:
+(A) plik projektu narzędzia CASE (dla EA *.eap) z modelem klas i szkicem architektury
+(A) prototyp #1
+(+) kompletność analizy
+(+) poprawność relacji i ich właściwości
+(-) zbytnia prostota, zbytnia rozwlekłość modelu
+(-) brak wszystkich relacji
+(-) niewłaściwe użycie relacji (nieznajomość semantyki)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+5 - Modelowanie zachowania, opracowanie prototypu #2
+Przebieg ćwiczenia:
+
+Opracowanie diagramów interakcji:
+    ♥ dla najbardziej złożonych przypadków użycia studenci opracowują diagramy interakcji (najlepiej zastosować diagram przebiegu)
+    ♥ obiekty na diagramie należy przenieść z drzewka projektu („przeciągnij i upuść”)
+    ♥ o ile to możliwe komunikaty muszą być sprzężone z klasami (skorzystać z klawisza „operations …” i wpisać operację-komunikat do klasy)
+
+Rozpoczęcie implementacji prototypu:
+    ♥ członkowie sekcji odpowiedzialni za implementację rozpoczynają implementację prototypu #2
+    ♥ prototyp obejmuje funkcje prototypu #1 + przypadki użycia CRUD
+
+Artefakty i kryteria oceny
+(A) plik projektu narzędzia CASE (dla EA *.eap) z modelem zachowania
+(A) prototyp #2
+(+) kompletność diagramów
+(+) poprawność notacji
+(-) zbytnia prostota, zbytnia rozwlekłość modelu
+(-) brak połączenia z klasami
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+6 - Implementacja i testy
+Przebieg ćwiczenia:
+
+Implementacja oprogramowania:
+    ♥ studenci implementują finalną wersję (zgodnie z modelem)
+    ♥ na prace składa się:
+        zakończenie prac nad bazą danych
+        implementacja funkcji po stronie klienta (obiektowa z zastosowaniem ORM)
+        ewentualnie – analogicznie po stronie serwera
+
+Testowanie programu:
+    ♥ testowanie programu, także na podstawie przygotowanych przypadków testowych
+
+Końcowe zdanie projektu:
+    ♥ prowadzący odbiera projekt osobiście na podstawie prezentacji programu oraz przeglądu kodu i modelu
+
+Artefakty i kryteria oceny
+(A) wstępna specyfikacja i słownik projektu
+(A) plik projektu narzędzia CASE (dla EA *.eap) z kompletnym modelem
+(A) wersja finalna programu (większość funkcji)
+(+) obiektowość i użycie ORM
+(+) zgodność z modelem
+(-) niezgodność z modelem
+(-) błędy w programie
+(-) nielogiczny i nieintuicyjny interfejs programu
+-----------------------------------------------------------------------------------------------------------------------------------------------------------

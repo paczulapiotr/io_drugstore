@@ -5,18 +5,18 @@
 
 <div class="container departments">
     <div class="table-header">
-        <h1>Current departments:</h1>
+        <h1>Dostępne oddziały:</h1>
         <form id="add-department" asp-action="add-department" method="Get">
-            <button class="btn">Add Department</button>
+            <button class="btn">Nowy oddział</button>
         </form>
     </div>
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th>Nazwa</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         @foreach (var department in Model)
@@ -27,13 +27,13 @@
             <td>
                 <form action="EditDepartment" method="get">
                     <input value="@department.ID" name="departmentId" type="hidden" />
-                    <Button class="btn">Edit</Button>
+                    <Button class="btn">Edytuj</Button>
                 </form>
             </td>
             <td>
                 <form action="DeleteDepartment" method="post">
                     <input value="@department.ID" name="departmentId" type="hidden" />
-                    <Button class="btn">Delete</Button>
+                    <Button class="btn">Usuń</Button>
                 </form>
             </td>
         </tr>
