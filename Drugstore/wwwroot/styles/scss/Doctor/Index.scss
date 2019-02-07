@@ -1,0 +1,19 @@
+﻿body {
+    .main-section {
+        .doctor-menu {
+            align-self: center;
+            text-align: center;
+
+            h4 {
+                font-style:italic;
+                padding-bottom: 1em;
+                border-bottom: 2px solid black;
+            }
+
+            form {
+                margin: 0.5em;
+                border-bottom: 2px solid black;
+            }
+        }
+    }
+}

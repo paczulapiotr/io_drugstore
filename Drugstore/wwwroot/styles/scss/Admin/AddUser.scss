@@ -1,0 +1,14 @@
+﻿body {
+    .main-section {
+        .new-user-panel {
+            h3 {
+                margin-bottom:0.5em;
+                padding-bottom:0.3em;
+                border-bottom: 2px solid black;
+            }
+            .add-user-button {
+                float: right;
+            }
+        }
+    }
+}

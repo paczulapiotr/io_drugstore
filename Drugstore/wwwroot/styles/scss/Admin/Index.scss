@@ -1,0 +1,16 @@
+﻿body {
+	.main-section {
+		.admin-menu {
+			display: flex;
+			align-self: center;
+			.manage-users {
+				border-right: 2px solid black;
+				text-align: center;
+			}
+
+			.manage-departments {
+				text-align: center;
+			}
+		}
+	}
+}

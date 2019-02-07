@@ -21,8 +21,18 @@ footer {
 
 
 body .main-section {
-    height: 92vh;
+	min-height: 92vh;
     color: white;
+
+	.panel {
+		background-color: $secondary-color-bright;
+		border:2px solid $secondary-color-dark;
+		border-radius: 1%;
+		padding: 2em;
+		margin: 2em;
+		height: fit-content;
+
+	}
 
     input {
 		margin:0.5em;
@@ -57,16 +67,5 @@ body .main-section {
             border-color: $white;
         }
     }
-
-
-    h {
-        background-color: $primary-color;
-        border-color: $primary-color-darker;
-    }
 }
 
-
-
-
-/*
-*/

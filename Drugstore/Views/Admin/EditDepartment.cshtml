@@ -2,16 +2,16 @@
 @{
     ViewData["Title"] = "Edit Department";
 }
-<div>
+<div class="edit-department container panel">
     <form action="EditDepartment" method="post">
         <input type="hidden" asp-for="ID" />
         <div class="form-group">
-            <label asp-for="Name">Nazwa oddziału:</label>
+            <label asp-for="Name"><strong>Nazwa oddziału:</strong></label>
             <input class="form-control" type="text" asp-for="Name" />
         </div>
-        <button class="btn">Zapisz</button>
+        <button class="btn save-department">Zapisz</button>
     </form>
     <form action="Departments" method="get">
-        <button class="btn">Powrót</button>
+        <button class="btn go-back">Powrót</button>
     </form>
 </div>

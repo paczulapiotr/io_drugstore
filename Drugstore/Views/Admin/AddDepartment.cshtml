@@ -3,14 +3,14 @@
     ViewData["Title"] = "New Department";
 }
 
-<div>
+<div class="add-department container panel">
     <form action="add-department" method="post">
         <input type="hidden" asp-for="ID" />
         <div class="form-group">
-            <label asp-for="Name">Nazwa oddziału:</label>
+            <label asp-for="Name"><strong>Nazwa oddziału:</strong></label>
             <input class="form-control" type="text" asp-for="Name" />
         </div>
-        <button class="btn">Dodaj</button>
+        <button class="btn add-department-button">Dodaj</button>
     </form>
     <form action="Departments" method="get">
         <button class="btn">Powrót</button>

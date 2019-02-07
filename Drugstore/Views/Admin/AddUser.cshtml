@@ -3,40 +3,40 @@
     ViewData["Title"] = "Add User";
 }
 
-<div class="newUserPanel">
-
+<div class="new-user-panel panel">
+    <h3>Dodaj nowego użytkownika</h3>
     <form action="add-user" method="post">
         <input type="hidden" asp-for="UserModel.SystemUserId" />
         <div class="form-group">
-            <label asp-for="UserModel.UserName">User Name:</label>
+            <label asp-for="UserModel.UserName">Nazwa użytkownika:</label>
             <input class="form-control" asp-for="UserModel.UserName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.Password">Pass:</label>
+            <label asp-for="UserModel.Password">Hasło:</label>
             <input class="form-control" type="password" asp-for="UserModel.Password" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.ConfirmPassword">Confirm Password:</label>
+            <label asp-for="UserModel.ConfirmPassword">Powtórz hasło:</label>
             <input class="form-control" type="password" asp-for="UserModel.ConfirmPassword" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.FirstName">First Name:</label>
+            <label asp-for="UserModel.FirstName">Imię:</label>
             <input class="form-control" asp-for="UserModel.FirstName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.SecondName">Second Name:</label>
+            <label asp-for="UserModel.SecondName">Nazwisko:</label>
             <input class="form-control" asp-for="UserModel.SecondName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.PhoneNumber">Phone number:</label>
+            <label asp-for="UserModel.PhoneNumber">Numer kontaktowy:</label>
             <input class="form-control" asp-for="UserModel.PhoneNumber" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.Email">Email:</label>
+            <label asp-for="UserModel.Email">Adres email:</label>
             <input class="form-control" type="email" asp-for="UserModel.Email" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.Role">Role:</label>
+            <label asp-for="UserModel.Role">Typ użytkownika:</label>
             <select class="form-control" asp-for="UserModel.Role">
                 @foreach (UserRoleTypes role in (UserRoleTypes[])Enum.GetValues(typeof(UserRoleTypes)))
                 {
@@ -53,7 +53,7 @@
                 }
             </select>
         </div>
-        <button class="btn">Dodaj</button>
+        <button class="btn add-user-button">Dodaj</button>
 
     </form>
     <form action="Users" method="get">
