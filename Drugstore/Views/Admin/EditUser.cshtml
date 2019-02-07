@@ -4,7 +4,7 @@
 }
 
 
-<div class="editUser">
+<div class="edit-user panel">
     <h1>Edycja użytkownika:</h1>
     <form action="EditUser" method="post">
         <input type="hidden" asp-for="UserModel.Role"/>
@@ -48,9 +48,9 @@
         </div>
 
 
-        <button class="btn">Zapisz</button>
+        <button class="btn save-user">Zapisz</button>
     </form>
     <form action="Users" method="get">
-        <button class="btn">Powrót</button>
+        <button class="btn go-back">Powrót</button>
     </form>
 </div>

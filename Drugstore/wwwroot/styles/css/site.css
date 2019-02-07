@@ -12,8 +12,15 @@ footer {
   text-align: center; }
 
 body .main-section {
-  height: 92vh;
+  min-height: 92vh;
   color: white; }
+  body .main-section .panel {
+    background-color: #5c6677;
+    border: 2px solid #2b3039;
+    border-radius: 1%;
+    padding: 2em;
+    margin: 2em;
+    height: fit-content; }
   body .main-section input {
     margin: 0.5em; }
     body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
@@ -39,9 +46,3 @@ body .main-section {
       color: white;
       background-color: #68dbc7;
       border-color: white; }
-  body .main-section h {
-    background-color: #36b59e;
-    border-color: #0c7965; }
-
-/*
-*/
