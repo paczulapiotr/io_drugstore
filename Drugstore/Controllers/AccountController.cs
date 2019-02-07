@@ -87,7 +87,7 @@ namespace Drugstore.Controllers
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Redirect()
-        {
+          {
             var user = userManager.GetUserAsync(User).Result;
             if (user != null)
             {

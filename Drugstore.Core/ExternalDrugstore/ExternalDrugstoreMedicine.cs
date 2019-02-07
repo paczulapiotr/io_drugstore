@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Drugstore.Core
 {
-    [Table("AssignedMedicines")]
-    public class AssignedMedicine
+
+    public class ExternalDrugstoreMedicine
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        [Required]
         public MedicineOnStock StockMedicine { get; set; }
-        public uint AssignedQuantity { get; set; }
+        public uint Quantity { get; set; }
+        public float PricePerOne { get; set; }
     }
 }

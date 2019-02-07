@@ -3,47 +3,32 @@
     ViewData ["Title"] = "Prescription";
 }
 
-<div class="internal-prescription">
+<div class="patient-prescription-details">
     <div class="table-header">
-        <h1>Prescription Details:</h1>
+        <h1>Szczegóły recepty:</h1>
         <form asp-action="Index" method="get">
             <button class="btn">Powrót</button>
-        </form>
-        <form asp-action="Accept" method="post">
-            <input type="hidden" name="prescriptionId" value="@Model.ID" />
-            <button class="btn">Akceptuj</button>
-        </form>
-        <form asp-action="Reject" method="post">
-            <input type="hidden" name="prescriptionId" value="@Model.ID" />
-            <button class="btn">Odrzuć</button>
         </form>
     </div>
     <table class="table">
         <tbody>
             <tr>
-                <th>Pacjent</th>
+                <th>Imie i nazwisko</th>
                 <td>@Model.Patient.FullName</td>
             </tr>
-            <tr>
-                <th>Lekarz</th>
-                <td>@Model.Doctor.FullName</td>
-            </tr>
-            <tr>
             <tr>
                 <th>Data wypisania</th>
                 <td>@Model.CreationTime</td>
             </tr>
             <tr>
-                <th>Łączny koszt</th>
-                <td>@Model.Medicines.Sum(m=>m.PricePerOne*m.AssignedQuantity)</td>
+                <th>Całkowity koszt</th>
+                <th>@Model.Medicines.Sum(m=>m.PricePerOne*m.AssignedQuantity)</th>
             </tr>
             <tr>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-            </tr>
             <tr>
                 <th>Nazwa</th>
                 <th>Cena za sztuke</th>

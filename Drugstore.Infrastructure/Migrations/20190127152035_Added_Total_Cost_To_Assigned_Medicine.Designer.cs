@@ -4,14 +4,16 @@ using Drugstore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Drugstore.Infrastructure.Migrations
 {
     [DbContext(typeof(DrugstoreDbContext))]
-    partial class DrugstoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190127152035_Added_Total_Cost_To_Assigned_Medicine")]
+    partial class Added_Total_Cost_To_Assigned_Medicine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +56,9 @@ namespace Drugstore.Infrastructure.Migrations
 
                     b.Property<long>("AssignedQuantity");
 
-                    b.Property<int?>("MedicalPrescriptionID");
+                    b.Property<float>("Cost");
 
-                    b.Property<float>("PricePerOne");
+                    b.Property<int?>("MedicalPrescriptionID");
 
                     b.Property<int?>("StockMedicineID");
 
@@ -108,48 +110,6 @@ namespace Drugstore.Infrastructure.Migrations
                     b.HasIndex("SystemUserId");
 
                     b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreMedicine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<float>("PricePerOne");
-
-                    b.Property<long>("Quantity");
-
-                    b.Property<int>("StockMedicineID");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StockMedicineID");
-
-                    b.ToTable("ExternalDrugstoreMedicines");
-                });
-
-            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreSoldMedicine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<float>("PricePerOne");
-
-                    b.Property<int>("SoldQuantity");
-
-                    b.Property<int>("StockMedicineID");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StockMedicineID");
-
-                    b.ToTable("ExternalDrugstoreSoldMedicines");
                 });
 
             modelBuilder.Entity("Drugstore.Core.ExternalPharmacist", b =>
@@ -524,22 +484,6 @@ namespace Drugstore.Infrastructure.Migrations
                     b.HasOne("Drugstore.Identity.SystemUser", "SystemUser")
                         .WithMany()
                         .HasForeignKey("SystemUserId");
-                });
-
-            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreMedicine", b =>
-                {
-                    b.HasOne("Drugstore.Core.MedicineOnStock", "StockMedicine")
-                        .WithMany()
-                        .HasForeignKey("StockMedicineID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreSoldMedicine", b =>
-                {
-                    b.HasOne("Drugstore.Core.MedicineOnStock", "StockMedicine")
-                        .WithMany()
-                        .HasForeignKey("StockMedicineID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Drugstore.Core.ExternalPharmacist", b =>

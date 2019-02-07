@@ -5,20 +5,20 @@
 
 
 <div class="editUser">
-    <h1>Edit user:</h1>
+    <h1>Edycja użytkownika:</h1>
     <form action="EditUser" method="post">
         <input type="hidden" asp-for="UserModel.Role"/>
         <input type="hidden" asp-for="UserModel.SystemUserId" />
         <div class="form-group">
-            <label asp-for="UserModel.FirstName">First Name</label>
+            <label asp-for="UserModel.FirstName">Imię</label>
             <input class="form-control" asp-for="UserModel.FirstName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.SecondName">Second Name</label>
+            <label asp-for="UserModel.SecondName">Nazwisko</label>
             <input class="form-control" asp-for="UserModel.SecondName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.UserName">UserName</label>
+            <label asp-for="UserModel.UserName">Nazwa użytkownika</label>
             <input class="form-control" asp-for="UserModel.UserName" />
         </div>
         <div class="form-group">
@@ -26,19 +26,19 @@
             <input class="form-control" type="email" asp-for="UserModel.Email" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.Password">Password</label>
+            <label asp-for="UserModel.Password">Hasło</label>
             <input class="form-control" type="password" asp-for="UserModel.Password" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.ConfirmPassword">Confirm Password</label>
+            <label asp-for="UserModel.ConfirmPassword">Powtórz hasło</label>
             <input class="form-control" type="password" asp-for="UserModel.ConfirmPassword" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.PhoneNumber">Phone number</label>
+            <label asp-for="UserModel.PhoneNumber">Numer kontaktowy</label>
             <input class="form-control" asp-for="UserModel.PhoneNumber" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.DepartmentID">Department</label>
+            <label asp-for="UserModel.DepartmentID">Oddział</label>
             <select asp-for="UserModel.DepartmentID">
                 @foreach (var department in Model.Departments)
                 {

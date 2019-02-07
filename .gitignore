@@ -1,6 +1,8 @@
 bin/
 obj/
 .vs/
+*.xml
+Logs/
 node_modules/
 *.css
 bundle.css

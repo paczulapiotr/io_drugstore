@@ -73,6 +73,9 @@ namespace Drugstore.Controllers
                 {
                     m.StockMedicine = context.Medicines
                         .First(med => med.ID == m.StockMedicine.ID);
+
+                    m.PricePerOne = m.StockMedicine.PricePerOne;
+
                     return m;
                 }).ToList();
 
@@ -135,21 +138,17 @@ namespace Drugstore.Controllers
 
             foreach (var m in medicines)
             {
+                var stockMedicine = context.Medicines.Single(med => med.ID == m.StockMedicine.ID);
                 prescription.Medicines.Add(new AssignedMedicine
                 {
-                    StockMedicine = context.Medicines.First(med => med.ID == m.StockMedicine.ID),
-                    AssignedQuantity = m.AssignedQuantity
+                    StockMedicine = stockMedicine,
+                    AssignedQuantity = m.AssignedQuantity,
+                    PricePerOne = stockMedicine.PricePerOne
                 });
             }
 
             context.SaveChanges();
             return Json(new { valid = true });
-        }
-
-        [HttpPost]
-        public IActionResult EditPrescription(MedicalPrescription prescription)
-        {
-            return RedirectToAction("Prescriptions");
         }
 
         [HttpPost]
