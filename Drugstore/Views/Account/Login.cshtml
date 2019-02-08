@@ -1,4 +1,7 @@
 ﻿@model LoginModel
+@{ ViewData["LogoutBtnVisibility"] = false; }
+@{ ViewData["LogoBtnEnable"] = true; }
+
 
 <div class="login-panel">
     <div class="left-panel">
@@ -9,11 +12,11 @@
         <div class="text-danger" asp-validation-summary="All"></div>
         <form asp-action="Login" method="post">
             <div class="form-group">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">Email</label>
                 <input asp-for="Email" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Password"></label>
+                <label asp-for="Password">Hasło</label>
                 <input asp-for="Password" class="form-control" />
             </div>
             <button class="btn" type="submit">Zaloguj</button>

@@ -15,7 +15,7 @@
   background-image: linear-gradient(to bottom left, #2b3039, #5c6677);
   color: white;
   box-shadow: 0.5em 0.5em 0.2em #303030;
-  border: 2px solid #1e9a84; }
+  border: 6px solid #1e9a84; }
   .login-panel .left-panel {
     background-image: linear-gradient(to bottom left, #0c7965, #68dbc7);
     height: 100%;

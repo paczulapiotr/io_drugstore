@@ -10,15 +10,55 @@
 </head>
 <body>
     <header>
-        <span>HEADER</span>
-        <form class="logout" action="/Account/Logout" method="post">
-            <button class="btn">Wyloguj</button>
-        </form>
+        <div id="header-section">
+            @if ((bool)ViewData["LogoBtnEnable"])
+            {
+                <form  method="get">
+                    <button id="logoBtn">
+                        <img src="~/img/logo.PNG" />
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form action="Index" method="get">
+                    <button id="logoBtn">
+                        <img src="~/img/logo3.PNG" />
+                    </button>
+                </form>
+            }
+
+            @if ((bool)ViewData["LogoutBtnVisibility"])
+            {
+                <form class="logout" action="/Account/Logout" method="post">
+                    <button class="btn">Wyloguj</button>
+                </form>
+            }
+        </div>
+
     </header>
     <div class="main-section">
         @RenderBody()
     </div>
-    <footer>FOOTER</footer>
+    <footer>
+        <div id="footer-section">
+            <div class="contact-section">
+                <p class="contact">2019 all rights reserved</p>
+                <p class="contact">Administrator systemu: administrator.systemu@gmail.com</p>
+
+
+            </div>
+            <div class="contact-section">
+                <p class="contact">Hurtownia leków : +48 63 606 83 33</p>
+            </div>
+            <div class="contact-section">
+                <p class="contact">Adres placówki: Gliwice, Zawiszy Czarnego 7</p>
+                <p class="contact">Apteka : 32 206 43 53</p>
+            </div>
+
+        </div>
+
+    </footer>
     <script src="~/js/site.js"></script>
 </body>
 </html>

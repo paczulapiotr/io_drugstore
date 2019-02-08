@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\styles\css\" />
   </ItemGroup>
 
   <ItemGroup>

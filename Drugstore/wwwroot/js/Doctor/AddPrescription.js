@@ -191,7 +191,7 @@ function prescription() {
 				console.log('Success:',data)
 				if(data.valid){
 
-					alert("Dodano recepte!");
+					alert("Dodano receptę!");
 					context = {
 						patient: {
 							id: 0,
