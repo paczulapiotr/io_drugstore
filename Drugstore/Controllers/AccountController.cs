@@ -1,4 +1,5 @@
 ﻿using Drugstore.Identity;
+using Drugstore.Infrastructure;
 using Drugstore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -6,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Drugstore.Algorithm;
+using System.Collections.Generic;
 
 namespace Drugstore.Controllers
 {
@@ -15,17 +18,20 @@ namespace Drugstore.Controllers
         private readonly UserManager<SystemUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly SignInManager<SystemUser> signInManager;
+        private readonly DrugstoreDbContext context;
         private readonly IServiceProvider serviceProvider;
 
         public AccountController(
             UserManager<SystemUser> userManager,
             RoleManager<IdentityRole> roleManager,
             SignInManager<SystemUser> signInManager,
+            DrugstoreDbContext context,
             IServiceProvider serviceProvider)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.signInManager = signInManager;
+            this.context = context;
             this.serviceProvider = serviceProvider;
         }
 
@@ -88,7 +94,19 @@ namespace Drugstore.Controllers
         [AllowAnonymous]
         public IActionResult Redirect()
           {
+
+            Dictionary<int,int> ob = Create_Order_List.CreateProductList(context);
+
+            foreach(KeyValuePair<int, int> kvp in ob)
+            {
+                Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+            }
+
+
+
+
             var user = userManager.GetUserAsync(User).Result;
+
             if (user != null)
             {
                 var role = userManager.GetRolesAsync(user)
