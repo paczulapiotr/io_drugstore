@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Drugstore.Algorithm;
+using System.Collections.Generic;
 
 namespace Drugstore.Controllers
 {
@@ -89,6 +91,7 @@ namespace Drugstore.Controllers
         public IActionResult Redirect()
           {
             var user = userManager.GetUserAsync(User).Result;
+
             if (user != null)
             {
                 var role = userManager.GetRolesAsync(user)
