@@ -56,16 +56,50 @@ body .main-section button, header .btn {
     border-color: white; }
 
 body .main-section {
+<<<<<<< HEAD
   height: 80vh;
+=======
+  min-height: 92vh;
+>>>>>>> develop
   color: white; }
+  body .main-section .panel {
+    background-color: #5c6677;
+    border: 2px solid #2b3039;
+    border-radius: 1%;
+    padding: 2em;
+    margin: 2em;
+    height: fit-content; }
   body .main-section input {
     margin: 0.5em; }
     body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
       border-color: #1e9a84;
       box-shadow: 0 0 0 0.1rem #0c7965; }
+<<<<<<< HEAD
   body .main-section h {
     background-color: #36b59e;
     border-color: #0c7965; }
 
 /*
 */
+=======
+  body .main-section button,
+  body .main-section input[type=file] {
+    background-color: #36b59e;
+    border-color: #1e9a84;
+    box-shadow: 0 0 0 0.1rem #0c7965;
+    color: white;
+    margin: 0.5em; }
+    body .main-section button:hover, body .main-section button:focus,
+    body .main-section input[type=file]:hover,
+    body .main-section input[type=file]:focus {
+      color: white;
+      background-color: #1e9a84;
+      border-color: #1e9a84;
+      box-shadow: 0 0 0 0.1rem #0c7965; }
+    body .main-section button:not(:disabled):not(.disabled):active:focus, body .main-section button:not(:disabled):not(.disabled):active,
+    body .main-section input[type=file]:not(:disabled):not(.disabled):active:focus,
+    body .main-section input[type=file]:not(:disabled):not(.disabled):active {
+      color: white;
+      background-color: #68dbc7;
+      border-color: white; }
+>>>>>>> develop

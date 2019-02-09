@@ -14,7 +14,7 @@
 > "Data Source=__`<<INSERT PATH HERE>>`__;Database=Drugstore;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=true;"
 
 - Build solution
-- Run (double click) update_databse.cmd script to update your database
+- Run (double click) update_database.cmd script to update your database
 - Run (double click) update_npm.cmd script to update npm, needs NodeJs installed (might take a while)
 - Run solution
 

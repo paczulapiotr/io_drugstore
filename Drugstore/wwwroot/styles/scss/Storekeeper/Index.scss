@@ -1,0 +1,43 @@
+﻿@import '../_variables.scss';
+
+body {
+    .main-section {
+
+        .storekeeper-panel {
+			align-self: center;
+            border: 2px solid $secondary-color-dark;
+            background-color: $secondary-color-bright;
+            border-radius: 1%;
+            padding: 2em;
+            margin: 2em;
+			display:flex;
+			height: fit-content;
+			
+			div {
+				margin-top: 2em;
+			}
+			.header-title {
+				font-style: italic;
+				padding: 0.1em;
+				border-bottom:2px solid $secondary-color-dark;
+			}
+			.external-store-panel {
+				padding-right: 2em;
+				border-right: 2px solid black;
+				display: flex;	
+				flex-direction: column;
+
+			}
+			
+			.internal-store-panel {
+				padding-left: 2em;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				p {
+					text-align: center;
+				}
+			}
+        }
+    }
+}
