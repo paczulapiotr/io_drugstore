@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Drugstore.Algorithm
 {
-    public static class Create_Order_List
+    public static class SupplyOrderCalc
     {
         public static Dictionary<int,int> CreateProductList(DrugstoreDbContext context)
         {
