@@ -4,8 +4,10 @@
 
 header {
     text-align: center;
-    height: 10vh;
-        
+    position: fixed;
+    height: 8vh;
+    width: 100%;
+
     #header-section {
         background-color: $secondary-color-bright;
         display: flex;
@@ -15,21 +17,19 @@ header {
         justify-content: space-between;
 
         .btn {
-            margin: 1.5em;
             color: $secondary-color-dark;
             font-weight: bold;
         }
 
         #logoBtn {
-            margin-left: 0.5em;
-            position: center;
-            padding: 0.5em;
+            padding: 3%;
             border: 0;
             background: transparent;
+            height: 100%;
 
             img {
-                width: 70%;
-                height: auto;
+                height: 100%;
+                float: left;
             }
         }
     }
@@ -37,7 +37,6 @@ header {
 
 
 footer {
-    position: fixed;
     height: 10vh;
     width: 100%;
     color: $white;
@@ -53,17 +52,18 @@ footer {
         .contact-section p {
             margin: 1em;
             color: $primary-color-bright;
-            font-size : 1.5vh;
+            font-size: 1.5vh;
         }
     }
 }
 
-body .main-section button , header .btn{
+body .main-section button, header .btn {
     background-color: $primary-color;
     border-color: $primary-color-dark;
     box-shadow: 0 0 0 0.1rem $primary-color-darker;
     color: $white;
     margin: 0.5em;
+
     &:hover,
     &:focus {
         color: $white;
@@ -71,6 +71,7 @@ body .main-section button , header .btn{
         border-color: $primary-color-dark;
         box-shadow: 0 0 0 0.1rem $primary-color-darker;
     }
+
     &:not(:disabled):not(.disabled):active:focus,
     &:not(:disabled):not(.disabled):active {
         color: $white;
@@ -79,53 +80,59 @@ body .main-section button , header .btn{
     }
 }
 
-body .main-section {
+body {
+    background-image: linear-gradient(to bottom, $secondary-color-dark, $primary-color-bright);
 
-	min-height: 92vh;
-    color: white;
+    .main-section {
+        padding-top: 10vh;
+        display: flex;
+        justify-content: center;
+        align-self: stretch;
+        min-height: 90vh;
+        color: white;
 
-	.panel {
-		background-color: $secondary-color-bright;
-		border:2px solid $secondary-color-dark;
-		border-radius: 1%;
-		padding: 2em;
-		margin: 2em;
-		height: fit-content;
-
-	}
-
-    input {
-		margin:0.5em;
-        &:hover,
-        &:focus,
-        &:active {
-            border-color: $primary-color-dark;
-            box-shadow: 0 0 0 0.1rem $primary-color-darker;
-        }
-    }
-
-	button,
-	input[type=file] {
-        background-color: $primary-color;
-        border-color: $primary-color-dark;
-        box-shadow: 0 0 0 0.1rem $primary-color-darker;
-        color: $white;
-        margin: 0.5em;
-
-        &:hover,
-        &:focus {
-            color: $white;
-            background-color: $primary-color-dark;
-            border-color: $primary-color-dark;
-            box-shadow: 0 0 0 0.1rem $primary-color-darker;
+        .panel {
+            background-color: $secondary-color-bright;
+            border: 2px solid $secondary-color-dark;
+            border-radius: 1%;
+            padding: 2em;
+            margin: 2em;
+            height: fit-content;
         }
 
-        &:not(:disabled):not(.disabled):active:focus,
-        &:not(:disabled):not(.disabled):active {
+        input {
+            margin: 0.5em;
+
+            &:hover,
+            &:focus,
+            &:active {
+                border-color: $primary-color-dark;
+                box-shadow: 0 0 0 0.1rem $primary-color-darker;
+            }
+        }
+
+        button,
+        input[type=file] {
+            background-color: $primary-color;
+            border-color: $primary-color-dark;
+            box-shadow: 0 0 0 0.1rem $primary-color-darker;
             color: $white;
-            background-color: $primary-color-bright;
-            border-color: $white;
+            margin: 0.5em;
+
+            &:hover,
+            &:focus {
+                color: $white;
+                background-color: $primary-color-dark;
+                border-color: $primary-color-dark;
+                box-shadow: 0 0 0 0.1rem $primary-color-darker;
+            }
+
+            &:not(:disabled):not(.disabled):active:focus,
+            &:not(:disabled):not(.disabled):active {
+                color: $white;
+                background-color: $primary-color-bright;
+                border-color: $white;
+            }
         }
     }
 }
-
