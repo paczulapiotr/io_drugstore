@@ -1,8 +1,10 @@
-function manage() {
+function initialize() {
 	
 	const tableBody = document.querySelector('.patient-menu table tbody');
 	const totalCost = document.querySelector('.patient-menu p span');
 	const button = document.querySelector('.patient-menu .date-picker button');
+    const prev = document.querySelector('.patient-menu .navigation .previous');
+    const next = document.querySelector('.patient-menu .navigation .next');
 
 	let initialData = {
 		start: moment().startOf('hour'),
@@ -10,17 +12,23 @@ function manage() {
 	}
 	let context = {
 		start: initialData.start.format('YYYY/MM/DD'),
-		end: initialData.end.format('YYYY/MM/DD')
+        end: initialData.end.format('YYYY/MM/DD'),
+        canSearch: false,
+		page: 1,
+		totalPages: 1
 	};
 
-	function updateTable(startDate, endDate) {
-
-		fetch(`/Patient/TreatmentData?start=${startDate}&end=${endDate}`,{ method: "POST"})
+	function updateTable(page = 1) {
+		const { start, end } = context;
+		context.canSearch = false;
+		fetch(`/Patient/TreatmentData?start=${start}&end=${end}&page=${page}`,{ method: "POST"})
 		.then(response=>response.json())
 		.then(data=>{
 			
 			if(data.isValid){
 				totalCost.innerHTML = data.totalCost.toFixed(2);
+				context.page = data.currentPage;
+				context.totalPages = data.totalPages;
 
 				while (tableBody.firstChild) {
 					tableBody.removeChild(tableBody.firstChild);
@@ -60,6 +68,8 @@ function manage() {
 
 					tableBody.appendChild(tr);
 				});
+
+				context.canSearch = true;
 			}		
 			else {
 				console.log(data.error);
@@ -80,7 +90,22 @@ function manage() {
 
 	button.onclick = (event) => {
 		console.log(context);
-		updateTable(context.start, context.end);
-	}
+        updateTable();
+        context.canSearch = true;
+    }
+
+    prev.onclick = (event) => {
+        const { canSearch, page, totalPages } = context;
+		if(canSearch && page > 1 && page <= totalPages) {
+			updateTable(page - 1);
+		}
+    }
+
+    next.onclick = (event) => {
+		const { canSearch, page, totalPages } = context;
+        if(canSearch && page > 0 && page < totalPages) {
+			updateTable(page + 1);
+		}
+    }
 }
-manage();
+initialize();
