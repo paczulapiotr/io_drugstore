@@ -8,14 +8,12 @@
   display: flex;
   border-radius: 10px;
   width: 60vw;
-  min-width: 820px;
-  height: 40vh;
-  min-height: 500px;
+  height: 50vh;
   align-self: center;
   background-image: linear-gradient(to bottom left, #2b3039, #5c6677);
   color: white;
   box-shadow: 0.5em 0.5em 0.2em #303030;
-  border: 2px solid #1e9a84; }
+  border: 6px solid #1e9a84; }
   .login-panel .left-panel {
     background-image: linear-gradient(to bottom left, #0c7965, #68dbc7);
     height: 100%;
@@ -27,7 +25,9 @@
       padding: 0.3em;
       align-self: center; }
   .login-panel .right-panel {
-    margin: 2em;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 50%;
-    padding: 1em; }
+    padding: 2em; }
