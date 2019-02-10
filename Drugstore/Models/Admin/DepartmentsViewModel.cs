@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drugstore.Models
 {
-    public class UserModifyData
+    public class DepartmentsViewModel
     {
-        public UserModel UserModel { get; set; }
-        public List<Department> Departments{ get; set; }
+        public PaginationViewModel Pagination { get; set; }
+        public List<Department> Departments { get; set; }
     }
 }

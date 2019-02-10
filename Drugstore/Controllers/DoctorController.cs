@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;   
+using System;
 using System.Linq;
 
 namespace Drugstore.Controllers
@@ -14,7 +14,7 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Doctor")]
     public class DoctorController : Controller
     {
-        const int PageSize = 10;
+        const int PageSize = 5;
         private readonly DrugstoreDbContext context;
         private readonly UserManager<SystemUser> userManager;
 
@@ -32,17 +32,24 @@ namespace Drugstore.Controllers
         public IActionResult Prescriptions(int page = 1)
         {
             var user = userManager.GetUserAsync(User).Result;
-            var prescriptions = context.Doctors
+            var query = context.Doctors
                 .Include(d => d.IssuedPresciptions)
                 .ThenInclude(p => p.Patient)
                 .First(d => d.SystemUser.Id == user.Id)
-                .IssuedPresciptions
-                .OrderByDescending(p => p.CreationTime)
+                .IssuedPresciptions;
+
+            var totalPages = (int)Math.Ceiling((float)query.Count() / PageSize);
+
+            var prescriptions = query.OrderByDescending(p => p.CreationTime)
                 .Skip((page - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
-            return View(prescriptions);
+            return View(new PrescriptionsViewModel
+            {
+                Prescriptions = prescriptions,
+                Pagination = new PaginationViewModel("/Doctor/Prescriptions?page={0}", totalPages, page)
+            });
         }
 
         [HttpGet]
@@ -61,7 +68,7 @@ namespace Drugstore.Controllers
         public IActionResult NewPrescription() => View();
 
         [HttpPost]
-        public IActionResult AddPrescription([FromBody]PrescriptionModel prescription)
+        public IActionResult AddPrescription([FromBody]DoctorPrescriptionViewModel prescription)
         {
             if (ModelState.IsValid && prescription.Medicines.Length > 0)
             {
@@ -124,7 +131,7 @@ namespace Drugstore.Controllers
         public IActionResult EditMedicines([FromBody]AssignedMedicine [] medicines, int prescriptionId)
         {
             var prescription = context.MedicalPrescriptions
-                .Include(p=>p.Medicines)
+                .Include(p => p.Medicines)
                 .Single(p => p.ID == prescriptionId);
 
             prescription.CreationTime = DateTime.Now;

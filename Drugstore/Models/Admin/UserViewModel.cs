@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Drugstore.Models
 {
-    public class UserModel
+    public class UserViewModel
     {
         public string SystemUserId { get; set; }
         public string FirstName { get; set; }

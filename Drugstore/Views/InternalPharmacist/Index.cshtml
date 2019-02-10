@@ -2,7 +2,7 @@
     ViewData ["Title"] = "Prescriptions";
 }
 
-@model IEnumerable<MedicalPrescription>
+@model PrescriptionsViewModel
 @{
     ViewData ["Title"] = "Patients";
 }
@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var p in Model)
+                @foreach (var p in Model.Prescriptions)
                 {
                 <tr>
                     <td>@p.CreationTime</td>
@@ -44,5 +44,7 @@
                 }
             </tbody>
         </table>
+
+        @await Html.PartialAsync("_Pagination",Model.Pagination)
     </div>
 </div>

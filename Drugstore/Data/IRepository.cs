@@ -8,9 +8,9 @@ namespace Drugstore.Data
 {
     public interface IRepository
     {
-        UserModel GetUser(string userId);
+        UserViewModel GetUser(string userId);
         void DeleteUser(string userId);
-        void EditUser(UserModel updatedUser);
-        void AddNewUser(UserModel newUser);
+        void EditUser(UserViewModel updatedUser);
+        void AddNewUser(UserViewModel newUser);
     }
 }

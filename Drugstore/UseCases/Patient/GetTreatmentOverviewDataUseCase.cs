@@ -16,9 +16,9 @@ namespace Drugstore
             this.context = context;
         }
 
-        public PatientTreatmentOverviewModel Execute(Patient patient, string start, string end, int pageSize, int page)
+        public PatientTreatmentViewModel Execute(Patient patient, string start, string end, int pageSize, int page)
         {
-            var data = new PatientTreatmentOverviewModel()
+            var data = new PatientTreatmentViewModel()
             {
                 Id = patient.ID
             };
@@ -49,10 +49,10 @@ namespace Drugstore
 
                 var maxPage = (int)Math.Ceiling((double)prescriptionsQuery.Count() / pageSize);
 
-                data.totalPages = maxPage;
-                data.currentPage = (page < maxPage) ? page : maxPage;
+                data.TotalPages = maxPage;
+                data.CurrentPage = (page < maxPage) ? page : maxPage;
                 data.Prescriptions = prescriptions;
-                data.totalCost = prescriptions.Sum(p => p.Price);
+                data.TotalCost = prescriptions.Sum(p => p.Price);
             }
 
             else

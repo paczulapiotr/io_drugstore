@@ -72,7 +72,7 @@ namespace Drugstore.Data
             context.SaveChanges();
         }
 
-        public void EditUser(UserModel updatedUser)
+        public void EditUser(UserViewModel updatedUser)
         {
             string userId = updatedUser.SystemUserId;
             var user = userManager.FindByIdAsync(userId).Result;
@@ -113,7 +113,7 @@ namespace Drugstore.Data
 
             userManager.UpdateAsync(user).Wait();
         }
-        private void EditPerson<Type>(DbSet<Type> people, UserModel updatedUser, string userId) where Type : Person
+        private void EditPerson<Type>(DbSet<Type> people, UserViewModel updatedUser, string userId) where Type : Person
         {
             var person = people.First(p => p.SystemUser.Id == userId);
             person.FirstName = updatedUser.FirstName;
@@ -123,7 +123,7 @@ namespace Drugstore.Data
             context.SaveChanges();
         }
 
-        public void AddNewUser(UserModel newUser)
+        public void AddNewUser(UserViewModel newUser)
         {
             Person person = null;
             SystemUser systemUser = new SystemUser
@@ -183,7 +183,7 @@ namespace Drugstore.Data
 
         }
 
-        private void SetPersonProperties(Person person, UserModel newUser, SystemUser systemUser)
+        private void SetPersonProperties(Person person, UserViewModel newUser, SystemUser systemUser)
         {
             if (person != null)
             {
@@ -194,7 +194,7 @@ namespace Drugstore.Data
             }
         }
 
-        public UserModel GetUser(string userId)
+        public UserViewModel GetUser(string userId)
         {
 
             var systemUser = userManager.FindByIdAsync(userId).Result;
@@ -250,7 +250,7 @@ namespace Drugstore.Data
                     break;
             }
 
-            return new UserModel
+            return new UserViewModel
             {
                 FirstName = person.FirstName,
                 SecondName = person.SecondName,
