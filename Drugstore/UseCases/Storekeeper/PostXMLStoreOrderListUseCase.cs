@@ -24,15 +24,14 @@ namespace Drugstore.UseCases
 
         public MemoryStream Execute()
         {
-            // MOCKED DATA
-            var medicines = context.Medicines.Take(10).ToList();
-            //
+            var productsDict = SupplyOrderCalc.CreateProductList(context);
 
             XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupplyModel));
             XmlMedicineSupplyModel supply = new XmlMedicineSupplyModel();
-            foreach (var m in medicines)
+            foreach (var p in productsDict)
             {
-                var model = AutoMapper.Mapper.Map<XmlMedicineModel>(m);
+                var model = AutoMapper.Mapper.Map<XmlMedicineModel>(context.Medicines.Single(s=>s.ID == p.Key));
+                model.Quantity = (uint)p.Value;
                 supply.Medicines.Add(model);
             }
             MemoryStream stream = new MemoryStream();

@@ -2,28 +2,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-namespace Drugstore.Algorithm
+using Microsoft.EntityFrameworkCore;
+namespace Drugstore.UseCases
 {
     public static class SupplyOrderCalc
     {
+
         public static Dictionary<int,int> CreateProductList(DrugstoreDbContext context)
         {
             //aktualny dzien widziany jako 2019-02-07 00:00:00
             DateTime currentDay = DateTime.Today;
             //utworzenie obiektu z tabela sprzedanych lekow
-            var obj = context.ExternalDrugstoreSoldMedicines;
+            var obj = context.ExternalDrugstoreSoldMedicines.Include(d => d.StockMedicine);
             //zakladam ze w tej tabeli sa rowniez rzeczy ktore sie dzisiaj sprzedaly no wiec beda z dzisiejsza data.
-            var orderList = from data in obj
-                            where data.Date >= currentDay
-                            select data;
+            var orderList = obj.Where(d => d.Date >= currentDay);
+                
+                //from data in obj
+                //            where data.Date >= currentDay
+                //            select data;
 
             //tworze liste rzeczy zamowionych max tydzien temu bo na ich podstawie wylicze srednia 
             DateTime lastSevenDays = DateTime.Today;
             lastSevenDays.AddDays(-7);
-            var historyList = from data in obj
-                              where data.Date >= lastSevenDays
-                              select data;
+            var historyList = obj.Where(d => d.Date >= lastSevenDays);
+               
 
 
             //wybieram jeden produkt z orderList i wyliczam dla niego srednia potem wrzucam do slownika
