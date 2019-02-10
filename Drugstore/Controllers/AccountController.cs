@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Drugstore.Algorithm;
 using System.Collections.Generic;
 
 namespace Drugstore.Controllers
