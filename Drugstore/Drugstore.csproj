@@ -6,6 +6,7 @@
     <TargetLatestRuntimePath>false</TargetLatestRuntimePath>
     <RuntimeFrameworkVersion>2.1</RuntimeFrameworkVersion>
     <StartupObject></StartupObject>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\ExternalPharmacist\" />
     <Folder Include="Models\InternalPharmacist\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\img\" />

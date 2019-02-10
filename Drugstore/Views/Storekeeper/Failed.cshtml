@@ -1,0 +1,12 @@
+﻿@model String
+@{
+    ViewData ["Title"] = "Failed";
+}
+
+<div class="storekeeper-failed container panel">
+    <h4>Zaktualizowanie systemu nie powiodło się:</h4>
+    <h5>@Model</h5>
+    <form id="return-button" asp-action="Index" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

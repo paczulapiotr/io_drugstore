@@ -1,5 +1,6 @@
 ﻿using Drugstore.Infrastructure;
 using Drugstore.Models.Seriallization;
+using Drugstore.UseCases.Shared;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
@@ -27,8 +28,8 @@ namespace Drugstore.UseCases
             var medicines = context.Medicines.Take(10).ToList();
             //
 
-            XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupply));
-            XmlMedicineSupply supply = new XmlMedicineSupply();
+            XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupplyModel));
+            XmlMedicineSupplyModel supply = new XmlMedicineSupplyModel();
             foreach (var m in medicines)
             {
                 var model = AutoMapper.Mapper.Map<XmlMedicineModel>(m);
@@ -39,7 +40,7 @@ namespace Drugstore.UseCases
             try
             {
                 serializer.Serialize(stream, supply);
-                CreateXMLFileCopy(stream);
+                FileCopy.Create(stream, "store_order_", ".xml", "XML", "created_orders");
                 stream.Position = 0;
             }
             catch (Exception ex)
@@ -47,26 +48,25 @@ namespace Drugstore.UseCases
                 logger.LogError(ex.Message, ex);
             }
            
-
             return stream;
         }
-
+        [Obsolete]
         private void CreateXMLFileCopy(MemoryStream stream)
         {
-
-            string saveDirectory = Path.Combine(
-               Directory.GetCurrentDirectory(),
-               "XML",
-               "created_orders",
-               "store_order_" + DateTime.Now.ToString("yyyy-MM-dd"));
-
             FileInfo file;
             string fileName;
             int version = 0;
 
+            string saveDirectory = Path.Combine(
+               Directory.GetCurrentDirectory(),
+               "XML",
+               "created_orders");
+            Directory.CreateDirectory(saveDirectory);
+            string nameTemplate = Path.Combine(saveDirectory, "store_order_" + DateTime.Now.ToString("yyyy-MM-dd"));
+
             do
             {
-                fileName = saveDirectory +
+                fileName = nameTemplate +
                     ((version == 0) ? "" : $"({version})") + ".xml";
                 file = new FileInfo(fileName);
                 version++;

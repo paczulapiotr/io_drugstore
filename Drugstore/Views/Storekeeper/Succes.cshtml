@@ -1,0 +1,22 @@
+﻿@model Dictionary<string, string>
+@{
+    ViewData ["Title"] = "Success";
+}
+
+<div class="storekeeper-succes container panel">
+    <h5>
+        Liczba uzupełnionych leków: @Model["Updated"]
+    </h5>
+    <h5>
+        Liczba nowych rodzaji leków: @Model["NewOnStock"]
+    </h5>
+    <h5>
+        Liczba nowych leków w magazynie zewnętrznym: @Model["NewInEx"]
+    </h5>
+    <h5>
+        Liczba dodanych sztuk leków: @Model["Added"]
+    </h5>
+    <form id="return-button" asp-action="Index" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

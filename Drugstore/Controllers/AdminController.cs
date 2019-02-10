@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Drugstore.Controllers
 {
@@ -26,6 +27,7 @@ namespace Drugstore.Controllers
             this.repository = repository;
             this.drugstore = drugstore;
             this.userManager = userManager;
+
         }
 
         public IActionResult Index()
@@ -148,7 +150,7 @@ namespace Drugstore.Controllers
                 return RedirectToAction("Users");
             }
 
-            return RedirectToAction("add-user");
+            return RedirectToAction("AddUser");
         }
 
         public IActionResult DeleteUser(string userId)

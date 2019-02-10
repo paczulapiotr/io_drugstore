@@ -1,14 +1,12 @@
 ﻿using Drugstore.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Drugstore.Models.Seriallization
 {
     [Serializable]
-    public class XmlMedicineSupply
+    public class XmlMedicineSupplyModel
     {
         [XmlArray]
         public List<XmlMedicineModel> Medicines { get; set; } = new List<XmlMedicineModel>();
@@ -22,7 +20,7 @@ namespace Drugstore.Models.Seriallization
         public uint Quantity { get; set; }
         public float? PricePerOne { get; set; }
         public bool? IsRefunded { get; set; }
-        public bool? IsNew { get; set; }
+        public bool IsNew { get; set; } = false;
         public MedicineCategory? Category { get; set; }
 
 
@@ -40,14 +38,14 @@ namespace Drugstore.Models.Seriallization
         }
         public bool ShouldSerializeIsNew()
         {
-            return IsNew.HasValue;
+            return IsNew;
         }
         public bool ShouldSerializeCategory()
         {
             return Category.HasValue;
         }
-    
-        
+
+
 
     }
 }

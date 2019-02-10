@@ -1,0 +1,12 @@
+﻿@model string
+@{
+    ViewData ["Title"] = "Failed";
+}
+
+<div class="external-pharm-failed container panel">
+    <h4>Zaktualizowanie systemu nie powiodło się:</h4>
+    <h5>@Model</h5>
+    <form id="return-button" asp-action="Index" asp-controller="ExternalPharmacist" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>
