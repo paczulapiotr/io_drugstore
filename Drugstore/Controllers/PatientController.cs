@@ -10,6 +10,7 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Patient")]
     public class PatientController : Controller
     {
+        private const int pageSize = 10;
         private readonly UserManager<SystemUser> userManager;
         private readonly DrugstoreDbContext context;
         private readonly GetTreatmentOverviewDataUseCase getTreatmentOverviewDataUseCase;
@@ -32,13 +33,13 @@ namespace Drugstore.Controllers
         }
 
         [HttpPost]
-        public IActionResult TreatmentData(string start, string end)
+        public IActionResult TreatmentData(string start, string end, int page = 1)
         {
 
             var user = userManager.GetUserAsync(User).Result;
             var patient = context.Patients.Single(p => p.SystemUser.Id == user.Id);
-            var data = getTreatmentOverviewDataUseCase.Execute(patient, start, end);
-
+            var data = getTreatmentOverviewDataUseCase.Execute(patient, start, end, pageSize, page);
+            //+ currentPage, pagesAvailable
             return Json(data);
 
         }

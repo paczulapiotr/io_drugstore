@@ -8,13 +8,17 @@
         .table-header {
             display: flex;
             justify-content: space-between;
-            margin:0.5em;
+            margin: 0.5em;
 
             h1 {
             }
 
             #add-user {
             }
+        }
+
+        .button-section {
+            display:flex;
         }
     }
 }

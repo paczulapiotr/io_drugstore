@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace Drugstore.Models
 {
-    public class LoginModel
+    public class LoginViewModel
     {
         [Required]
         [UIHint("email")]

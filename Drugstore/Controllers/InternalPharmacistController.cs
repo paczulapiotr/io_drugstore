@@ -1,5 +1,6 @@
 ﻿using Drugstore.Core;
 using Drugstore.Infrastructure;
+using Drugstore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "InternalPharmacist")]
     public class InternalPharmacistController : Controller
     {
-        private const int PageSize = 10;
+        private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
 
         public InternalPharmacistController(DrugstoreDbContext context)
@@ -24,16 +25,27 @@ namespace Drugstore.Controllers
         {
             string searchTerm = patientName ?? "";
 
-            var prescriptions = context.MedicalPrescriptions
+            var query = context.MedicalPrescriptions
                 .Include(p => p.Doctor)
-                .Include(p=>p.Patient)
+                .Include(p => p.Patient)
                 .OrderByDescending(p => p.CreationTime)
                 .Where(p => p.VerificationState == VerificationState.NotVerified)
-                .Where(p => p.Patient.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize);
+                .Where(p => p.Patient.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
 
-            return View(prescriptions);
+            var requestTemplate = "/InternalPharmacist/Index?patientName=" + searchTerm + "&page={0}";
+
+            var totalPages = (int)Math.Ceiling((float)query.Count() / PageSize);
+
+            var prescriptions = query
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
+            return View(new PrescriptionsViewModel
+            {
+                Pagination = new PaginationViewModel(requestTemplate, totalPages, page),
+                Prescriptions = prescriptions
+            });
         }
 
         public IActionResult Prescription(int prescriptionId)
@@ -51,7 +63,7 @@ namespace Drugstore.Controllers
         public IActionResult Accept(int prescriptionId)
         {
             var prescription = context.MedicalPrescriptions
-                .Include(p => p.Medicines).ThenInclude(p=>p.StockMedicine)
+                .Include(p => p.Medicines).ThenInclude(p => p.StockMedicine)
                 .Single(p => p.ID == prescriptionId);
             foreach (var med in prescription.Medicines)
             {

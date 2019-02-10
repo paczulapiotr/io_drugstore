@@ -1,8 +1,6 @@
 ﻿using Drugstore.Core;
-using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -18,9 +16,9 @@ namespace Drugstore
             this.context = context;
         }
 
-        public PatientTreatmentOverviewModel Execute(Patient patient, string start, string end)
+        public PatientTreatmentViewModel Execute(Patient patient, string start, string end, int pageSize, int page)
         {
-            var data = new PatientTreatmentOverviewModel()
+            var data = new PatientTreatmentViewModel()
             {
                 Id = patient.ID
             };
@@ -28,24 +26,33 @@ namespace Drugstore
             if (DateTime.TryParse(start, out DateTime startDate) &&
                 DateTime.TryParse(end, out DateTime endDate))
             {
-                 var prescriptions = context.MedicalPrescriptions
-                    .Include(p => p.Doctor)
-                    .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                    .Where(p => p.Patient.ID == patient.ID)
-                    .Where(p => p.VerificationState == VerificationState.Accepted)
-                    .Where(p => DateComparer(p.CreationTime, startDate, endDate))
-                    .OrderByDescending(p => p.CreationTime)
-                    .Select(p => new PrescriptionGeneralDataModel
-                    {
-                        Id = p.ID,
-                        Date = p.CreationTime.ToShortDateString(),
-                        Price = p.Medicines.Sum(m => m.PricePerOne*m.AssignedQuantity),
-                        Doctor = p.Doctor.FullName
-                    })
-                    .ToList();
+                int resultsToSkip = (page > 1) ? (page - 1) * pageSize : 0;
 
+                var prescriptionsQuery = context.MedicalPrescriptions
+                   .Include(p => p.Doctor)
+                   .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
+                   .Where(p => p.Patient.ID == patient.ID)
+                   .Where(p => p.VerificationState == VerificationState.Accepted)
+                   .Where(p => DateComparer(p.CreationTime, startDate, endDate))
+                   .OrderByDescending(p => p.CreationTime);
+
+                var prescriptions = prescriptionsQuery.Skip(resultsToSkip)
+                   .Take(pageSize)
+                   .Select(p => new PrescriptionGeneralDataModel
+                   {
+                       Id = p.ID,
+                       Date = p.CreationTime.ToShortDateString(),
+                       Price = p.Medicines.Sum(m => m.PricePerOne * m.AssignedQuantity),
+                       Doctor = p.Doctor.FullName
+                   })
+                   .ToList();
+
+                var maxPage = (int)Math.Ceiling((double)prescriptionsQuery.Count() / pageSize);
+
+                data.TotalPages = maxPage;
+                data.CurrentPage = (page < maxPage) ? page : maxPage;
                 data.Prescriptions = prescriptions;
-                data.totalCost = prescriptions.Sum(p => p.Price);
+                data.TotalCost = prescriptions.Sum(p => p.Price);
             }
 
             else

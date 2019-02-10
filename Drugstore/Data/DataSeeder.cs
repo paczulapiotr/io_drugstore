@@ -66,7 +66,7 @@ namespace Drugstore.Identity
                 var userTemplate = userManager.FindByNameAsync(role).Result;
                 if (userTemplate == null)
                 {
-                    var userModel = new UserModel
+                    var userModel = new UserViewModel
                     {
                         FirstName = role,
                         SecondName = role,

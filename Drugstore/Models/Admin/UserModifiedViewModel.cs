@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drugstore.Models
 {
-    public class PrescriptionModel
+    public class UserModifiedViewModel
     {
-        public AssignedMedicine[] Medicines { get; set; }
-        public Patient Patient { get; set; }
+        public UserViewModel UserModel { get; set; }
+        public List<Department> Departments{ get; set; }
     }
 }

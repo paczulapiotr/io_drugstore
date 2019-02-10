@@ -4,8 +4,8 @@
 
 header {
     text-align: center;
-    position: fixed;
     height: 8vh;
+    position:fixed;
     width: 100%;
 
     #header-section {
@@ -84,8 +84,8 @@ body {
     background-image: linear-gradient(to bottom, $secondary-color-dark, $primary-color-bright);
 
     .main-section {
-        padding-top: 10vh;
         display: flex;
+        padding-top: 10vh;
         justify-content: center;
         align-self: stretch;
         min-height: 90vh;
@@ -96,8 +96,9 @@ body {
             border: 2px solid $secondary-color-dark;
             border-radius: 1%;
             padding: 2em;
-            margin: 2em;
+            margin: 4em;
             height: fit-content;
+            overflow: auto;
         }
 
         input {
@@ -135,4 +136,21 @@ body {
             }
         }
     }
+}
+
+.main-section .pagination {
+	justify-content: center;
+	&>li {
+		a,span {
+			color: $primary-color-darker;
+			&:focus {
+				box-shadow: 0 0 0 0.2rem rgba(39, 136, 22, 0.25);
+			}
+		}
+	}
+	li.active>a {
+		border-color: $primary-color-darker;
+		background-color: $primary-color-dark;
+		color: #fff;
+	}
 }

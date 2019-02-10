@@ -48,7 +48,7 @@ namespace Drugstore.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login(LoginModel details)
+        public IActionResult Login(LoginViewModel details)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace Drugstore.Controllers
                         return RedirectAfterLogin(user);
                     }
                 }
-                ModelState.AddModelError(nameof(LoginModel.Email),
+                ModelState.AddModelError(nameof(LoginViewModel.Email),
                 "Nieprawidłowa nazwa użytkownika lub hasło.");
             }
             return View(details);

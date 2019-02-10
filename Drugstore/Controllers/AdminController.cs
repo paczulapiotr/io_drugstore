@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace Drugstore.Controllers
         private readonly IRepository repository;
         private readonly DrugstoreDbContext drugstore;
         private readonly UserManager<SystemUser> userManager;
-        private const int pageSize = 10;
+        private const int pageSize = 5;
 
         public AdminController(IRepository repository, DrugstoreDbContext drugstore, UserManager<SystemUser> userManager)
         {
@@ -31,9 +32,20 @@ namespace Drugstore.Controllers
         {
             return View();
         }
-        public IActionResult Departments()
+        public IActionResult Departments(int page = 1)
         {
-            return View(drugstore.Departments.ToList());
+            var departments = drugstore.Departments
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var totalPages = (int)Math.Ceiling((double)drugstore.Departments.Count() / pageSize);
+
+            return View(new DepartmentsViewModel
+            {
+                Departments = departments,
+                Pagination = new PaginationViewModel("/Admin/Departments?page={0}", totalPages, page)
+            });
         }
 
 
@@ -83,15 +95,26 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Users(int page = 1)
         {
-            var pagedUsers = userManager.Users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            List<UserModel> users = pagedUsers.Select(u => repository.GetUser(u.Id)).ToList();
-            return View(users);
+            int totalPages = (int)Math.Ceiling((float)userManager.Users.Count() / pageSize);
+
+            var pagedUsers = userManager.Users
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            List<UserViewModel> users = pagedUsers.Select(u => repository.GetUser(u.Id)).ToList();
+
+            return View(new UsersViewModel
+            {
+                Pagination = new PaginationViewModel("/Admin/Users?page={0}", totalPages, page),
+                Users = users
+            });
         }
         [HttpGet]
         public IActionResult EditUser(string userId)
         {
             var user = repository.GetUser(userId);
-            UserModifyData data = new UserModifyData
+            UserModifiedViewModel data = new UserModifiedViewModel
             {
                 UserModel = user,
                 Departments = drugstore.Departments.ToList()
@@ -101,7 +124,7 @@ namespace Drugstore.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditUser(UserModel userModel)
+        public IActionResult EditUser(UserViewModel userModel)
         {
             repository.EditUser(userModel);
             return RedirectToAction("Users");
@@ -111,13 +134,13 @@ namespace Drugstore.Controllers
         public ViewResult AddUser()
         {
             var departments = drugstore.Departments.ToList();
-            var data = new UserModifyData { Departments = departments };
+            var data = new UserModifiedViewModel { Departments = departments };
 
             return View(data);
         }
 
         [HttpPost]
-        public IActionResult AddUser(UserModel userModel)
+        public IActionResult AddUser(UserViewModel userModel)
         {
             if (ModelState.IsValid)
             {

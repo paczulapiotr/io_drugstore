@@ -1,7 +1,7 @@
 header {
   text-align: center;
-  position: fixed;
   height: 8vh;
+  position: fixed;
   width: 100%; }
   header #header-section {
     background-color: #5c6677;
@@ -57,8 +57,8 @@ body .main-section button, header .btn {
 body {
   background-image: linear-gradient(to bottom, #2b3039, #68dbc7); }
   body .main-section {
-    padding-top: 10vh;
     display: flex;
+    padding-top: 10vh;
     justify-content: center;
     align-self: stretch;
     min-height: 90vh;
@@ -68,8 +68,9 @@ body {
       border: 2px solid #2b3039;
       border-radius: 1%;
       padding: 2em;
-      margin: 2em;
-      height: fit-content; }
+      margin: 4em;
+      height: fit-content;
+      overflow: auto; }
     body .main-section input {
       margin: 0.5em; }
       body .main-section input:hover, body .main-section input:focus, body .main-section input:active {
@@ -95,3 +96,14 @@ body {
         color: white;
         background-color: #68dbc7;
         border-color: white; }
+
+.main-section .pagination {
+  justify-content: center; }
+  .main-section .pagination > li a, .main-section .pagination > li span {
+    color: #0c7965; }
+    .main-section .pagination > li a:focus, .main-section .pagination > li span:focus {
+      box-shadow: 0 0 0 0.2rem rgba(39, 136, 22, 0.25); }
+  .main-section .pagination li.active > a {
+    border-color: #0c7965;
+    background-color: #1e9a84;
+    color: #fff; }

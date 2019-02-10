@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace Drugstore.Models
 {
-    public class PatientTreatmentOverviewModel
+    public class PatientTreatmentViewModel
     {
         public int Id { get; set; }
-        public float totalCost { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public float TotalCost { get; set; }
         public List<PrescriptionGeneralDataModel> Prescriptions { get; set; }
         public bool IsValid { get; set; } = true;
         public string Error { get; set; } = "";

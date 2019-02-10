@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\InternalPharmacist\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\styles\css\" />
