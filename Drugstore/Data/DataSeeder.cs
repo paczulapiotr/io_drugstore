@@ -74,7 +74,7 @@ namespace Drugstore.Identity
                         ConfirmPassword = role + "1!",
                         DepartmentID = firstDepartment.ID,
                         Email = role + "@local.host",
-                        PhoneNumber = "000-000-000",
+                        PhoneNumber = "123456789",
                         Role = (UserRoleTypes)Enum.Parse(typeof(UserRoleTypes),role),
                         UserName = role
                     };

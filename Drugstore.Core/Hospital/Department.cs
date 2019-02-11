@@ -9,7 +9,10 @@ namespace Drugstore.Core
     {
         [Key]
         public int ID { get; set; }
-        [MaxLength(50)]
+
+        [Required(ErrorMessage = "Wprowadź nazwę oddziału")]
+        [MinLength(10, ErrorMessage = "Nazwa oddziału powinna być dłuższa")]
+        [MaxLength(50,ErrorMessage = "Nazwa oddziału powinna być krótsza")]
         public string Name { get; set; }
 
     }

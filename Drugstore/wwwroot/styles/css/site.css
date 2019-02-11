@@ -12,7 +12,11 @@ header {
     justify-content: space-between; }
     header #header-section .btn {
       color: #2b3039;
-      font-weight: bold; }
+      font-weight: bold;
+      padding: 3%;
+      float: right;
+      vertical-align: middle;
+      position: relative; }
     header #header-section #logoBtn {
       padding: 3%;
       border: 0;
