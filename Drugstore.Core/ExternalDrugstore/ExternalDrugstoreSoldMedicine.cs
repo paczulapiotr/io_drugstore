@@ -13,6 +13,6 @@ namespace Drugstore.Core
         public MedicineOnStock StockMedicine { get; set; }
         public DateTime Date { get; set; }
         public int SoldQuantity { get; set; }
-        public float PricePerOne { get; set; }
+        public double PricePerOne { get; set; }
     }
 }

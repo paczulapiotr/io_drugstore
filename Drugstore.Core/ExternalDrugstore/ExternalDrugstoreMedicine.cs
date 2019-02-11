@@ -14,6 +14,6 @@ namespace Drugstore.Core
         [Required]
         public MedicineOnStock StockMedicine { get; set; }
         public uint Quantity { get; set; }
-        public float PricePerOne { get; set; }
+        public double PricePerOne { get; set; }
     }
 }

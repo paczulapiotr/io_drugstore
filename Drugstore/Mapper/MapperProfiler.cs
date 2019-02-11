@@ -10,7 +10,7 @@ namespace Drugstore
         {
             CreateMap<MedicineOnStock, XmlMedicineModel>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.IsRefunded, opt => opt.MapFrom(src => src.IsRefunded))
+                .ForMember(dest => dest.Refundation, opt => opt.MapFrom(src => src.Refundation))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.MedicineCategory))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
                 .ForMember(dest => dest.StockId, opt => opt.MapFrom(src => src.ID))
@@ -18,7 +18,7 @@ namespace Drugstore
 
             CreateMap<XmlMedicineModel, MedicineOnStock>()
                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-               .ForMember(dest => dest.IsRefunded, opt => opt.MapFrom(src => src.IsRefunded))
+               .ForMember(dest => dest.Refundation, opt => opt.MapFrom(src => src.Refundation))
                .ForMember(dest => dest.MedicineCategory, opt => opt.MapFrom(src => src.Category))
                .ForMember(dest => dest.PricePerOne, opt => opt.MapFrom(src => src.PricePerOne))
                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))

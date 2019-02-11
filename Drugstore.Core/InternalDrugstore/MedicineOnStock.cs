@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Drugstore.Core
@@ -18,13 +19,14 @@ namespace Drugstore.Core
         public MedicineCategory MedicineCategory { get; set; }
 
         [Required]
-        public bool IsRefunded { get; set; }
+        [Range(0.0d,1.0d)]
+        public double Refundation { get; set; } = 0.0f;
 
         [Required]
         public uint Quantity { get; set; }
 
         [Required]
-        public float PricePerOne { get; set; }
+        public double PricePerOne { get; set; }
 
     }
 }

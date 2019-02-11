@@ -18,8 +18,8 @@ namespace Drugstore.Models.Seriallization
         public int? StockId { get; set; }
         public string Name { get; set; }
         public uint Quantity { get; set; }
-        public float? PricePerOne { get; set; }
-        public bool? IsRefunded { get; set; }
+        public double? PricePerOne { get; set; }
+        public double? Refundation { get; set; } = 0.0d;
         public bool IsNew { get; set; } = false;
         public MedicineCategory? Category { get; set; }
 
@@ -34,7 +34,7 @@ namespace Drugstore.Models.Seriallization
         }
         public bool ShouldSerializeIsRefunded()
         {
-            return IsRefunded.HasValue;
+            return Refundation.HasValue;
         }
         public bool ShouldSerializeIsNew()
         {

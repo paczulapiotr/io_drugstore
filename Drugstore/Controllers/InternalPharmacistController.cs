@@ -62,21 +62,30 @@ namespace Drugstore.Controllers
         [HttpPost]
         public IActionResult Accept(int prescriptionId)
         {
+            int newQuantity;
             var prescription = context.MedicalPrescriptions
                 .Include(p => p.Medicines).ThenInclude(p => p.StockMedicine)
                 .Single(p => p.ID == prescriptionId);
-            foreach (var med in prescription.Medicines)
+            try
             {
-                var stockMedicine = context.Medicines
-                    .Single(m => m.ID == med.StockMedicine.ID);
-                if (stockMedicine.Quantity - med.AssignedQuantity > 0)
+                foreach (var med in prescription.Medicines)
                 {
-                    stockMedicine.Quantity -= med.AssignedQuantity;
+                    var stockMedicine = context.Medicines
+                        .Single(m => m.ID == med.StockMedicine.ID);
+                    newQuantity = (int)stockMedicine.Quantity - (int)med.AssignedQuantity;
+                    if (newQuantity > 0)
+                    {
+                        stockMedicine.Quantity = (uint)newQuantity;
+                    }
+                    else
+                    {
+                        throw new Exception($"Medicine quantity error. Lack of {stockMedicine.Name} medicine.");
+                    }
                 }
-                else
-                {
-                    throw new Exception($"Medicine quantity error. Lack of {stockMedicine.Name} medicine.");
-                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Failed), new { message = ex.Message });
             }
             prescription.VerificationState = VerificationState.Accepted;
             context.SaveChanges();
@@ -94,5 +103,9 @@ namespace Drugstore.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult Failed(string message)
+        {
+            return View(model: message);
+        }
     }
 }
