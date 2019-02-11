@@ -1,46 +1,53 @@
-﻿@model UserModifiedViewModel
-@{
-    ViewData["Title"] = "Edit Users";
-}
+﻿@model UserViewModel
 
+@{
+    ViewData ["Title"] = "Edit Users";
+}
 
 <div class="edit-user panel">
     <h1>Edycja użytkownika:</h1>
     <form action="EditUser" method="post">
-        <input type="hidden" asp-for="UserModel.Role"/>
-        <input type="hidden" asp-for="UserModel.SystemUserId" />
+        <input type="hidden" asp-for="Role" />
+        <input type="hidden" asp-for="SystemUserId" />
         <div class="form-group">
-            <label asp-for="UserModel.FirstName">Imię</label>
-            <input class="form-control" asp-for="UserModel.FirstName" />
+            <div><span asp-validation-for="FirstName" class="text-danger"></span></div>
+            <label asp-for="FirstName">Imię</label>
+            <input class="form-control" asp-for="FirstName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.SecondName">Nazwisko</label>
-            <input class="form-control" asp-for="UserModel.SecondName" />
+            <div><span asp-validation-for="SecondName" class="text-danger"></span></div>
+            <label asp-for="SecondName">Nazwisko</label>
+            <input class="form-control" asp-for="SecondName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.UserName">Nazwa użytkownika</label>
-            <input class="form-control" asp-for="UserModel.UserName" />
+            <div><span asp-validation-for="UserName" class="text-danger"></span></div>
+            <label asp-for="UserName">Nazwa użytkownika</label>
+            <input class="form-control" asp-for="UserName" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.Email">Email</label>
-            <input class="form-control" type="email" asp-for="UserModel.Email" />
+            <div><span asp-validation-for="Email" class="text-danger"></span></div>
+            <label asp-for="Email">Email</label>
+            <input class="form-control" type="email" asp-for="Email" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.Password">Hasło</label>
-            <input class="form-control" type="password" asp-for="UserModel.Password" />
+            <div><span asp-validation-for="Password" class="text-danger"></span></div>
+            <label asp-for="Password">Hasło</label>
+            <input class="form-control" type="password" asp-for="Password" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.ConfirmPassword">Powtórz hasło</label>
-            <input class="form-control" type="password" asp-for="UserModel.ConfirmPassword" />
+            <div><span asp-validation-for="ConfirmPassword" class="text-danger"></span></div>
+            <label asp-for="ConfirmPassword">Powtórz hasło</label>
+            <input class="form-control" type="password" asp-for="ConfirmPassword" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.PhoneNumber">Numer kontaktowy</label>
-            <input class="form-control" asp-for="UserModel.PhoneNumber" />
+            <div><span asp-validation-for="PhoneNumber" class="text-danger"></span></div>
+            <label asp-for="PhoneNumber">Numer kontaktowy</label>
+            <input class="form-control" asp-for="PhoneNumber" />
         </div>
         <div class="form-group">
-            <label asp-for="UserModel.DepartmentID">Oddział</label>
-            <select asp-for="UserModel.DepartmentID">
-                @foreach (var department in Model.Departments)
+            <label asp-for="DepartmentID">Oddział</label>
+            <select asp-for="DepartmentID">
+                @foreach (var department in (List<Department>)ViewData ["Departments"])
                 {
                     <option value="@department.ID">@department.Name</option>
                 }
