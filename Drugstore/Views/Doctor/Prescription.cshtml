@@ -43,19 +43,21 @@
             <tr>
                 <th>Nazwa</th>
                 <th>Cena za sztuke</th>
-                <th>Refundacja?</th>
+                <th>Refundacja [%]</th>
+                <th>Cena z refundacją</th>
                 <th>Kategoria</th>
                 <th>Ilość</th>
             </tr>
             @foreach (var p in Model.Medicines)
             {
-                <tr>
-                    <td>@p.StockMedicine.Name</td>
-                    <td>@p.StockMedicine.PricePerOne</td>
-                    <td>@p.StockMedicine.IsRefunded</td>
-                    <td>@p.StockMedicine.MedicineCategory</td>
-                    <td>@p.AssignedQuantity</td>
-                </tr>
+            <tr>
+                <td>@p.StockMedicine.Name</td>
+                <td>@p.StockMedicine.PricePerOne.ToString("N2")</td>
+                <td>@((int)Math.Round(p.StockMedicine.Refundation * 100))</td>
+                <td>@p.PricePerOne.ToString("N2")<td>
+                <td>@p.StockMedicine.MedicineCategory</td>
+                <td>@p.AssignedQuantity</td>
+            </tr>
             }
         </tbody>
     </table>

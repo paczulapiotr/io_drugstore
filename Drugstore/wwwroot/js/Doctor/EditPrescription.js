@@ -24,7 +24,7 @@ function edit() {
             td1.innerText = medicine.stockMedicine.name;
 
             let td2 = document.createElement('td');
-            td2.innerText = medicine.stockMedicine.pricePerOne;
+            td2.innerText = medicine.stockMedicine.pricePerOne.toFixed(2);
 
             let td3 = document.createElement('td');
             td3.innerText = medicine.stockMedicine.isRefunded;
@@ -83,7 +83,7 @@ function edit() {
                     let td5 = document.createElement('td');
                     td1.innerText = m.name;
                     tr.appendChild(td1);
-                    td2.innerText = m.pricePerOne
+                    td2.innerText = m.pricePerOne.toFixed(2)
                     tr.appendChild(td2);
                     td3.innerText = m.isRefunded;
                     tr.appendChild(td3);

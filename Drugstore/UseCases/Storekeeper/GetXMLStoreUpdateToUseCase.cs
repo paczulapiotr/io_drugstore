@@ -125,7 +125,7 @@ namespace Drugstore.UseCases
                         context.ExternalDrugstoreMedicines.Add(new ExternalDrugstoreMedicine
                         {
                             Name = medicineOnStock.Name,
-                            PricePerOne = med.PricePerOne ?? 0.0f,
+                            PricePerOne = med.PricePerOne ?? 0.0d,
                             Quantity = med.Quantity,
                             StockMedicine = medicineOnStock
                         });

@@ -1,0 +1,12 @@
+﻿@model String
+@{
+    ViewData ["Title"] = "Failed";
+}
+
+<div class="internal-pharm-failed container panel">
+    <h4>Nie można zatwierdzić recepty</h4>
+    <h5>@Model</h5>
+    <form id="return-button" asp-action="Index" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

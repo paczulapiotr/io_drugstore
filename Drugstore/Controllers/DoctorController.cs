@@ -55,11 +55,22 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Prescription(int prescriptionId)
         {
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors.Single(d => d.SystemUser.Id == user.Id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
 
             var prescription = context.MedicalPrescriptions
                 .Include(p => p.Patient)
                 .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                .Single(p => p.ID == prescriptionId);
+                .Where(p => p.Doctor.ID == doctor.ID)
+                .SingleOrDefault(p => p.ID == prescriptionId);
+            if(prescription==null)
+            {
+                return NotFound();
+            }
 
             return View(prescription);
         }
@@ -150,7 +161,7 @@ namespace Drugstore.Controllers
                 {
                     StockMedicine = stockMedicine,
                     AssignedQuantity = m.AssignedQuantity,
-                    PricePerOne = stockMedicine.PricePerOne
+                    PricePerOne = Math.Round(stockMedicine.PricePerOne * stockMedicine.Refundation, 2)
                 });
             }
 
@@ -228,9 +239,18 @@ namespace Drugstore.Controllers
             var prescriptions = patient.TreatmentHistory
                 .OrderByDescending(p => p.CreationTime)
                 .Skip((page - 1) * PageSize)
-                .Take(PageSize);
+                .Take(PageSize)
+                .ToList();
 
-            return View(prescriptions);
+            var totalPages = (int)Math.Ceiling((float)patient.TreatmentHistory.Count() / PageSize);
+
+            var requestTemplate = "/Doctor/TreatmentHistory?patientId=" + patientId + "&page={0}";
+
+            return View(new DoctorTreatmentHistoryViewModel
+            {
+                Pagination = new PaginationViewModel(requestTemplate, totalPages, page),
+                Prescriptions = prescriptions
+            });
         }
 
         [HttpGet]

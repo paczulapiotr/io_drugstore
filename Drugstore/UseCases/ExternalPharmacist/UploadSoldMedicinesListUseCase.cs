@@ -82,8 +82,8 @@ namespace Drugstore.UseCases.ExternalPharmacist
 
         private UploadResultViewModel UpdateStore(XmlMedicineSupplyModel supply)
         {
-            float pricePerOne;
-            float totalMedicinesCost = 0.0f;
+            double pricePerOne;
+            double totalMedicinesCost = 0.0f;
             int totalMedicineCount = 0;
 
             var medicines = context.ExternalDrugstoreMedicines;

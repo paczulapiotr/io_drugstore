@@ -52,7 +52,7 @@ function prescription() {
                     let td5 = document.createElement('td');
                     td1.innerText = m.name;
                     tr.appendChild(td1);
-                    td2.innerText = m.pricePerOne
+                    td2.innerText = m.pricePerOne.toFixed(2)
                     tr.appendChild(td2);
                     td3.innerText = m.isRefunded;
                     tr.appendChild(td3);
@@ -147,7 +147,7 @@ function prescription() {
             let td4 = document.createElement('td');
             td1.innerText = m.stockMedicine.name;
             tr.appendChild(td1);
-            td2.innerText = m.stockMedicine.pricePerOne
+            td2.innerText = m.stockMedicine.pricePerOne.toFixed(2);
             tr.appendChild(td2);
             td3.innerText = m.assignedQuantity;
             tr.appendChild(td3);
