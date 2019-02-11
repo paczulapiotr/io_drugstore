@@ -182,7 +182,6 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult FindPatient(string search)
         {
-
             var filteredPatients = context.Patients
                 .Where(p => (p.FirstName + " " + p.SecondName)
                 .Contains(search ?? "", StringComparison.OrdinalIgnoreCase))

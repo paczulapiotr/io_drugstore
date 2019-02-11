@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MedicalPrescription>
+@{
+    ViewData["Title"] = "Historia Leczenia";
+}
+
+<div class="treatment-history-panel">
+    <div class="table-header">
+        @if (Model.Count() > 0)
+        {
+            var patient = Model.First().Patient;
+            <h2>Recepty pacjenta @patient.FullName</h2>
+        }
+        else
+        {
+            <h2>Brak recept</h2>
+        }
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Data wystawienia</th>
+            <th>Kto wystawił</th>
+            <th>Została wydana?</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.CreationTime.ToShortDateString()</td>
+                <td>@p.Doctor.FullName</td>
+                <td>@p.VerificationState.ToString()</td>
+                <td>
+                    <form asp-action="PrescriptionDetails" method="get">
+                        <input value="@p.ID" name="prescriptionId" hidden/>
+                        <button class="btn">Zobacz</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div class="table-footer">
+        <form asp-action="Patients" method="get">
+            <button class="btn">Powrót</button>
+        </form>
+    </div>
+</div>
