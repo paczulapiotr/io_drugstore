@@ -3,11 +3,11 @@ namespace Drugstore.Models
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Wprowadź nazwę użytkownika")]
         [UIHint("email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Wprowadź hasło")]
         [UIHint("password")]
         public string Password { get; set; }
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+
 
 namespace Drugstore.Controllers
 {
@@ -62,11 +62,19 @@ namespace Drugstore.Controllers
         {
             if (ModelState.IsValid)
             {
-                drugstore.Departments.Add(department);
-                drugstore.SaveChanges();
+                if (drugstore.Departments
+                       .Any(d => d.Name.Contains(department.Name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(department.Name), "Oddział o podanej nazwie już istnieje");
+                }
+                else
+                {
+                    drugstore.Departments.Add(department);
+                    drugstore.SaveChanges();
+                    return RedirectToAction("Departments");
+                }
             }
-
-            return RedirectToAction("Departments");
+            return View(department);
         }
         [HttpGet]
         public IActionResult EditDepartment(int departmentId)
@@ -78,9 +86,29 @@ namespace Drugstore.Controllers
         public IActionResult EditDepartment(Department department)
         {
             var dep = drugstore.Departments.FirstOrDefault(d => d.ID == department.ID);
-            dep.Name = department.Name;
-            drugstore.SaveChanges();
-            return RedirectToAction("Departments");
+           
+            if (dep.Name.Equals(department.Name))
+            {
+                return RedirectToAction("Departments");
+
+            }
+            else 
+            {
+                dep.Name = department.Name;
+                if (!ModelState.IsValid)
+                {
+                    return View(department);
+                }
+                if (drugstore.Departments
+                      .Any(d => d.Name.Contains(department.Name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(department.Name), "Oddział o podanej nazwie już istnieje");
+                    return View(department);
+                }
+                drugstore.SaveChanges();
+                return RedirectToAction("Departments");
+             
+            }
         }
 
         [HttpPost]
@@ -121,22 +149,80 @@ namespace Drugstore.Controllers
                 UserModel = user,
                 Departments = drugstore.Departments.ToList()
             };
-
-            return View(data);
+            ViewData["Departments"] = drugstore.Departments.ToList();
+            return View(user);
         }
 
         [HttpPost]
         public IActionResult EditUser(UserViewModel userModel)
         {
-            repository.EditUser(userModel);
-            return RedirectToAction("Users");
+            var user = drugstore.Users.FirstOrDefault(u => u.Id == userModel.SystemUserId);
+            bool isSameEmail = user.Email.Equals(userModel.Email);
+            bool isSameUsername = user.UserName.Equals(userModel.UserName);
+            if (isSameEmail && isSameUsername)
+            {
+                if (ModelState.IsValid)
+                {
+                    repository.EditUser(userModel);
+                    return RedirectToAction("Users");
+                }
+            }
+            else if(isSameEmail)
+            {
+                if (drugstore.Users
+                   .Any(u => u.UserName.Contains(userModel.UserName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(userModel.UserName), "Nazwa użytkownika zajęta");
+                }
+                if (ModelState.IsValid)
+                {
+                    repository.EditUser(userModel);
+                    return RedirectToAction("Users");
+                }
+            }
+            else if(isSameUsername)
+            {
+                if (drugstore.Users
+                   .Any(u => u.Email.Contains(userModel.Email, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(userModel.Email), "Adres email zajęty");
+                }
+                if (ModelState.IsValid)
+                {
+                    repository.EditUser(userModel);
+                    return RedirectToAction("Users");
+                }
+            }
+            else if (ModelState.IsValid)
+            {
+                if (drugstore.Users
+                    .Any(u => u.Email.Contains(userModel.Email, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(userModel.Email), "Adres email zajęty");
+                }
+                if (drugstore.Users
+                    .Any(u => u.UserName.Contains(userModel.UserName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(userModel.UserName), "Nazwa użytkownika zajęta");
+                }
+                if (ModelState.IsValid)
+                {
+                    repository.EditUser(userModel);
+                    return RedirectToAction("Users");
+                }
+            }
+            ViewData["Departments"] = drugstore.Departments.ToList();
+            return View(userModel);
         }
+
 
         [HttpGet]
         public ViewResult AddUser()
         {
             var departments = drugstore.Departments.ToList();
-            var data = new UserModifiedViewModel { Departments = departments };
+
+            var data = new UserViewModel();
+            ViewData["Departments"] = drugstore.Departments.ToList();
 
             return View(data);
         }
@@ -146,11 +232,24 @@ namespace Drugstore.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.AddNewUser(userModel);
-                return RedirectToAction("Users");
+                if(drugstore.Users
+                    .Any(u=>u.Email.Contains(userModel.Email, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(userModel.Email), "Adres email zajęty");
+                }
+                if (drugstore.Users
+                    .Any(u => u.UserName.Contains(userModel.UserName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError(nameof(userModel.UserName), "Nazwa użytkownika zajęta");
+                }
+                if (ModelState.IsValid)
+                {
+                    repository.AddNewUser(userModel);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-
-            return RedirectToAction("AddUser");
+            ViewData["Departments"] = drugstore.Departments.ToList();
+            return View(userModel); 
         }
 
         public IActionResult DeleteUser(string userId)
@@ -158,6 +257,9 @@ namespace Drugstore.Controllers
             repository.DeleteUser(userId);
             return RedirectToAction("Users");
         }
+
+
+    
 
     }
 }

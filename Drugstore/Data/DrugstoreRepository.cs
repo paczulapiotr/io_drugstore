@@ -102,7 +102,7 @@ namespace Drugstore.Data
                 default:
                     break;
             }
-
+            user.Email = updatedUser.Email;
             user.UserName = updatedUser.UserName;
             user.PhoneNumber = updatedUser.PhoneNumber;
             if (!String.IsNullOrEmpty(updatedUser.Password))
