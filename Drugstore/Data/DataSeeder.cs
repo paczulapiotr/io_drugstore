@@ -31,12 +31,13 @@ namespace Drugstore.Identity
         public static void InitializeMedicines(IServiceProvider serviceProvider)
         {
             var medicines = serviceProvider.GetService<DrugstoreDbContext>();
+            var id = 0;
 
             if (!medicines.Medicines.Any())
             {
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "Apap",
                     MedicineCategory = MedicineCategory.Normal,
@@ -45,7 +46,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 1,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "Neurofen",
                     MedicineCategory = MedicineCategory.Normal,
@@ -54,7 +55,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 2,
+                    ID = id++,
                     IsRefunded = true,
                     Name = "Xanax",
                     MedicineCategory = MedicineCategory.Special,
@@ -63,7 +64,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 3,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "Nifuroksazyt",
                     MedicineCategory = MedicineCategory.Normal,
@@ -72,7 +73,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 4,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "EllaOne",
                     MedicineCategory = MedicineCategory.Special,
@@ -81,7 +82,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 5,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "Ablify",
                     MedicineCategory = MedicineCategory.Special,
@@ -90,7 +91,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 6,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "Wegiel aktywny",
                     MedicineCategory = MedicineCategory.Normal,
@@ -99,7 +100,7 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 7,
+                    ID = id++,
                     IsRefunded = false,
                     Name = "Arnika",
                     MedicineCategory = MedicineCategory.Normal,
@@ -108,203 +109,247 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
+                    Name = "Rutinoscorbin",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 8.0f,
+                    Quantity = 15
+                });
+                medicines.Medicines.Add(new MedicineOnStock
+                {
+                    ID = id++,
+                    IsRefunded = false,
+                    Name = "Scorbolamid",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 10.0f,
+                    Quantity = 10
+                });
+                medicines.Medicines.Add(new MedicineOnStock
+                {
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Groprinosin",
                     MedicineCategory = 0,
                     PricePerOne = 10.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Chlorchinaldin",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 10.0f,
+                    Quantity = 10
+                });
+                medicines.Medicines.Add(new MedicineOnStock
+                {
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Morfina",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 100.0f,
+                    Quantity = 1
+                });
+                medicines.Medicines.Add(new MedicineOnStock
+                {
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
+                    Name = "Theraflu",
                     MedicineCategory = 0,
                     PricePerOne = 10.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
+                    Name = "Pyralgina",
                     MedicineCategory = 0,
                     PricePerOne = 10.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Augmentin",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 13.0f,
+                    Quantity = 10
+                });
+                medicines.Medicines.Add(new MedicineOnStock
+                {
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Esberitox N",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 30.0f,
+                    Quantity = 10
+                });
+                medicines.Medicines.Add(new MedicineOnStock
+                {
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
+                    Name = "Aspiryna",
+                    MedicineCategory = MedicineCategory.Normal,
                     PricePerOne = 10.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
+                    Name = "Gripex",
                     MedicineCategory = 0,
-                    PricePerOne = 10.0f,
+                    PricePerOne = 15.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
+                    Name = "Polopiryna",
                     MedicineCategory = 0,
-                    PricePerOne = 10.0f,
+                    PricePerOne = 15.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
+                    Name = "Controloc Control",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 11.0f,
                     Quantity = 10
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
+                    Name = "Normaclin",
                     MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    PricePerOne = 20.0f,
+                    Quantity = 3
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Epiduo",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 30.0f,
+                    Quantity = 4
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Tramadol",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 50.0f,
+                    Quantity = 2
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Metadon",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 60.0f,
+                    Quantity = 6
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Fentanyl",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 49.99f,
+                    Quantity = 3
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Clonazepamum",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 25.0f,
+                    Quantity = 4
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Thicodin",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 20.0f,
+                    Quantity = 7
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Tramal Retard 100",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 20.0f,
+                    Quantity = 4
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Stilnox",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 30.0f,
+                    Quantity = 4
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "DHC Continus",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 60.0f,
+                    Quantity = 2
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Tramal",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 54.0f,
+                    Quantity = 2
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "NeoAzarina",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 70.0f,
+                    Quantity = 2
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    ID = id++,
+                    IsRefunded = true,
+                    Name = "Stodal",
+                    MedicineCategory = MedicineCategory.Special,
+                    PricePerOne = 20.0f,
+                    Quantity = 2
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = 0,
+                    ID = id++,
                     IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
+                    Name = "Espumisan",
+                    MedicineCategory = MedicineCategory.Normal,
+                    PricePerOne = 20.0f,
+                    Quantity = 2
                 });
-                medicines.Medicines.Add(new MedicineOnStock
-                {
-                    ID = 0,
-                    IsRefunded = false,
-                    Name = "Apap",
-                    MedicineCategory = 0,
-                    PricePerOne = 10.0f,
-                    Quantity = 10
-                });
-
             }
         }
 
