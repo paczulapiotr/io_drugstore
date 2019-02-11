@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Drugstore.Data;
+using Drugstore.Identity;
 using Drugstore.Infrastructure;
+using Drugstore.UseCases;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Drugstore.Identity;
-using Drugstore.Data;
-using Drugstore.UseCases;
 using Microsoft.Extensions.Logging;
 
 namespace Drugstore
@@ -27,13 +20,11 @@ namespace Drugstore
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-            services.AddDbContext<DrugstoreDbContext>(options => 
-            options.UseSqlServer(Configuration["Data:ConnectionStrings:WarehouseConnection"]));
+            services.AddDbContext<DrugstoreDbContext>(options =>
+                options.UseSqlServer(Configuration["Data:ConnectionStrings:WarehouseConnection"]));
             services.AddIdentity<SystemUser, IdentityRole>()
                 .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
@@ -48,35 +39,35 @@ namespace Drugstore
                 opt.AccessDeniedPath = "/Account/AccessDenied";
             });
             services.AddMvc();
-
-
         }
 
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, 
+        public void Configure(IApplicationBuilder app,
             IHostingEnvironment env,
             ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
-                using (IServiceScope scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     // Insert data in database
                     DataSeeder.InitializeDepartments(scope.ServiceProvider);
                     DataSeeder.InitializeUsers(scope.ServiceProvider);
+                    DataSeeder.InitializeMedicines(scope.ServiceProvider);
                 }
             }
-            loggerFactory.AddFile("Logs/drugstore-{Date}.txt",LogLevel.Warning);
+
+            loggerFactory.AddFile("Logs/drugstore-{Date}.txt", LogLevel.Warning);
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}",
-                    defaults: new { controller = "Account", action = "Redirect" }
-                    );
+                    "default",
+                    "{controller}/{action}",
+                    new {controller = "Account", action = "Redirect"}
+                );
             });
         }
     }
