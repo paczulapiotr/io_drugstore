@@ -1,4 +1,6 @@
-﻿using Drugstore.Core;
+﻿using System;
+using System.Linq;
+using Drugstore.Data;
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
@@ -6,125 +8,71 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 
 namespace Drugstore.Controllers
 {
     [Authorize(Roles = "Nurse")]
     public class NurseController : Controller
     {
-        const int PageSize = 5;
+        private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
+        private readonly IRepository repository;
         private readonly UserManager<SystemUser> userManager;
 
-        public NurseController(DrugstoreDbContext context, UserManager<SystemUser> userManager)
+        public NurseController(DrugstoreDbContext context,
+            UserManager<SystemUser> userManager,
+            IRepository repository)
         {
             this.context = context;
             this.userManager = userManager;
+            this.repository = repository;
         }
 
         [HttpGet]
-        public IActionResult Index() => View();
-
-
-        [HttpGet]
-        public IActionResult Prescriptions(int page = 1)
+        public IActionResult Index()
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var query = context.Doctors
-                .Include(d => d.IssuedPresciptions)
-                .ThenInclude(p => p.Patient)
-                .First(d => d.SystemUser.Id == user.Id)
-                .IssuedPresciptions;
-
-            var totalPages = (int)Math.Ceiling((float)query.Count() / PageSize);
-
-            var prescriptions = query.OrderByDescending(p => p.CreationTime)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
-
-            return View(new PrescriptionsViewModel
-            {
-                Prescriptions = prescriptions,
-                Pagination = new PaginationViewModel("/Doctor/Prescriptions?page={0}", totalPages, page)
-            });
+            return View();
         }
 
         [HttpGet]
-        public IActionResult Prescription(int prescriptionId)
+        public ViewResult AddPatient()
         {
+            var departments = context.Departments.ToList();
 
-            var prescription = context.MedicalPrescriptions
-                .Include(p => p.Patient)
-                .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                .Single(p => p.ID == prescriptionId);
+            var data = new UserViewModel();
+            ViewData["Departments"] = context.Departments.ToList();
 
-            return View(prescription);
+            return View(data);
         }
-
-        [HttpGet]
-        public IActionResult NewPrescription() => View();
 
         [HttpPost]
-        public IActionResult AddPrescription([FromBody]DoctorPrescriptionViewModel prescription)
+        public IActionResult AddPatient(UserViewModel userModel)
         {
-            if (ModelState.IsValid && prescription.Medicines.Length > 0)
+            userModel.Role = UserRoleTypes.Patient;
+            userModel.DepartmentID = context.Nurses.Include(n => n.Department).FirstOrDefault().Department.ID;
+            if (ModelState.IsValid)
             {
-                var systemUser = userManager.GetUserAsync(User).Result;
-                var doctor = context.Doctors.First(d => d.SystemUser.Id == systemUser.Id);
-                var patient = context.Patients.First(p => p.ID == prescription.Patient.ID);
-
-                var assignedMedicines = prescription.Medicines.Select(m =>
+                if (context.Users
+                    .Any(u => u.Email.Contains(userModel.Email, StringComparison.OrdinalIgnoreCase)))
                 {
-                    m.StockMedicine = context.Medicines
-                        .First(med => med.ID == m.StockMedicine.ID);
+                    ModelState.AddModelError(nameof(userModel.Email), "Adres email zajęty");
+                }
 
-                    m.PricePerOne = m.StockMedicine.PricePerOne;
-
-                    return m;
-                }).ToList();
-
-
-                doctor.IssuedPresciptions.Add(new MedicalPrescription
+                if (context.Users
+                    .Any(u => u.UserName.Contains(userModel.UserName, StringComparison.OrdinalIgnoreCase)))
                 {
-                    Medicines = assignedMedicines,
-                    Doctor = doctor,
-                    Patient = patient,
-                    CreationTime = DateTime.Now,
-                    VerificationState = VerificationState.NotVerified
+                    ModelState.AddModelError(nameof(userModel.UserName), "Nazwa użytkownika zajęta");
+                }
 
-                });
-                context.SaveChanges();
-                return Json(new { valid = true });
+                if (ModelState.IsValid)
+                {
+                    repository.AddNewUser(userModel);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            else
-            {
-                return Json(new { valid = false });
-            }
-        }
 
-        [HttpGet]
-        public IActionResult EditPrescription(int prescriptionId)
-        {
-
-            var prescription = context.MedicalPrescriptions
-                .Include(p => p.Patient)
-                .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                .Single(p => p.ID == prescriptionId);
-
-            return View(prescription);
-        }
-        [HttpGet]
-        public IActionResult GetPrescriptionMedicines(int prescriptionId)
-        {
-            var medicines = context.MedicalPrescriptions
-                .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                .Single(p => p.ID == prescriptionId)
-                .Medicines.ToList();
-
-            return Json(medicines);
+            ViewData["Departments"] = context.Departments.ToList();
+            return View(userModel);
         }
 
         [HttpGet]
@@ -132,7 +80,7 @@ namespace Drugstore.Controllers
         {
             var filteredPatients = context.Patients
                 .Where(p => (p.FirstName + " " + p.SecondName)
-                .Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
+                    .Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
                 .Take(PageSize)
                 .ToList();
 
@@ -142,11 +90,10 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult FindMedicine(string search)
         {
-
             var filteredMedicine = context.Medicines
-               .Where(m => m.Name.Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
-               .Take(PageSize)
-               .ToList();
+                .Where(m => m.Name.Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
+                .Take(PageSize)
+                .ToList();
 
             return Json(filteredMedicine);
         }
@@ -154,12 +101,13 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Patients(string patientName = "")
         {
-            string searchCondition = patientName ?? "";
+            var searchCondition = patientName ?? "";
             var departement = context.Nurses.Include(n => n.Department).FirstOrDefault().Department;
 
             var patients = context.Patients
                 .Include(p => p.Department)
-                .Where(p => p.FullName.Contains(searchCondition, StringComparison.OrdinalIgnoreCase) && p.Department == departement)
+                .Where(p => p.FullName.Contains(searchCondition, StringComparison.OrdinalIgnoreCase) &&
+                            p.Department == departement)
                 .OrderByDescending(p => p.FullName)
                 .Select(p => p)
                 .Take(PageSize);

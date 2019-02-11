@@ -25,7 +25,6 @@ namespace Drugstore.Data
             context = drugstoreDbContext;
         }
 
-
         public void DeleteUser(string userId)
         {
             var user = userManager.FindByIdAsync(userId).Result;

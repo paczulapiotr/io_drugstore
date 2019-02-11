@@ -1,0 +1,66 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Add User";
+}
+
+<div class="new-user-panel panel">
+    <h3>Dodaj nowego pacjenta</h3>
+    <form action="AddPatient" method="post">
+        <input type="hidden" asp-for="SystemUserId"/>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <label asp-for="UserName">Nazwa użytkownika:</label>
+            <input class="form-control" asp-for="UserName"/>
+        </div>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <label asp-for="Password">Hasło:</label>
+            <input class="form-control" type="password" asp-for="Password"/>
+        </div>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <label asp-for="ConfirmPassword">Powtórz hasło:</label>
+            <input class="form-control" type="password" asp-for="ConfirmPassword"/>
+        </div>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <label asp-for="FirstName">Imię:</label>
+            <input class="form-control" asp-for="FirstName"/>
+        </div>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="SecondName" class="text-danger"></span>
+            </div>
+            <label asp-for="SecondName">Nazwisko:</label>
+            <input class="form-control" asp-for="SecondName"/>
+        </div>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <label asp-for="PhoneNumber">Numer kontaktowy:</label>
+            <input class="form-control" asp-for="PhoneNumber"/>
+
+
+        </div>
+        <div class="form-group">
+            <div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <label asp-for="Email">Adres email:</label>
+            <input class="form-control" type="email" asp-for="Email"/>
+        </div>
+        <button class="btn add-user-button">Dodaj</button>
+    </form>
+    <form action="Users" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>
