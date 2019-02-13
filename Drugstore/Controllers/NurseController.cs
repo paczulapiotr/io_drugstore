@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Drugstore.Data;
 using Drugstore.Identity;
@@ -17,14 +17,12 @@ namespace Drugstore.Controllers
         private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
         private readonly IRepository repository;
-        private readonly UserManager<SystemUser> userManager;
 
         public NurseController(DrugstoreDbContext context,
             UserManager<SystemUser> userManager,
             IRepository repository)
         {
             this.context = context;
-            this.userManager = userManager;
             this.repository = repository;
         }
 
@@ -76,38 +74,15 @@ namespace Drugstore.Controllers
         }
 
         [HttpGet]
-        public IActionResult FindPatient(string search)
-        {
-            var filteredPatients = context.Patients
-                .Where(p => (p.FirstName + " " + p.SecondName)
-                    .Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
-                .Take(PageSize)
-                .ToList();
-
-            return Json(filteredPatients);
-        }
-
-        [HttpGet]
-        public IActionResult FindMedicine(string search)
-        {
-            var filteredMedicine = context.Medicines
-                .Where(m => m.Name.Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
-                .Take(PageSize)
-                .ToList();
-
-            return Json(filteredMedicine);
-        }
-
-        [HttpGet]
         public IActionResult Patients(string patientName = "")
         {
             var searchCondition = patientName ?? "";
-            var departement = context.Nurses.Include(n => n.Department).FirstOrDefault().Department;
+            var department = context.Nurses.Include(n => n.Department).FirstOrDefault().Department;
 
             var patients = context.Patients
                 .Include(p => p.Department)
                 .Where(p => p.FullName.Contains(searchCondition, StringComparison.OrdinalIgnoreCase) &&
-                            p.Department == departement)
+                            p.Department == department)
                 .OrderByDescending(p => p.FullName)
                 .Select(p => p)
                 .Take(PageSize);

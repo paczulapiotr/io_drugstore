@@ -38,4 +38,10 @@
     <None Include="bundleconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Nurse\PrescriptionDetails.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
