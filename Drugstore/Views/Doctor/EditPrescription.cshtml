@@ -1,4 +1,4 @@
-﻿@model MedicalPrescription
+﻿@model PrescriptionViewModel
 @{
     ViewData["Title"] = "Edit Prescription";
 }
@@ -11,14 +11,14 @@
                 <button class="btn">Powrót</button>
             </form>
             <div>
-                <button id="save-button" value="@Model.ID" class="btn">Zapisz</button>
+                <button id="save-button" value="@Model.Id" class="btn">Zapisz</button>
             </div>
         </div>
         <table class="table patientInfo">
             <tbody>
                 <tr>
                     <th>Imie i nazwisko</th>
-                    <td>@(Model.Patient.FirstName + " " + Model.Patient.SecondName)</td>
+                    <td>@Model.PatientId</td>
                 </tr>
                 <tr>
                     <th>Data wypisania</th>
@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <th>Zatwierdzona?</th>
-                    <td>@Model.VerificationState.ToString()</td>
+                    <td>@ContentHelper.VerificationToString(Model.VerificationState)</td>
                 </tr>
             </tbody>
         </table>
@@ -69,3 +69,6 @@
     </div>
 </div>
 <script src="~/js/Doctor/EditPrescription.js"></script>
+<script>
+
+</script>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-namespace Drugstore.UseCases
+namespace Drugstore.UseCases.Storekeeper
 {
     public static class SupplyOrderCalc
     {

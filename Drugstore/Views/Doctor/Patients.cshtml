@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Patient>
+﻿@model PatientViewModel []
 @{
     ViewData ["Title"] = "Patients";
 }
@@ -30,10 +30,10 @@
                 {
                     <tr>
                         <td>@p.FullName</td>
-                        <td>@p.Department.Name</td>
+                        <td>@p.DepartmentName</td>
                         <td>
                             <form asp-action="TreatmentHistory" method="get">
-                                <input name="patientId" value="@p.ID" type="hidden" />
+                                <input name="patientId" value="@p.Id" type="hidden" />
                                 <button class="btn">Historia leczenia</button>
                             </form>
                         </td>

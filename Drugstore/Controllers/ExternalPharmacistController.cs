@@ -1,4 +1,5 @@
 ﻿using Drugstore.Models;
+using Drugstore.Models.Shared;
 using Drugstore.UseCases.ExternalPharmacist;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,19 +27,19 @@ namespace Drugstore.Controllers
         {
             var result = uploadSoldMedicines.Execute(xmlFile);
 
-            return result.Success ?
+            return result.Succes ?
                RedirectToAction(nameof(Succes),result) :
                RedirectToAction(nameof(Failed), result);
         }
 
-        public IActionResult Succes(UploadResultViewModel result)
+        public IActionResult Succes(ResultViewModel<Dictionary<string, object>> result)
         {
             return View(nameof(Succes), result);
         }
 
-        public IActionResult Failed(UploadResultViewModel result)
+        public IActionResult Failed(ResultViewModel<Dictionary<string, object>> result)
         {
-            return View(nameof(Failed), result.Error);
+            return View(nameof(Failed), result.Message);
         }
     }
 }

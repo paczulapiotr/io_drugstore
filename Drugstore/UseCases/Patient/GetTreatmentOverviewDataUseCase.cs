@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-namespace Drugstore
+namespace Drugstore.UseCases.Patient
 {
     public class GetTreatmentOverviewDataUseCase
     {
@@ -16,11 +16,11 @@ namespace Drugstore
             this.context = context;
         }
 
-        public PatientTreatmentViewModel Execute(Patient patient, string start, string end, int pageSize, int page)
+        public PatientTreatmentViewModel Execute(int patientId, string start, string end, int pageSize, int page)
         {
             var data = new PatientTreatmentViewModel()
             {
-                Id = patient.ID
+                Id = patientId
             };
 
             if (DateTime.TryParse(start, out DateTime startDate) &&
@@ -31,7 +31,7 @@ namespace Drugstore
                 var prescriptionsQuery = context.MedicalPrescriptions
                    .Include(p => p.Doctor)
                    .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                   .Where(p => p.Patient.ID == patient.ID)
+                   .Where(p => p.Patient.ID == patientId)
                    .Where(p => p.VerificationState == VerificationState.Accepted)
                    .Where(p => DateComparer(p.CreationTime, startDate, endDate))
                    .OrderByDescending(p => p.CreationTime);

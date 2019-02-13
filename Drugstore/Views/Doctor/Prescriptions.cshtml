@@ -1,4 +1,4 @@
-﻿@model PrescriptionsViewModel
+﻿@model PrescriptionsListViewModel
 @{
     ViewData["Title"] = "Prescriptions";
 }
@@ -29,11 +29,11 @@
             {
                 <tr>
                     <td>@p.CreationTime</td>
-                    <td>@(p.Patient.FullName)</td>
-                    <td>@p.VerificationState.ToString()</td>
+                    <td>@p.PatientName</td>
+                    <td>@ContentHelper.VerificationToString(p.VerificationState)</td>
                     <td>
                         <form asp-action="Prescription" method="get">
-                            <input name="prescriptionId" type="hidden" value="@p.ID" />
+                            <input name="prescriptionId" type="hidden" value="@p.Id" />
                             <button class="btn">Podgląd</button>
                         </form>
                     </td>

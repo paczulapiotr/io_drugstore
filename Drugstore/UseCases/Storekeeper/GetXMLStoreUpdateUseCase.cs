@@ -12,23 +12,30 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Drugstore.UseCases
+namespace Drugstore.UseCases.Storekeeper
 {
-    public class GetXMLStoreUpdateToUseCase
+    public class GetXMLStoreUpdateUseCase
     {
         private readonly DrugstoreDbContext context;
-        private readonly ILogger<GetXMLStoreUpdateToUseCase> logger;
+        private readonly ILogger<GetXMLStoreUpdateUseCase> logger;
+        private readonly ISerializer<MemoryStream, XmlMedicineSupplyModel> serializer;
+        private readonly ICopy fileCopy;
         private readonly string [] validExtensions = new [] {
                 "text/xml",
                 "application/xml"
             };
 
-        public GetXMLStoreUpdateToUseCase(
+        public GetXMLStoreUpdateUseCase(
             DrugstoreDbContext context,
-            ILogger<GetXMLStoreUpdateToUseCase> logger)
+            ILogger<GetXMLStoreUpdateUseCase> logger,
+            ISerializer<MemoryStream, XmlMedicineSupplyModel> serializer,
+            ICopy fileCopy
+            )
         {
             this.context = context;
             this.logger = logger;
+            this.serializer = serializer;
+            this.fileCopy = fileCopy;
         }
 
         public UploadResultViewModel Execute(IFormFile xmlFile)
@@ -41,15 +48,12 @@ namespace Drugstore.UseCases
                 {
                     throw new UploadedFileWrongFormatException(xmlFile.ContentType);
                 }
-                XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupplyModel));
 
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    xmlFile.CopyToAsync(stream).Wait();
-                    stream.Position = 0;
-                    var supply = (XmlMedicineSupplyModel)serializer.Deserialize(stream);
-                    result = UpdateStore(supply);
-                    FileCopy.Create(stream, "store_update_", ".xml", "XML", "done_updates");
+                    xmlFile.CopyTo(stream);
+                    result = UpdateStore(serializer.Deserialize(stream));
+                    fileCopy.Create(stream, "store_update_", ".xml", "XML", "done_updates");
                 }
             }
             catch (Exception ex)

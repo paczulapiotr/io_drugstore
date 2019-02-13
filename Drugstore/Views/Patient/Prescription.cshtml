@@ -1,4 +1,4 @@
-﻿@model MedicalPrescription
+﻿@model PrescriptionViewModel
 @{
     ViewData ["Title"] = "Prescription";
 }
@@ -10,44 +10,5 @@
             <button class="btn">Powrót</button>
         </form>
     </div>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Imie i nazwisko</th>
-                <td>@Model.Patient.FullName</td>
-            </tr>
-            <tr>
-                <th>Data wypisania</th>
-                <td>@Model.CreationTime</td>
-            </tr>
-            <tr>
-                <th>Całkowity koszt</th>
-                <th>@Model.Medicines.Sum(m=>m.PricePerOne*m.AssignedQuantity).ToString("N2")</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            <tr>
-                <th>Nazwa</th>
-                <th>Cena za sztuke</th>
-                <th>Refundacja [%]</th>
-                <th>Cena z refundacją</th>
-                <th>Kategoria</th>
-                <th>Ilość</th>
-            </tr>
-            @foreach (var p in Model.Medicines)
-            {
-            <tr>
-                <td>@p.StockMedicine.Name</td>
-                <td>@p.StockMedicine.PricePerOne.ToString("N2")</td>
-                <td>@((int)Math.Round(p.StockMedicine.Refundation * 100))</td>
-                <td>@p.PricePerOne.ToString("N2")<td>
-                <td>@p.StockMedicine.MedicineCategory</td>
-                <td>@p.AssignedQuantity</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+   @await Html.PartialAsync("_PrescriptionTable", Model)
 </div>

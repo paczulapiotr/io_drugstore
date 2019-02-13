@@ -1,6 +1,7 @@
 ﻿using Drugstore.Data;
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
+using Drugstore.Mapper;
 using Drugstore.UseCases;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,10 +29,9 @@ namespace Drugstore
             services.AddIdentity<SystemUser, IdentityRole>()
                 .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
-            services.AddTransient<IRepository, DrugstoreRepository>();
 
             UseCaseDependencyResolver.Resolve(services);
-            MapperProfiler.Run();
+            MapperDependencyResolver.Resolve();
 
             services.ConfigureApplicationCookie(opt =>
             {

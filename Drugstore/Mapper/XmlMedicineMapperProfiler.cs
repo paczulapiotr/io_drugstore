@@ -4,9 +4,9 @@ using Drugstore.Models.Seriallization;
 
 namespace Drugstore
 {
-    public class MapperProfiler : Profile
+    public class XmlMedicineMapperProfiler : Profile
     {
-        public MapperProfiler()
+        public XmlMedicineMapperProfiler()
         {
             CreateMap<MedicineOnStock, XmlMedicineModel>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
@@ -26,12 +26,5 @@ namespace Drugstore
                .ForAllOtherMembers(opt => opt.Ignore());
         }
 
-        public static void Run()
-        {
-            Mapper.Initialize(a =>
-            {
-                a.AddProfile<MapperProfiler>();
-            });
-        }
     }
 }

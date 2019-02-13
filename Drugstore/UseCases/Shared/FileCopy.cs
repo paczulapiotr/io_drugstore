@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Drugstore.UseCases.Shared
 {
-    public static class FileCopy
+    public class FileCopy: ICopy
     {
-        public static void Create(MemoryStream stream, string namePrefix, string fileExtension, params string[] directory)
+        public void Create(Stream stream, string namePrefix, string fileExtension, params string[] directory)
         {
             FileInfo file;
             string fileName;

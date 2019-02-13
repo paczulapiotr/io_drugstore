@@ -1,8 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Drugstore.Models
 {
@@ -21,7 +17,7 @@ namespace Drugstore.Models
 
         public string GetPage(int page)
         {
-            return String.Format(_requestTemplate, page);
+            return string.Format(_requestTemplate, page);
         }
 
         public string GetNextPage()
