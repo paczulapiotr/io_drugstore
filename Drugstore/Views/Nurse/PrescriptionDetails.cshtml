@@ -1,0 +1,21 @@
+﻿@model PrescriptionViewModel
+@{
+    ViewData["Title"] = "Recepta";
+}
+
+<div class="prescription-details-panel">
+    <div class="table-header">
+        <h2>Szczegóły recepty:</h2>
+    </div>
+
+    @await Html.PartialAsync("_PrescriptionTable", Model)
+
+    <div class="table-footer">
+        <form asp-action="TreatmentHistory" method="get">
+            <input value="@Model.PatientId" name="patientId" type="hidden"/>
+            <button class="btn">Powrót</button>
+        </form>
+    </div>
+
+
+</div>

@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="doctor-menu panel">
+    <h4>Menu</h4>
+    <form asp-action="Patients" method="get">
+        <button class="btn">Obchód</button>
+    </form>
+    <form id="add-patient" asp-action="AddPatient" method="Get">
+        <button class="btn">Dodaj pacjenta</button>
+    </form>
+</div>
