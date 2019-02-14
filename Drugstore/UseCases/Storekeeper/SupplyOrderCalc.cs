@@ -8,27 +8,17 @@ namespace Drugstore.UseCases.Storekeeper
     public static class SupplyOrderCalc
     {
 
-        public static Dictionary<int,int> CreateProductList(DrugstoreDbContext context)
+        public static Dictionary<int, int> CreateProductList(DrugstoreDbContext context)
         {
-            //aktualny dzien widziany jako 2019-02-07 00:00:00
             DateTime currentDay = DateTime.Today;
-            //utworzenie obiektu z tabela sprzedanych lekow
+
             var obj = context.ExternalDrugstoreSoldMedicines.Include(d => d.StockMedicine);
-            //zakladam ze w tej tabeli sa rowniez rzeczy ktore sie dzisiaj sprzedaly no wiec beda z dzisiejsza data.
+            //This list contains todays order List
             var orderList = obj.Where(d => d.Date >= currentDay);
-                
-                //from data in obj
-                //            where data.Date >= currentDay
-                //            select data;
-
-            //tworze liste rzeczy zamowionych max tydzien temu bo na ich podstawie wylicze srednia 
             DateTime lastSevenDays = DateTime.Today;
-            lastSevenDays.AddDays(-7);
+            //This list contains every medicines that have been sold at least 7 day ago
+            lastSevenDays = DateTime.Today.AddDays(-7);
             var historyList = obj.Where(d => d.Date >= lastSevenDays);
-               
-
-
-            //wybieram jeden produkt z orderList i wyliczam dla niego srednia potem wrzucam do slownika
             var dictionary = new Dictionary<int, int>();
 
             foreach (var product in orderList)
@@ -37,7 +27,6 @@ namespace Drugstore.UseCases.Storekeeper
                 var sum = 0;
                 var quantity = 0;
                 foreach (var historyProduct in historyList)
-
                 {
                     if (historyProduct.StockMedicine.ID == product.StockMedicine.ID)
                     {
@@ -46,8 +35,6 @@ namespace Drugstore.UseCases.Storekeeper
                     }
                 }
                 average = (sum / quantity) < product.SoldQuantity ? product.SoldQuantity : (sum / quantity);
-
-
                 dictionary.Add(product.Id, average);
             }
             return dictionary;
