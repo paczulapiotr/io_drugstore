@@ -59,13 +59,12 @@ namespace Drugstore.UseCases.Storekeeper
             catch (Exception ex)
             {
                 logger.LogError(ex, ex.Message);
-                result.Results = null;
-                result.Error = ex.Message;
-                result.Success = false;
+                result.Message = ex.Message;
+                result.Succes = false;
             }
             finally
             {
-                string outcome = result.Success ? "SUCCESS" : "FAILURE";
+                string outcome = result.Succes ? "SUCCESS" : "FAILURE";
                 logger.LogInformation("External Drugstore was supplied with" + outcome);
             }
 
@@ -148,9 +147,9 @@ namespace Drugstore.UseCases.Storekeeper
 
             return new UploadResultViewModel
             {
-                Success = true,
-                Error = "",
-                Results = new Dictionary<string, object> {
+                Succes = true,
+                Message= "",
+                Data = new Dictionary<string, object> {
                     {"Updated", totalUpdated },
                     {"Added", totalAdded },
                     {"NewInEx", totalNewInExDrugstore },

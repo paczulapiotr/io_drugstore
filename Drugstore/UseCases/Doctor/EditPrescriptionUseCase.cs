@@ -1,11 +1,9 @@
-﻿using Drugstore.Infrastructure;
+﻿using Drugstore.Core;
+using Drugstore.Infrastructure;
 using Drugstore.Models.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Drugstore.Core;
+using System;
+using System.Linq;
 
 namespace Drugstore.UseCases.Doctor
 {
@@ -18,14 +16,22 @@ namespace Drugstore.UseCases.Doctor
             this.context = context;
         }
 
-        public ResultViewModel Execute(MedicineViewModel[] medicines, int prescriptionId)
+        public ResultViewModel Execute(MedicineViewModel [] medicines, int prescriptionId, int doctorId)
         {
             var result = new ResultViewModel();
 
             try
             {
+                if (!medicines.Any())
+                {
+                    throw new Exception("Empty medicine list");
+                }
+
                 var prescription = context.MedicalPrescriptions
                     .Include(p => p.Medicines)
+                    .Include(p => p.Doctor)
+                    .Where(p => p.VerificationState != VerificationState.Accepted)
+                    .Where(p => p.Doctor.ID == doctorId)
                     .Single(p => p.ID == prescriptionId);
 
                 prescription.CreationTime = DateTime.Now;

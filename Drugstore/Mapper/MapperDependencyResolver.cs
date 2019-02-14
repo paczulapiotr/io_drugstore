@@ -17,7 +17,6 @@ namespace Drugstore.Mapper
                 a.AddProfile<PatientMapperProfiler>();
                 a.AddProfile<PrescriptionMapperProfiler>();
             });
-
         }
     }
 }

@@ -185,6 +185,7 @@ namespace Drugstore.Data
         {
             if (person != null)
             {
+                var deps = context.Departments.ToList();
                 person.Department = context.Departments.First(d => d.ID == newUser.DepartmentID);
                 person.FirstName = newUser.FirstName;
                 person.SecondName = newUser.SecondName;

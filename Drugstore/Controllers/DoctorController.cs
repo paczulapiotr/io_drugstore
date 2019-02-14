@@ -93,7 +93,6 @@ namespace Drugstore.Controllers
         [HttpPost]
         public IActionResult AddPrescription([FromBody]DoctorPrescriptionViewModel prescription)
         {
-
             var systemUser = userManager.GetUserAsync(User).Result;
             var doctor = context.Doctors.First(d => d.SystemUser.Id == systemUser.Id);
             ResultViewModel result = null;
@@ -102,7 +101,6 @@ namespace Drugstore.Controllers
             if (ModelState.IsValid && prescription.Medicines.Length > 0)
             {
                 result = addPrescription.Execute(prescription, doctor.ID);
-               
             }
             else
             {
@@ -124,6 +122,11 @@ namespace Drugstore.Controllers
             }
             var result = getPrescription.Execute(doctor.ID, prescriptionId);
 
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return View(result);
         }
 
@@ -143,10 +146,11 @@ namespace Drugstore.Controllers
         {
 
             ResultViewModel result = null;
-
+            var systemId = userManager.GetUserAsync(User).Result.Id;
+            var doctor = context.Doctors.FirstOrDefault(d => d.SystemUser.Id == systemId);
             if (ModelState.IsValid && medicines.Length > 0)
             {
-                result = editPrescription.Execute(medicines, prescriptionId);
+                result = editPrescription.Execute(medicines, prescriptionId, doctor.ID);
             }
             else
             {

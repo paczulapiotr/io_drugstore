@@ -52,10 +52,11 @@ namespace Drugstore.Controllers
         {
             var user = userManager.GetUserAsync(User).Result;
             var patient = context.Patients.Single(p => p.SystemUser.Id == user.Id);
-            var prescription = getPrescriptionDetailsUseCase.Execute(patient.ID, prescriptionId);
-            if (prescription != null)
+
+            var result = getPrescriptionDetailsUseCase.Execute(patient.ID, prescriptionId);
+
+            if(result.Succes)
             {
-                var result = AutoMapper.Mapper.Map<PrescriptionViewModel>(prescription);
                 return View(result);
             }
 

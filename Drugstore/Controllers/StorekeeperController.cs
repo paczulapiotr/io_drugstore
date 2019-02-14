@@ -34,12 +34,12 @@ namespace Drugstore.Controllers
         public IActionResult Upload(IFormFile xmlFile)
         {
             var result = getXMLStore.Execute(xmlFile);
-            if (result.Success)
+            if (result.Succes)
             {
-                Dictionary<string, string> output = result.Results.ToDictionary(item => item.Key, item => item.Value.ToString());
+                Dictionary<string, string> output = result.Data.ToDictionary(item => item.Key, item => item.Value.ToString());
                 return RedirectToAction(nameof(Succes), output);
             }
-            return RedirectToAction(nameof(Failed), new { message = result.Error } );              
+            return RedirectToAction(nameof(Failed), new { message = result.Message } );              
         }
 
         [HttpGet]

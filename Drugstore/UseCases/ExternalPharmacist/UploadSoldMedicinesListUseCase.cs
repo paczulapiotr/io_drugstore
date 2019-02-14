@@ -95,7 +95,7 @@ namespace Drugstore.UseCases.ExternalPharmacist
             int totalMedicineCount = 0;
 
             var medicines = context.ExternalDrugstoreMedicines;
-            var soldMedicines = context.ExternalDrugstoreSoldMedicines;
+
             foreach (var med in supply.Medicines)
             {
                 if (med.StockId.HasValue)
@@ -108,13 +108,14 @@ namespace Drugstore.UseCases.ExternalPharmacist
                     {
                         throw new MedicineNotFoundException($"Id == {med.StockId}");
                     }
-                    medicine.Quantity -= med.Quantity;
 
-                    if (medicine.Quantity < 0)
+                    if ((int)((int)medicine.Quantity - (int)med.Quantity) < 0)
                     {
                         throw new OnStockMedicineQuantityException($"External Drugstore, " +
                             $"ID: {med.StockId} Available quantity: {medicine.Quantity} Sold Quantity: {med.Quantity}");
                     }
+
+                    medicine.Quantity -= med.Quantity;
 
                     pricePerOne = med.PricePerOne ?? medicine.StockMedicine.PricePerOne;
 

@@ -36,6 +36,7 @@ namespace Drugstore.UseCases.InternalPharmacist
                     }
                     else
                     {
+
                         throw new Exception($"Lek {stockMedicine.Name} niedostępny.");
                     }
                 }

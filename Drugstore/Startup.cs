@@ -2,7 +2,9 @@
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Mapper;
+using Drugstore.Models.Seriallization;
 using Drugstore.UseCases;
+using Drugstore.UseCases.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace Drugstore
 {
@@ -29,6 +32,9 @@ namespace Drugstore
             services.AddIdentity<SystemUser, IdentityRole>()
                 .AddEntityFrameworkStores<DrugstoreDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<ICopy, FileCopy>();
+            services.AddTransient<ISerializer<MemoryStream, XmlMedicineSupplyModel>, XmlMedicineSerializer>();
 
             UseCaseDependencyResolver.Resolve(services);
             MapperDependencyResolver.Resolve();

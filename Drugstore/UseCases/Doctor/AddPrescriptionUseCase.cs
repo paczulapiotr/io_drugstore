@@ -21,6 +21,11 @@ namespace Drugstore.UseCases.Doctor
             var result = new ResultViewModel();
             try
             {
+                if(!prescription.Medicines.Any())
+                {
+                    throw new Exception("Empty medicine list");
+                }
+
                 var doctor = context.Doctors.First(d => d.ID == doctorId);
                 var patient = context.Patients.First(p => p.ID == prescription.Patient.Id);
 
@@ -30,12 +35,11 @@ namespace Drugstore.UseCases.Doctor
                     med.StockMedicine = context.Medicines
                         .First(c => c.ID == m.StockId);
 
-                    med.PricePerOne = m.PricePerOne;
+                    med.PricePerOne = m.PricePerOne * (1-m.Refundation);
 
                     return med;
                 }).ToList();
 
-                
                 doctor.IssuedPresciptions.Add(new MedicalPrescription
                 {
                     Medicines = assignedMedicines,

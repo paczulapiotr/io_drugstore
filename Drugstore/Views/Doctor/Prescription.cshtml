@@ -10,14 +10,18 @@
             <form asp-action="Prescriptions" method="get">
                 <button class="btn">Powrót</button>
             </form>
-            <form asp-action="EditPrescription" method="get">
-                <input type="hidden" name="prescriptionId" value="@Model.Id" />
-                <button class="btn">Edytuj</button>
-            </form>
-            <form asp-action="DeletePrescription" method="post">
-                <input type="hidden" name="prescriptionId" value="@Model.Id" />
-                <button class="btn">Usuń</button>
-            </form>
+
+            @if (Model.VerificationState != VerificationState.Accepted)
+            {
+                <form asp-action="EditPrescription" method="get">
+                    <input type="hidden" name="prescriptionId" value="@Model.Id" />
+                    <button class="btn">Edytuj</button>
+                </form>
+                <form asp-action="DeletePrescription" method="post">
+                    <input type="hidden" name="prescriptionId" value="@Model.Id" />
+                    <button class="btn">Usuń</button>
+                </form>
+            }
         </div>
     </div>
    @await Html.PartialAsync("_PrescriptionTable", Model)

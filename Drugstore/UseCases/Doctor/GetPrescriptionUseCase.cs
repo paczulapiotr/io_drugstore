@@ -27,7 +27,7 @@ namespace Drugstore.UseCases.Doctor
 
             if (prescription == null)
             {
-                return new PrescriptionViewModel();
+                return null;
             }
             var result = AutoMapper.Mapper.Map<PrescriptionViewModel>(prescription);
 
