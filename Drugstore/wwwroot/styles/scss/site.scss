@@ -5,7 +5,7 @@
 header {
     text-align: center;
     height: 8vh;
-    position:fixed;
+    position: fixed;
     width: 100%;
 
     #header-section {
@@ -15,14 +15,16 @@ header {
         height: 100%;
         border: 4px solid #1e9a84;
         justify-content: space-between;
+        align-content
 
         .btn {
-            color: $secondary-color-dark;
-            font-weight: bold;
+            color: $white;
+            display: block;
             padding: 3%;
-            float: right;
+            float: none;
             vertical-align: middle;
             position: relative;
+            align-items: center;
         }
 
         #logoBtn {
@@ -35,7 +37,6 @@ header {
                 height: 100%;
                 float: left;
             }
-
         }
     }
 }

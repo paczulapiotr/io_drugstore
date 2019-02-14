@@ -35,7 +35,7 @@ namespace Drugstore.UseCases.Doctor
                     return med;
                 }).ToList();
 
-
+                
                 doctor.IssuedPresciptions.Add(new MedicalPrescription
                 {
                     Medicines = assignedMedicines,

@@ -54,7 +54,10 @@ namespace Drugstore
                     // Insert data in database
                     DataSeeder.InitializeDepartments(scope.ServiceProvider);
                     DataSeeder.InitializeUsers(scope.ServiceProvider);
-                    DataSeeder.InitializeMedicines(scope.ServiceProvider);
+                    DataSeeder.InitializeMedicine(scope.ServiceProvider);
+                    DataSeeder.InitializeExternalDrugstoreMedicines(scope.ServiceProvider);
+                    DataSeeder.InitializeExternalDrugstoreSoldMedicines(scope.ServiceProvider);
+                    DataSeeder.InitializePresciptions(scope.ServiceProvider);
                 }
             }
 

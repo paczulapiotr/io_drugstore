@@ -36,7 +36,7 @@ namespace Drugstore.UseCases.InternalPharmacist
                     }
                     else
                     {
-                        throw new Exception($"Medicine quantity error. Lack of {stockMedicine.Name} medicine.");
+                        throw new Exception($"Lek {stockMedicine.Name} niedostępny.");
                     }
                 }
 

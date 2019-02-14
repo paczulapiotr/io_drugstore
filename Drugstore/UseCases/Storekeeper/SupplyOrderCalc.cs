@@ -37,6 +37,7 @@ namespace Drugstore.UseCases.Storekeeper
                 var sum = 0;
                 var quantity = 0;
                 foreach (var historyProduct in historyList)
+
                 {
                     if (historyProduct.StockMedicine.ID == product.StockMedicine.ID)
                     {
