@@ -18,14 +18,12 @@ namespace Drugstore.UseCases.Nurse
     {
         private readonly DrugstoreDbContext context;
         private readonly int pageSize = 5;
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<SystemUser> userManager;
 
-        public NurseUseCase(DrugstoreDbContext context, RoleManager<IdentityRole> roleManager,
+        public NurseUseCase(DrugstoreDbContext context,
             UserManager<SystemUser> userManager)
         {
             this.context = context;
-            this.roleManager = roleManager;
             this.userManager = userManager;
         }
 
@@ -102,23 +100,23 @@ namespace Drugstore.UseCases.Nurse
             };
         }
 
-        public Stream PreparePdf(TreatmentHistoryViewModel prescriptions)
+        public Stream PreparePdf(List<PrescriptionViewModel> prescriptions)
         {
             var document = new PdfDocument();
             document.Info.Title = "Historia leczenia";
             document.Info.Author = "Szybka Pigula";
             var page = document.AddPage();
 
-            if (prescriptions.Prescriptions != null && prescriptions.Prescriptions.Any())
+            if (prescriptions.Any())
             {
-                var patient = prescriptions.Prescriptions.First().PatientName;
+                var patient = prescriptions.First().PatientName;
                 document.Info.Title += " " + patient;
                 var font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
 
                 var graphics = XGraphics.FromPdfPage(page);
                 var i = 25f;
 
-                foreach (var prescription in prescriptions.Prescriptions)
+                foreach (var prescription in prescriptions)
                 {
                     graphics.DrawString(prescription.ToString(),
                         font,
@@ -132,6 +130,24 @@ namespace Drugstore.UseCases.Nurse
             var saveStream = new MemoryStream();
             document.Save(saveStream);
             return saveStream;
+        }
+
+        public PrescriptionViewModel GetPrescriptionDetails(int prescriptionId)
+        {
+            var prescription = context.MedicalPrescriptions
+                .Include(p => p.Patient)
+                .Include(p => p.Doctor)
+                .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
+                .SingleOrDefault(p => p.ID == prescriptionId);
+
+            if (prescription == null)
+            {
+                return new PrescriptionViewModel();
+            }
+
+            var result = AutoMapper.Mapper.Map<PrescriptionViewModel>(prescription);
+
+            return result;
         }
     }
 }

@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Drugstore.Core;
-using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
+using Drugstore.Models.Shared;
 using Drugstore.UseCases.Nurse;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +14,11 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Nurse")]
     public class NurseController : Controller
     {
-        private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
         private readonly NurseUseCase nurseUseCase;
 
         public NurseController(DrugstoreDbContext context,
-            UserManager<SystemUser> userManager, NurseUseCase nurseUseCase)
+            NurseUseCase nurseUseCase)
         {
             this.context = context;
             this.nurseUseCase = nurseUseCase;
@@ -36,8 +33,6 @@ namespace Drugstore.Controllers
         [HttpGet]
         public ViewResult AddPatient()
         {
-            var departments = context.Departments.ToList();
-
             var data = new UserViewModel();
             ViewData["Departments"] = context.Departments.ToList();
 
@@ -92,17 +87,13 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult PrescriptionDetails(int prescriptionId)
         {
-            var prescription = context.MedicalPrescriptions
-                .Include(p => p.Patient)
-                .Include(p => p.Doctor)
-                .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                .Single(p => p.ID == prescriptionId);
+            var result = nurseUseCase.GetPrescriptionDetails(prescriptionId);
 
-            return View(prescription);
+            return View(result);
         }
 
         [HttpGet]
-        public FileStreamResult Download(TreatmentHistoryViewModel prescriptions)
+        public FileStreamResult Download(List<PrescriptionViewModel> prescriptions)
         {
             var pdfFile = nurseUseCase.PreparePdf(prescriptions);
             return File(pdfFile,

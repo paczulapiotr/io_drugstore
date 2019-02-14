@@ -7,10 +7,11 @@
     <div class="table-header">
         @if (Model.Prescriptions.Count() > 0)
         {
+            <h2>Recepty pacjenta @Model.Prescriptions.First().PatientName</h2>
             <form asp-action="Download" method="get">
+                <input value="@Model.Prescriptions" name="prescriptions" hidden/>
                 <button class="btn">Pobierz</button>
             </form>
-            <h2>Recepty pacjenta @Model.Prescriptions.First().PatientName</h2>
         }
         else
         {

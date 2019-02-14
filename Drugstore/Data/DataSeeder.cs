@@ -31,13 +31,11 @@ namespace Drugstore.Identity
         public static void InitializeMedicines(IServiceProvider serviceProvider)
         {
             var medicines = serviceProvider.GetService<DrugstoreDbContext>();
-            var id = 0;
 
             if (!medicines.Medicines.Any())
             {
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.1,
                     Name = "Apap",
                     MedicineCategory = MedicineCategory.Normal,
@@ -46,7 +44,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.1,
                     Name = "Neurofen",
                     MedicineCategory = MedicineCategory.Normal,
@@ -55,7 +52,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.5,
                     Name = "Xanax",
                     MedicineCategory = MedicineCategory.Special,
@@ -64,7 +60,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.4,
                     Name = "Nifuroksazyt",
                     MedicineCategory = MedicineCategory.Normal,
@@ -73,7 +68,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.2,
                     Name = "EllaOne",
                     MedicineCategory = MedicineCategory.Special,
@@ -82,7 +76,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.65,
                     Name = "Ablify",
                     MedicineCategory = MedicineCategory.Special,
@@ -91,7 +84,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.45,
                     Name = "Wegiel aktywny",
                     MedicineCategory = MedicineCategory.Normal,
@@ -100,7 +92,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.10,
                     Name = "Arnika",
                     MedicineCategory = MedicineCategory.Normal,
@@ -109,7 +100,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.10,
                     Name = "Rutinoscorbin",
                     MedicineCategory = MedicineCategory.Normal,
@@ -118,7 +108,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.10,
                     Name = "Scorbolamid",
                     MedicineCategory = MedicineCategory.Normal,
@@ -127,7 +116,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.10,
                     Name = "Groprinosin",
                     MedicineCategory = 0,
@@ -136,7 +124,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.10,
                     Name = "Chlorchinaldin",
                     MedicineCategory = MedicineCategory.Normal,
@@ -145,7 +132,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.20,
                     Name = "Morfina",
                     MedicineCategory = MedicineCategory.Special,
@@ -154,7 +140,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.20,
                     Name = "Theraflu",
                     MedicineCategory = 0,
@@ -163,7 +148,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.20,
                     Name = "Pyralgina",
                     MedicineCategory = 0,
@@ -172,7 +156,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.20,
                     Name = "Augmentin",
                     MedicineCategory = MedicineCategory.Normal,
@@ -181,7 +164,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.30,
                     Name = "Esberitox N",
                     MedicineCategory = MedicineCategory.Normal,
@@ -190,7 +172,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.30,
                     Name = "Aspiryna",
                     MedicineCategory = MedicineCategory.Normal,
@@ -199,7 +180,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.30,
                     Name = "Gripex",
                     MedicineCategory = 0,
@@ -208,7 +188,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.30,
                     Name = "Polopiryna",
                     MedicineCategory = 0,
@@ -217,7 +196,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.1,
                     Name = "Controloc Control",
                     MedicineCategory = MedicineCategory.Normal,
@@ -226,7 +204,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.2,
                     Name = "Normaclin",
                     MedicineCategory = 0,
@@ -235,7 +212,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Epiduo",
                     MedicineCategory = MedicineCategory.Normal,
@@ -244,7 +220,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Tramadol",
                     MedicineCategory = MedicineCategory.Special,
@@ -253,7 +228,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Metadon",
                     MedicineCategory = MedicineCategory.Special,
@@ -262,7 +236,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Fentanyl",
                     MedicineCategory = MedicineCategory.Special,
@@ -271,7 +244,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Clonazepamum",
                     MedicineCategory = MedicineCategory.Special,
@@ -280,7 +252,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Thicodin",
                     MedicineCategory = MedicineCategory.Special,
@@ -289,7 +260,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Tramal Retard 100",
                     MedicineCategory = MedicineCategory.Special,
@@ -298,7 +268,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Stilnox",
                     MedicineCategory = MedicineCategory.Special,
@@ -307,7 +276,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "DHC Continus",
                     MedicineCategory = MedicineCategory.Special,
@@ -316,7 +284,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Tramal",
                     MedicineCategory = MedicineCategory.Special,
@@ -325,7 +292,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "NeoAzarina",
                     MedicineCategory = MedicineCategory.Special,
@@ -334,7 +300,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.25,
                     Name = "Stodal",
                     MedicineCategory = MedicineCategory.Special,
@@ -343,7 +308,6 @@ namespace Drugstore.Identity
                 });
                 medicines.Medicines.Add(new MedicineOnStock
                 {
-                    ID = id++,
                     Refundation = 0.2,
                     Name = "Espumisan",
                     MedicineCategory = MedicineCategory.Normal,
@@ -351,6 +315,8 @@ namespace Drugstore.Identity
                     Quantity = 2
                 });
             }
+
+            medicines.SaveChanges();
         }
 
         public static void InitializeUsers(IServiceProvider serviceProvider)

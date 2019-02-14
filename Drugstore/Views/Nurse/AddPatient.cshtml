@@ -1,11 +1,11 @@
 ﻿@model UserViewModel
 @{
-    ViewData["Title"] = "Add User";
+    ViewData["Title"] = "Add Patient";
 }
 
 <div class="new-user-panel panel">
-    <h3>Dodaj nowego pacjenta</h3>
-    <form action="AddPatient" method="post">
+    <h3>Dodaj nowego użytkownika</h3>
+    <form action="AddUser" method="post">
         <input type="hidden" asp-for="SystemUserId"/>
         <div class="form-group">
             <div>
