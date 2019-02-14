@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
-using Drugstore.Models.Shared;
 using Drugstore.UseCases.Nurse;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +14,14 @@ namespace Drugstore.Controllers
     {
         private readonly DrugstoreDbContext context;
         private readonly NurseUseCase nurseUseCase;
+        private readonly PdfCreator pdfCreator;
 
         public NurseController(DrugstoreDbContext context,
             NurseUseCase nurseUseCase)
         {
             this.context = context;
             this.nurseUseCase = nurseUseCase;
+            pdfCreator = new PdfCreator();
         }
 
         [HttpGet]
@@ -93,13 +93,15 @@ namespace Drugstore.Controllers
         }
 
         [HttpGet]
-        public FileStreamResult Download(List<PrescriptionViewModel> prescriptions)
+        public FileStreamResult Download(string patientId)
         {
-            var pdfFile = nurseUseCase.PreparePdf(prescriptions);
+            var id = int.Parse(patientId);
+            var prescriptions = nurseUseCase.GetAllPrescriptions(id);
+            var pdfFile = pdfCreator.PreparePdf(prescriptions.ToList());
             return File(pdfFile,
-                "application/pdf",
-                DateTime.Now.ToString("yyyy-MM-dddd") +
-                ".pdf");
+                "application/pdf", prescriptions.First().PatientName +
+                                   DateTime.Now.ToString("yyyy-MM-dd") +
+                                   ".pdf");
         }
     }
 }

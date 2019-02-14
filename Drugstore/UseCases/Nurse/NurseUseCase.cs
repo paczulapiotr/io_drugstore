@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Drugstore.Core;
 using Drugstore.Identity;
@@ -9,8 +8,6 @@ using Drugstore.Models;
 using Drugstore.Models.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
 
 namespace Drugstore.UseCases.Nurse
 {
@@ -100,36 +97,29 @@ namespace Drugstore.UseCases.Nurse
             };
         }
 
-        public Stream PreparePdf(List<PrescriptionViewModel> prescriptions)
+        public IEnumerable<PrescriptionViewModel> GetAllPrescriptions(int patientId)
         {
-            var document = new PdfDocument();
-            document.Info.Title = "Historia leczenia";
-            document.Info.Author = "Szybka Pigula";
-            var page = document.AddPage();
+            var patient = context.Patients
+                .Include(p => p.TreatmentHistory).ThenInclude(t => t.Doctor)
+                .Single(p => p.ID == patientId);
 
-            if (prescriptions.Any())
+            var prescriptions = patient.TreatmentHistory
+                .OrderByDescending(p => p.CreationTime);
+
+            var prescriptionsViewModels = prescriptions.Select(
+                    p => AutoMapper.Mapper.Map<PrescriptionViewModel>(p))
+                .ToList();
+
+            foreach (var prescriptionsViewModel in prescriptionsViewModels)
             {
-                var patient = prescriptions.First().PatientName;
-                document.Info.Title += " " + patient;
-                var font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
-
-                var graphics = XGraphics.FromPdfPage(page);
-                var i = 25f;
-
-                foreach (var prescription in prescriptions)
-                {
-                    graphics.DrawString(prescription.ToString(),
-                        font,
-                        XBrushes.Red,
-                        new XPoint(0f, i),
-                        XStringFormats.BaseLineLeft);
-                    i += 25;
-                }
+                var prescriptionId = prescriptionsViewModel.Id;
+                var medicalPrescription = context.MedicalPrescriptions
+                    .Include(p => p.Patient)
+                    .Include(p => p.Doctor)
+                    .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
+                    .SingleOrDefault(p => p.ID == prescriptionId);
+                yield return AutoMapper.Mapper.Map<PrescriptionViewModel>(medicalPrescription);
             }
-
-            var saveStream = new MemoryStream();
-            document.Save(saveStream);
-            return saveStream;
         }
 
         public PrescriptionViewModel GetPrescriptionDetails(int prescriptionId)
