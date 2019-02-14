@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Drugstore.Data;
+using Drugstore.Core;
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
+using Drugstore.UseCases.Nurse;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +18,13 @@ namespace Drugstore.Controllers
     {
         private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
-        private readonly IRepository repository;
+        private readonly NurseUseCase nurseUseCase;
 
         public NurseController(DrugstoreDbContext context,
-            UserManager<SystemUser> userManager,
-            IRepository repository)
+            UserManager<SystemUser> userManager, NurseUseCase nurseUseCase)
         {
             this.context = context;
-            this.repository = repository;
+            this.nurseUseCase = nurseUseCase;
         }
 
         [HttpGet]
@@ -46,8 +47,6 @@ namespace Drugstore.Controllers
         [HttpPost]
         public IActionResult AddPatient(UserViewModel userModel)
         {
-            userModel.Role = UserRoleTypes.Patient;
-            userModel.DepartmentID = context.Nurses.Include(n => n.Department).FirstOrDefault().Department.ID;
             if (ModelState.IsValid)
             {
                 if (context.Users
@@ -55,20 +54,17 @@ namespace Drugstore.Controllers
                 {
                     ModelState.AddModelError(nameof(userModel.Email), "Adres email zajęty");
                 }
-
                 if (context.Users
                     .Any(u => u.UserName.Contains(userModel.UserName, StringComparison.OrdinalIgnoreCase)))
                 {
                     ModelState.AddModelError(nameof(userModel.UserName), "Nazwa użytkownika zajęta");
                 }
-
                 if (ModelState.IsValid)
                 {
-                    repository.AddNewUser(userModel);
+                    nurseUseCase.AddPatient(userModel);
                     return RedirectToAction(nameof(Index));
                 }
             }
-
             ViewData["Departments"] = context.Departments.ToList();
             return View(userModel);
         }
@@ -115,6 +111,19 @@ namespace Drugstore.Controllers
                 .Single(p => p.ID == prescriptionId);
 
             return View(prescription);
+        }
+
+        [HttpGet]
+        public FileStreamResult Download(IEnumerable<MedicalPrescription> prescriptions)
+        {
+            var pdfFile = nurseUseCase.PreparePdf(prescriptions);
+            var patient = prescriptions.First().Patient.FullName;
+            return File(pdfFile,
+                "application/octet-stream",
+                patient +
+                DateTime.Now.ToString("yyyy-MM-dddd") +
+                ".pdf");
+
         }
     }
 }

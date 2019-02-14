@@ -179,7 +179,6 @@ namespace Drugstore.Data
                     throw new Exception("Unknown user type when creating new user!");
             }
             context.SaveChanges();
-
         }
 
         private void SetPersonProperties(Person person, UserViewModel newUser, SystemUser systemUser)
