@@ -102,7 +102,7 @@ namespace Drugstore.Controllers
         }
 
         [HttpGet]
-        public FileStreamResult Download(IEnumerable<MedicalPrescription> prescriptions)
+        public FileStreamResult Download(TreatmentHistoryViewModel prescriptions)
         {
             var pdfFile = nurseUseCase.PreparePdf(prescriptions);
             return File(pdfFile,

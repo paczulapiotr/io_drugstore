@@ -102,23 +102,23 @@ namespace Drugstore.UseCases.Nurse
             };
         }
 
-        public Stream PreparePdf(IEnumerable<MedicalPrescription> prescriptions)
+        public Stream PreparePdf(TreatmentHistoryViewModel prescriptions)
         {
             var document = new PdfDocument();
             document.Info.Title = "Historia leczenia";
             document.Info.Author = "Szybka Pigula";
             var page = document.AddPage();
 
-            if (prescriptions.Any())
+            if (prescriptions.Prescriptions != null && prescriptions.Prescriptions.Any())
             {
-                var patient = prescriptions.First().Patient.FullName;
+                var patient = prescriptions.Prescriptions.First().PatientName;
                 document.Info.Title += " " + patient;
                 var font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
 
                 var graphics = XGraphics.FromPdfPage(page);
                 var i = 25f;
 
-                foreach (var prescription in prescriptions)
+                foreach (var prescription in prescriptions.Prescriptions)
                 {
                     graphics.DrawString(prescription.ToString(),
                         font,
