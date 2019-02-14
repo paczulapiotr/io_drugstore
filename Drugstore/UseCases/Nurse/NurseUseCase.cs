@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Drugstore.Core;
 using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
+using Drugstore.Models.Shared;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MigraDoc.Rendering;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 
@@ -17,6 +17,7 @@ namespace Drugstore.UseCases.Nurse
     public class NurseUseCase
     {
         private readonly DrugstoreDbContext context;
+        private readonly int pageSize = 5;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<SystemUser> userManager;
 
@@ -60,23 +61,73 @@ namespace Drugstore.UseCases.Nurse
             }
         }
 
+        public PatientViewModel[] GetPatients(string search, Department department)
+        {
+            var searchPattern = search ?? "";
+
+            var filteredPatients = context.Patients
+                .Include(p => p.Department)
+                .OrderByDescending(p => p.FullName)
+                .Where(p => p.FullName
+                                .Contains(searchPattern ?? "", StringComparison.OrdinalIgnoreCase) &&
+                            p.Department.ID == department.ID)
+                .Take(pageSize);
+
+            var result = filteredPatients.Select(p => AutoMapper.Mapper.Map<PatientViewModel>(p)).ToArray();
+
+            return result;
+        }
+
+        public TreatmentHistoryViewModel GeTreatmentHistory(int patientId, int page = 1)
+        {
+            var patient = context.Patients
+                .Include(p => p.TreatmentHistory).ThenInclude(t => t.Doctor)
+                .Single(p => p.ID == patientId);
+
+            var prescriptions = patient.TreatmentHistory
+                .OrderByDescending(p => p.CreationTime)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
+            var totalPages = (int) Math.Ceiling((float) patient.TreatmentHistory.Count() / pageSize);
+
+            var requestTemplate = "/Nurse/TreatmentHistory?patientId=" + patientId + "&page={0}";
+
+            return new TreatmentHistoryViewModel
+            {
+                Pagination = new PaginationViewModel(requestTemplate, totalPages, page),
+                Prescriptions = prescriptions.Select(
+                        p => AutoMapper.Mapper.Map<PrescriptionViewModel>(p))
+                    .ToList()
+            };
+        }
+
         public Stream PreparePdf(IEnumerable<MedicalPrescription> prescriptions)
         {
             var document = new PdfDocument();
-            document.Info.Title = "'s personalized cookbook";
-            document.Info.Author = "Pancake Prowler";
-
+            document.Info.Title = "Historia leczenia";
+            document.Info.Author = "Szybka Pigula";
             var page = document.AddPage();
 
-            var graphics = XGraphics.FromPdfPage(page);
+            if (prescriptions.Any())
+            {
+                var patient = prescriptions.First().Patient.FullName;
+                document.Info.Title += " " + patient;
+                var font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
 
-            var font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
+                var graphics = XGraphics.FromPdfPage(page);
+                var i = 25f;
 
-            graphics.DrawString("s personalized cookbook",
-                font,
-                XBrushes.Red,
-                new XPoint((float)page.Width / 2, (float)page.Height / 2),
-                XStringFormats.Center);
+                foreach (var prescription in prescriptions)
+                {
+                    graphics.DrawString(prescription.ToString(),
+                        font,
+                        XBrushes.Red,
+                        new XPoint(0f, i),
+                        XStringFormats.BaseLineLeft);
+                    i += 25;
+                }
+            }
 
             var saveStream = new MemoryStream();
             document.Save(saveStream);

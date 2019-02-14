@@ -75,16 +75,8 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Patients(string patientName = "")
         {
-            var searchCondition = patientName ?? "";
-            var department = context.Nurses.Include(n => n.Department).FirstOrDefault().Department;
-
-            var patients = context.Patients
-                .Include(p => p.Department)
-                .Where(p => p.FullName.Contains(searchCondition, StringComparison.OrdinalIgnoreCase) &&
-                            p.Department == department)
-                .OrderByDescending(p => p.FullName)
-                .Select(p => p)
-                .Take(PageSize);
+            var deparment = context.Nurses.Include(n => n.Department).FirstOrDefault().Department;
+            var patients = nurseUseCase.GetPatients(patientName, deparment);
 
             return View(patients);
         }
@@ -92,14 +84,7 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult TreatmentHistory(int patientId, int page = 1)
         {
-            var patient = context.Patients
-                .Include(p => p.TreatmentHistory).ThenInclude(t => t.Doctor)
-                .Single(p => p.ID == patientId);
-
-            var prescriptions = patient.TreatmentHistory
-                .OrderByDescending(p => p.CreationTime)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize);
+            var prescriptions = nurseUseCase.GeTreatmentHistory(patientId, page);
 
             return View(prescriptions);
         }
