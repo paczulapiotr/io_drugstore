@@ -1,6 +1,8 @@
 ﻿using Drugstore.Core;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
+using Drugstore.Models.InternalPharmacist;
+using Drugstore.UseCases.InternalPharmacist;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,92 +17,56 @@ namespace Drugstore.Controllers
     {
         private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
+        private readonly GetUnverifiedPrescriptionsUseCase getUnverifiedPrescriptions;
+        private readonly GetPrescriptionUseCase getPrescription;
+        private readonly AcceptPrescriptionUseCase acceptPrescription;
+        private readonly RejectPrescriptionUseCase rejectPrescription;
 
-        public InternalPharmacistController(DrugstoreDbContext context)
+        public InternalPharmacistController(
+            DrugstoreDbContext context,
+            GetUnverifiedPrescriptionsUseCase getUnverifiedPrescriptions,
+            GetPrescriptionUseCase getPrescription,
+            AcceptPrescriptionUseCase acceptPrescription,
+            RejectPrescriptionUseCase rejectPrescription)
         {
             this.context = context;
+            this.getUnverifiedPrescriptions = getUnverifiedPrescriptions;
+            this.getPrescription = getPrescription;
+            this.acceptPrescription = acceptPrescription;
+            this.rejectPrescription = rejectPrescription;
         }
 
         public IActionResult Index(string patientName = "", int page = 1)
         {
-            string searchTerm = patientName ?? "";
+            var result = getUnverifiedPrescriptions.Execute(patientName, page);
 
-            var query = context.MedicalPrescriptions
-                .Include(p => p.Doctor)
-                .Include(p => p.Patient)
-                .OrderByDescending(p => p.CreationTime)
-                .Where(p => p.VerificationState == VerificationState.NotVerified)
-                .Where(p => p.Patient.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
-
-            var requestTemplate = "/InternalPharmacist/Index?patientName=" + searchTerm + "&page={0}";
-
-            var totalPages = (int)Math.Ceiling((float)query.Count() / PageSize);
-
-            var prescriptions = query
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize)
-                .ToList();
-
-            return View(new PrescriptionsViewModel
-            {
-                Pagination = new PaginationViewModel(requestTemplate, totalPages, page),
-                Prescriptions = prescriptions
-            });
+            return View(result);
         }
 
         public IActionResult Prescription(int prescriptionId)
         {
-            var prescription = context.MedicalPrescriptions
-                .Include(p => p.Doctor)
-                .Include(p => p.Patient)
-                .Include(p => p.Medicines).ThenInclude(p => p.StockMedicine)
-                .Single(p => p.ID == prescriptionId);
+            var result = getPrescription.Execute(prescriptionId);
 
-            return View(prescription);
+            return View(result);
         }
 
         [HttpPost]
         public IActionResult Accept(int prescriptionId)
         {
-            int newQuantity;
-            var prescription = context.MedicalPrescriptions
-                .Include(p => p.Medicines).ThenInclude(p => p.StockMedicine)
-                .Single(p => p.ID == prescriptionId);
-            try
-            {
-                foreach (var med in prescription.Medicines)
-                {
-                    var stockMedicine = context.Medicines
-                        .Single(m => m.ID == med.StockMedicine.ID);
-                    newQuantity = (int)stockMedicine.Quantity - (int)med.AssignedQuantity;
-                    if (newQuantity > 0)
-                    {
-                        stockMedicine.Quantity = (uint)newQuantity;
-                    }
-                    else
-                    {
-                        throw new Exception($"Medicine quantity error. Lack of {stockMedicine.Name} medicine.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Failed), new { message = ex.Message });
-            }
-            prescription.VerificationState = VerificationState.Accepted;
-            context.SaveChanges();
+            var result = acceptPrescription.Execute(prescriptionId);
 
-            return RedirectToAction("Index");
+            return result.Succes ?
+                RedirectToAction("Index") :
+                RedirectToAction(nameof(Failed), new { message = result.Message });
         }
 
         [HttpPost]
         public IActionResult Reject(int prescriptionId)
         {
-            var prescription = context.MedicalPrescriptions.Single(p => p.ID == prescriptionId);
-            prescription.VerificationState = VerificationState.Rejected;
-            context.SaveChanges();
-
-            return RedirectToAction("Index");
+            var result = rejectPrescription.Execute(prescriptionId);
+            return result.Succes ? 
+                RedirectToAction(nameof(Index)) :
+                RedirectToAction(nameof(Failed), new {message = result.Message });
         }
 
         public IActionResult Failed(string message)

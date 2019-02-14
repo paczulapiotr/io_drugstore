@@ -1,4 +1,4 @@
-﻿@model MedicalPrescription
+﻿@model PrescriptionViewModel
 @{ 
     ViewData ["Title"] = "Recepta";
 }
@@ -7,40 +7,12 @@
     <div class="table-header">
     <h2>Szczegóły recepty:</h2>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Data wystawienia</th>
-                <td>@Model.CreationTime.ToLongDateString()</td>
-            </tr>
-            <tr>
-                <th>Kto wystawił?</th>
-                <td>@Model.Doctor.FullName</td>
-            </tr>
-            <tr>
-                <th>Została zatwierdzona?</th>
-                <td>@Model.VerificationState.ToString()</td>
-            </tr>
-            <tr>
-                <th>Nazwa leku</th>
-                <th>Ilość</th>
-                <th>Cena za sztukę</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var medicine in Model.Medicines)
-            {
-            <tr>
-                <td>@medicine.StockMedicine.Name</td>
-                <td>@medicine.AssignedQuantity</td>
-                <td>@medicine.StockMedicine.PricePerOne.ToString("N2")</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+
+    @await Html.PartialAsync("_PrescriptionTable", Model)
+
     <div class="table-footer">
         <form asp-action="TreatmentHistory" method="get">
-            <input value="@Model.Patient.ID" name="patientId" type="hidden" />
+            <input value="@Model.PatientId" name="patientId" type="hidden" />
             <button class="btn">Powrót</button>
         </form>
     </div>

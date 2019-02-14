@@ -1,5 +1,6 @@
 ﻿using Drugstore.Models;
 using Drugstore.UseCases;
+using Drugstore.UseCases.Storekeeper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,11 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Storekeeper")]
     public class StorekeeperController : Controller
     {
-        private readonly GetXMLStoreUpdateToUseCase getXMLStore;
+        private readonly GetXMLStoreUpdateUseCase getXMLStore;
         private readonly PostXMLStoreOrderListUseCase postXMLStore;
 
         public StorekeeperController(
-            GetXMLStoreUpdateToUseCase getXMLStore,
+            GetXMLStoreUpdateUseCase getXMLStore,
             PostXMLStoreOrderListUseCase postXMLStore)
         {
             this.getXMLStore = getXMLStore;

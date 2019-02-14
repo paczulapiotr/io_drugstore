@@ -17,14 +17,14 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IRepository repository;
+        private readonly AdminUseCase adminUseCase;
         private readonly DrugstoreDbContext drugstore;
         private readonly UserManager<SystemUser> userManager;
         private const int pageSize = 5;
 
-        public AdminController(IRepository repository, DrugstoreDbContext drugstore, UserManager<SystemUser> userManager)
+        public AdminController(AdminUseCase adminUseCase, DrugstoreDbContext drugstore, UserManager<SystemUser> userManager)
         {
-            this.repository = repository;
+            this.adminUseCase = adminUseCase;
             this.drugstore = drugstore;
             this.userManager = userManager;
 
@@ -132,7 +132,7 @@ namespace Drugstore.Controllers
                 .Take(pageSize)
                 .ToList();
 
-            List<UserViewModel> users = pagedUsers.Select(u => repository.GetUser(u.Id)).ToList();
+            List<UserViewModel> users = pagedUsers.Select(u => adminUseCase.GetUser(u.Id)).ToList();
 
             return View(new UsersViewModel
             {
@@ -143,7 +143,7 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult EditUser(string userId)
         {
-            var user = repository.GetUser(userId);
+            var user = adminUseCase.GetUser(userId);
             UserModifiedViewModel data = new UserModifiedViewModel
             {
                 UserModel = user,
@@ -163,7 +163,7 @@ namespace Drugstore.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    repository.EditUser(userModel);
+                    adminUseCase.EditUser(userModel);
                     return RedirectToAction("Users");
                 }
             }
@@ -176,7 +176,7 @@ namespace Drugstore.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    repository.EditUser(userModel);
+                    adminUseCase.EditUser(userModel);
                     return RedirectToAction("Users");
                 }
             }
@@ -189,7 +189,7 @@ namespace Drugstore.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    repository.EditUser(userModel);
+                    adminUseCase.EditUser(userModel);
                     return RedirectToAction("Users");
                 }
             }
@@ -207,7 +207,7 @@ namespace Drugstore.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    repository.EditUser(userModel);
+                    adminUseCase.EditUser(userModel);
                     return RedirectToAction("Users");
                 }
             }
@@ -244,7 +244,7 @@ namespace Drugstore.Controllers
                 }
                 if (ModelState.IsValid)
                 {
-                    repository.AddNewUser(userModel);
+                    adminUseCase.AddNewUser(userModel);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -254,7 +254,7 @@ namespace Drugstore.Controllers
 
         public IActionResult DeleteUser(string userId)
         {
-            repository.DeleteUser(userId);
+            adminUseCase.DeleteUser(userId);
             return RedirectToAction("Users");
         }
 

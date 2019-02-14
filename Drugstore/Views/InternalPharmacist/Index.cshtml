@@ -2,7 +2,7 @@
     ViewData ["Title"] = "Prescriptions";
 }
 
-@model PrescriptionsViewModel
+@model PrescriptionsListViewModel
 @{
     ViewData ["Title"] = "Patients";
 }
@@ -32,11 +32,11 @@
                 {
                 <tr>
                     <td>@p.CreationTime</td>
-                    <td>@p.Patient.FullName</td>
-                    <td>@p.Doctor.FullName</td>
+                    <td>@p.PatientName</td>
+                    <td>@p.DoctorName</td>
                     <td>
                         <form asp-action="Prescription" method="get">
-                            <input name="prescriptionId" value="@p.ID" type="hidden" />
+                            <input name="prescriptionId" value="@p.Id" type="hidden" />
                             <button class="btn">Pokaż</button>
                         </form>
                     </td>

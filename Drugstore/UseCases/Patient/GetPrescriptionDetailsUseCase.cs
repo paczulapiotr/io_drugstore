@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Drugstore
+namespace Drugstore.UseCases.Patient
 {
     public class GetPrescriptionDetailsUseCase
     {
@@ -16,13 +16,13 @@ namespace Drugstore
         {
             this.context = context;
         }
-        public MedicalPrescription Execute(Patient patient, int prescriptionId)
+        public MedicalPrescription Execute(int patientId, int prescriptionId)
         {
             var presciptionDetails = context.MedicalPrescriptions
                 .Include(p => p.Patient)
                 .Include(p => p.Doctor)
                 .Include(p => p.Medicines).ThenInclude(m => m.StockMedicine)
-                .Where(p=>p.Patient.ID == patient.ID)
+                .Where(p=>p.Patient.ID == patientId)
                 .SingleOrDefault(p => p.ID == prescriptionId);
 
             return presciptionDetails;

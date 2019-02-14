@@ -1,5 +1,7 @@
 ﻿using Drugstore.Identity;
 using Drugstore.Infrastructure;
+using Drugstore.Models.Shared;
+using Drugstore.UseCases.Patient;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,7 @@ namespace Drugstore.Controllers
             this.getTreatmentOverviewDataUseCase = getTreatmentOverviewDataUseCase;
             this.getPrescriptionDetailsUseCase = getPrescriptionDetailsUseCase;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -38,8 +41,8 @@ namespace Drugstore.Controllers
 
             var user = userManager.GetUserAsync(User).Result;
             var patient = context.Patients.Single(p => p.SystemUser.Id == user.Id);
-            var data = getTreatmentOverviewDataUseCase.Execute(patient, start, end, pageSize, page);
-            //+ currentPage, pagesAvailable
+            var data = getTreatmentOverviewDataUseCase.Execute(patient.ID, start, end, pageSize, page);
+
             return Json(data);
 
         }
@@ -49,9 +52,14 @@ namespace Drugstore.Controllers
         {
             var user = userManager.GetUserAsync(User).Result;
             var patient = context.Patients.Single(p => p.SystemUser.Id == user.Id);
-            var prescription = getPrescriptionDetailsUseCase.Execute(patient, prescriptionId);
+            var prescription = getPrescriptionDetailsUseCase.Execute(patient.ID, prescriptionId);
+            if (prescription != null)
+            {
+                var result = AutoMapper.Mapper.Map<PrescriptionViewModel>(prescription);
+                return View(result);
+            }
 
-            return (prescription != null) ? View(prescription) : (IActionResult)NotFound();
+            return NotFound();
         }
     }
 }

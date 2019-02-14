@@ -1,4 +1,4 @@
-﻿@model MedicalPrescription
+﻿@model PrescriptionViewModel
 @{
     ViewData ["Title"] = "Prescription";
 }
@@ -11,60 +11,14 @@
                 <button class="btn">Powrót</button>
             </form>
             <form asp-action="Accept" method="post">
-                <input type="hidden" name="prescriptionId" value="@Model.ID" />
+                <input type="hidden" name="prescriptionId" value="@Model.Id" />
                 <button class="btn">Akceptuj</button>
             </form>
             <form asp-action="Reject" method="post">
-                <input type="hidden" name="prescriptionId" value="@Model.ID" />
+                <input type="hidden" name="prescriptionId" value="@Model.Id" />
                 <button class="btn">Odrzuć</button>
             </form>
         </div>
     </div>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Pacjent</th>
-                <td>@Model.Patient.FullName</td>
-            </tr>
-            <tr>
-                <th>Lekarz</th>
-                <td>@Model.Doctor.FullName</td>
-            </tr>
-            <tr>
-            <tr>
-                <th>Data wypisania</th>
-                <td>@Model.CreationTime</td>
-            </tr>
-            <tr>
-                <th>Łączny koszt</th>
-                <td>@Model.Medicines.Sum(m=>m.PricePerOne*m.AssignedQuantity).ToString("N2")</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th>Nazwa</th>
-                <th>Cena za sztuke</th>
-                <th>Refundacja [%]</th>
-                <th>Cena z refundacją</th>
-                <th>Kategoria</th>
-                <th>Ilość</th>
-            </tr>
-            @foreach (var p in Model.Medicines)
-            {
-            <tr>
-                <td>@p.StockMedicine.Name</td>
-                <td>@p.StockMedicine.PricePerOne.ToString("N2")</td>
-                <td>@((int)Math.Round(p.StockMedicine.Refundation * 100))</td>
-                <td>@p.PricePerOne.ToString("N2")</td>
-                <td>@p.StockMedicine.MedicineCategory</td>
-                <td>@p.AssignedQuantity</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+    @await Html.PartialAsync("_PrescriptionTable", Model)
 </div>

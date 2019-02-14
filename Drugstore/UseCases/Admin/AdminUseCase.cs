@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace Drugstore.Data
 {
-    public class DrugstoreRepository : IRepository
+    public class AdminUseCase
     {
         private readonly UserManager<SystemUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly DrugstoreDbContext context;
 
-        public DrugstoreRepository(
+        public AdminUseCase(
             UserManager<SystemUser> userManager,
             RoleManager<IdentityRole> roleManager,
             DrugstoreDbContext drugstoreDbContext)

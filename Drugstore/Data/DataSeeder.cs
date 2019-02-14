@@ -15,7 +15,7 @@ namespace Drugstore.Identity
         {
             var drugstore = serviceProvider.GetService<DrugstoreDbContext>();
 
-            if (drugstore.Departments.Count() == 0)
+            if (!drugstore.Departments.Any())
             {
                 drugstore.Departments.Add(new Department {Name = "Oddział Anestezjologii i Intensywnej Terapii"});
                 drugstore.Departments.Add(new Department {Name = "Oddział Chirurgii Ogólnej"});
@@ -355,7 +355,7 @@ namespace Drugstore.Identity
 
         public static void InitializeUsers(IServiceProvider serviceProvider)
         {
-            var repository = serviceProvider.GetService<IRepository>();
+            var adminUseCase = serviceProvider.GetService<AdminUseCase>();
             var roleManager = serviceProvider.GetService<RoleManager<IdentityRole>>();
 
             var roles = new[]
@@ -376,10 +376,10 @@ namespace Drugstore.Identity
                 }
             }
 
-            CreateTestUsers(serviceProvider, repository, roles);
+            CreateTestUsers(serviceProvider, adminUseCase, roles);
         }
 
-        private static void CreateTestUsers(IServiceProvider serviceProvider, IRepository repository, string[] roles)
+        private static void CreateTestUsers(IServiceProvider serviceProvider, AdminUseCase adminUseCase, string[] roles)
         {
             var userManager = serviceProvider.GetService<UserManager<SystemUser>>();
             var firstDepartment = serviceProvider
@@ -404,7 +404,7 @@ namespace Drugstore.Identity
                         Role = (UserRoleTypes)Enum.Parse(typeof(UserRoleTypes),role),
                         UserName = role
                     };
-                    repository.AddNewUser(userModel);
+                    adminUseCase.AddNewUser(userModel);
                 }
             }
         }

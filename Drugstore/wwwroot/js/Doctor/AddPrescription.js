@@ -54,7 +54,7 @@ function prescription() {
                     tr.appendChild(td1);
                     td2.innerText = m.pricePerOne.toFixed(2)
                     tr.appendChild(td2);
-                    td3.innerText = m.isRefunded;
+                    td3.innerText = (m.refundation*100).toFixed(2);
                     tr.appendChild(td3);
                     td4.innerText = m.quantity
                     tr.appendChild(td4);
@@ -62,21 +62,23 @@ function prescription() {
 
                     let button = document.createElement('button');
                     button.classList.add('btn');
-                    button.value = m.id;
+                    button.value = m.stockId;
                     button.innerText = 'Wybierz';
                     button.onclick = (event) => {
 						let id = event.target.value;
-						let orderedMeds = context.medicines.filter(m=>m.stockMedicine.id==id);
+						console.log('searched id',id)
+						let orderedMeds = context.medicines.filter(m=>m.stockId==id);
 						if(orderedMeds.length !== 0) {
-							orderedMeds[0].assignedQuantity++;
+							console.log('med before',orderedMeds[0])
+							orderedMeds[0].quantity++;
+							console.log('med after',orderedMeds[0])
 						}
 						else {
-                            let filteredMed = acquiredMedicines.filter(m => m.id == id)[0];
+                            let filteredMed = acquiredMedicines.filter(m => m.stockId == id)[0];
 							let copy = Object.assign({}, filteredMed);
-							context.medicines.push({
-								stockMedicine:copy,
-								assignedQuantity: 1
-							})
+							copy.quantity = 1;
+
+							context.medicines.push(copy)
 						}
                         console.log(context);
                         updatePrescription();
@@ -102,7 +104,7 @@ function prescription() {
                     let tr = document.createElement('tr');
 
                     let td1 = document.createElement('td');
-                    td1.innerText = p.firstName + ' ' + p.secondName;
+                    td1.innerText = p.fullName;
 
                     let td2 = document.createElement('td');
 
@@ -136,31 +138,32 @@ function prescription() {
         while (prescriptionTable.firstChild) {
             prescriptionTable.removeChild(prescriptionTable.firstChild);
         }
-        let { firstName, secondName } = context.patient;
-        prescriptionPatient.innerText = (firstName||"") + " " + (secondName||"");
+        let { fullName } = context.patient;
+        prescriptionPatient.innerText = fullName||"";
 
         context.medicines.forEach(m => {
             let tr = document.createElement('tr');
             let td1 = document.createElement('td');
             let td2 = document.createElement('td');
             let td3 = document.createElement('td');
-            let td4 = document.createElement('td');
-            td1.innerText = m.stockMedicine.name;
+			let td4 = document.createElement('td');
+
+			td1.innerText = m.name;
             tr.appendChild(td1);
-            td2.innerText = m.stockMedicine.pricePerOne.toFixed(2);
+            td2.innerText = m.pricePerOne.toFixed(2);
             tr.appendChild(td2);
-            td3.innerText = m.assignedQuantity;
+            td3.innerText = m.quantity;
             tr.appendChild(td3);
             tr.appendChild(td4);
 
 
             let button = document.createElement('button');
             button.classList.add('btn');
-            button.value = m.stockMedicine.id;
+            button.value = m.stockId;
             button.innerText = 'Usuń';
             button.onclick = (event) => {
                 let id = event.target.value;
-                context.medicines = context.medicines.filter(m => m.stockMedicine.id != id);
+                context.medicines = context.medicines.filter(m => m.stockId != id);
                 console.log(context);
                 updatePrescription();
             }
@@ -189,7 +192,7 @@ function prescription() {
         }).then(res => res.json())
 			.then(data=>{
 				console.log('Success:',data)
-				if(data.valid){
+				if(data.succes){
 
 					alert("Dodano receptę!");
 					context = {
@@ -203,7 +206,7 @@ function prescription() {
 					button.disabled = false;
 				}
 				else {
-					alert("Błąd przy dodawaniu recepty!");
+					alert("Błąd przy dodawaniu recepty! "+data.message);
 					button.disabled = false;
 				}
 

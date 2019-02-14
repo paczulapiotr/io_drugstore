@@ -1,4 +1,5 @@
 ﻿using Drugstore.Core;
+using Drugstore.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace Drugstore.Models
 {
     public class DoctorPrescriptionViewModel
     {
-        public AssignedMedicine[] Medicines { get; set; }
-        public Patient Patient { get; set; }
+        public MedicineViewModel [] Medicines { get; set; }
+        public PatientViewModel Patient { get; set; }
     }
 }

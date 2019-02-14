@@ -3,6 +3,7 @@ using Drugstore.Exceptions;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
 using Drugstore.Models.Seriallization;
+using Drugstore.Models.Shared;
 using Drugstore.UseCases.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 
 namespace Drugstore.UseCases.ExternalPharmacist
 {
@@ -19,20 +19,29 @@ namespace Drugstore.UseCases.ExternalPharmacist
     {
         private readonly DrugstoreDbContext context;
         private readonly ILogger<UploadSoldMedicinesListUseCase> logger;
+        private readonly ISerializer<MemoryStream, XmlMedicineSupplyModel> serializer;
+        private readonly ICopy fileCopy;
         private readonly string [] validExtensions = new [] {
                 "text/xml",
                 "application/xml"
             };
 
-        public UploadSoldMedicinesListUseCase(DrugstoreDbContext context, ILogger<UploadSoldMedicinesListUseCase> logger)
+        public UploadSoldMedicinesListUseCase(
+            DrugstoreDbContext context,
+            ILogger<UploadSoldMedicinesListUseCase> logger,
+            ISerializer<MemoryStream, XmlMedicineSupplyModel> serializer,
+            ICopy fileCopy)
         {
             this.context = context;
             this.logger = logger;
+            this.serializer = serializer;
+            this.fileCopy = fileCopy;
         }
 
-        public UploadResultViewModel Execute(IFormFile xmlFile)
+        public ResultViewModel<Dictionary<string, object>> Execute(IFormFile xmlFile)
         {
-            UploadResultViewModel result = new UploadResultViewModel();
+            ResultViewModel<Dictionary<string, object>> result = 
+                new ResultViewModel<Dictionary<string, object>>();
 
             try
             {
@@ -40,15 +49,14 @@ namespace Drugstore.UseCases.ExternalPharmacist
                 {
                     throw new UploadedFileWrongFormatException(xmlFile.ContentType);
                 }
-                XmlSerializer serializer = new XmlSerializer(typeof(XmlMedicineSupplyModel));
 
                 using (MemoryStream stream = new MemoryStream())
                 {
                     xmlFile.CopyToAsync(stream).Wait();
                     stream.Position = 0;
-                    var supply = (XmlMedicineSupplyModel)serializer.Deserialize(stream);
+                    var supply = serializer.Deserialize(stream);
                     result = UpdateStore(supply);
-                    FileCopy.Create(stream, "external_drugstore_sale_", ".xml", "XML", "external_drugstore_sale_history");
+                    fileCopy.Create(stream, "external_drugstore_sale_", ".xml", "XML", "external_drugstore_sale_history");
                 }
             }
             catch (FileCopyCreationException ex)
@@ -60,27 +68,27 @@ namespace Drugstore.UseCases.ExternalPharmacist
                 if (ex is MedicineNotFoundException || ex is OnStockMedicineQuantityException)
                 {
                     logger.LogError(ex, ex.Message);
-                    result.Success = false;
-                    result.Error = ex.Message;
+                    result.Succes = false;
+                    result.Message = ex.Message;
                 }
                 else
                 {
                     string message = "UKNOWN EXCEPTION: " + ex.Message;
                     logger.LogError(ex, message);
-                    result.Success = false;
-                    result.Error = message;
+                    result.Succes = false;
+                    result.Message = message;
                 }
             }
             finally
             {
-                string outcome = result.Success ? "SUCCEEDED" : "FAILED";
+                string outcome = result.Succes ? "SUCCEEDED" : "FAILED";
                 logger.LogInformation("External Drugstore sold medicines update " + outcome);
             }
 
             return result;
         }
 
-        private UploadResultViewModel UpdateStore(XmlMedicineSupplyModel supply)
+        private ResultViewModel<Dictionary<string, object>> UpdateStore(XmlMedicineSupplyModel supply)
         {
             double pricePerOne;
             double totalMedicinesCost = 0.0f;
@@ -130,45 +138,15 @@ namespace Drugstore.UseCases.ExternalPharmacist
             }
             context.SaveChanges();
 
-            return new UploadResultViewModel
+            return new ResultViewModel<Dictionary<string, object>>
             {
-                Success = true,
-                Results = new Dictionary<string, object> {
+                Succes = true,
+                Data = new Dictionary<string, object> {
                     { "TotalCount", totalMedicineCount },
                     { "TotalCost", totalMedicinesCost }
                 },
-                Error = ""
+                Message = ""
             };
-        }
-
-        [Obsolete]
-        private void CreateXMLFileCopy(MemoryStream stream)
-        {
-
-            FileInfo file;
-            string fileName;
-            int version = 0;
-
-            string saveDirectory = Path.Combine(
-               Directory.GetCurrentDirectory(),
-               "XML",
-               "external_drugstore_sale_history");
-            Directory.CreateDirectory(saveDirectory);
-            string nameTemplate = Path.Combine(saveDirectory, "external_drugstore_sale_" + DateTime.Now.ToString("yyyy-MM-dd"));
-
-            do
-            {
-                fileName = nameTemplate +
-                    ((version == 0) ? "" : $"({version})") + ".xml";
-                file = new FileInfo(fileName);
-                version++;
-            } while (file.Exists);
-
-            using (FileStream fs = file.Create())
-            {
-                stream.Position = 0;
-                stream.CopyTo(fs);
-            }
         }
 
     }

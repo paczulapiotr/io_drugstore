@@ -1,4 +1,4 @@
-﻿@model DoctorTreatmentHistoryViewModel
+﻿@model TreatmentHistoryViewModel
 @{
     ViewData ["Title"] = "Historia Leczenia";
 }
@@ -7,9 +7,7 @@
     <div class="table-header">
         @if (Model.Prescriptions.Count() > 0)
         {
-
-            Patient patient = @Model.Prescriptions.First().Patient;
-            <h2>Recepty pacjenta @patient.FullName</h2>
+        <h2>Recepty pacjenta @Model.Prescriptions.First().PatientName</h2>
         }
         else
         {
@@ -34,11 +32,11 @@
             {
                 <tr>
                     <td>@p.CreationTime.ToShortDateString()</td>
-                    <td>@p.Doctor.FullName</td>
-                    <td>@p.VerificationState.ToString()</td>
+                    <td>@p.DoctorName</td>
+                    <td>@ContentHelper.VerificationToString(p.VerificationState)</td>
                     <td>
                         <form asp-action="PrescriptionDetails" method="get">
-                            <input value="@p.ID" name="prescriptionId" hidden />
+                            <input value="@p.Id" name="prescriptionId" hidden />
                             <button class="btn">Zobacz</button>
                         </form>
                     </td>
