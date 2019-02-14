@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Drugstore.Core;
@@ -7,10 +6,11 @@ using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MigraDoc.Rendering;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
-using System.Drawing;
 
 namespace Drugstore.UseCases.Nurse
 {
@@ -60,17 +60,27 @@ namespace Drugstore.UseCases.Nurse
             }
         }
 
-        public MemoryStream PreparePdf(IEnumerable<MedicalPrescription> prescriptions)
+        public Stream PreparePdf(IEnumerable<MedicalPrescription> prescriptions)
         {
-            var pdf = new PdfDocument();
-            var page = pdf.AddPage();
-            var graph = XGraphics.FromPdfPage(page);
-            var font = new XFont("Verdana", 20, XFontStyle.Regular);
+            var document = new PdfDocument();
+            document.Info.Title = "'s personalized cookbook";
+            document.Info.Author = "Pancake Prowler";
 
-            graph.DrawString("This is my first PDF document", font, XBrushes.Black,
-                new XRect(0, 0, page.Width.Point, page.Height.Point), XStringFormats.TopLeft);
+            var page = document.AddPage();
 
-            MemoryStream stream = null;
+            var graphics = XGraphics.FromPdfPage(page);
+
+            var font = new XFont("Verdana", 20, XFontStyle.BoldItalic);
+
+            graphics.DrawString("s personalized cookbook",
+                font,
+                XBrushes.Red,
+                new XPoint((float)page.Width / 2, (float)page.Height / 2),
+                XStringFormats.Center);
+
+            var saveStream = new MemoryStream();
+            document.Save(saveStream);
+            return saveStream;
         }
     }
 }

@@ -54,17 +54,20 @@ namespace Drugstore.Controllers
                 {
                     ModelState.AddModelError(nameof(userModel.Email), "Adres email zajęty");
                 }
+
                 if (context.Users
                     .Any(u => u.UserName.Contains(userModel.UserName, StringComparison.OrdinalIgnoreCase)))
                 {
                     ModelState.AddModelError(nameof(userModel.UserName), "Nazwa użytkownika zajęta");
                 }
+
                 if (ModelState.IsValid)
                 {
                     nurseUseCase.AddPatient(userModel);
                     return RedirectToAction(nameof(Index));
                 }
             }
+
             ViewData["Departments"] = context.Departments.ToList();
             return View(userModel);
         }
@@ -117,13 +120,10 @@ namespace Drugstore.Controllers
         public FileStreamResult Download(IEnumerable<MedicalPrescription> prescriptions)
         {
             var pdfFile = nurseUseCase.PreparePdf(prescriptions);
-            var patient = prescriptions.First().Patient.FullName;
             return File(pdfFile,
-                "application/octet-stream",
-                patient +
+                "application/pdf",
                 DateTime.Now.ToString("yyyy-MM-dddd") +
                 ".pdf");
-
         }
     }
 }
