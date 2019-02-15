@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Drugstore.Tests.UseCases
 {
@@ -253,15 +254,13 @@ namespace Drugstore.Tests.UseCases
         public void Test()
         {
             // given
-            var dictionary = new Dictionary<int, int>();
-            dictionary.Add(1, 10);
-            dictionary.Add(2, 20); //why 20, not 15 ? because average was lower than todays quantity and algorithm decide to choose higher result
-            dictionary.Add(3, 24);
+            var expectedResult = new List<int> { 10, 20, 24 };
 
             // when
-            var dictionaryResult = SupplyOrderCalc.CreateProductList(context);
+            var actualResult = SupplyOrderCalc.CreateProductList(context);
+
             // then
-            Assert.AreEqual(dictionary, dictionaryResult);
+            CollectionAssert.AreEquivalent(expectedResult, actualResult.Select(d=>d.Value).ToList());
         }
 
         [TearDown]
