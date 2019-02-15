@@ -29,6 +29,7 @@ namespace Drugstore.Identity
             }
         }
 
+        [Obsolete("Might casue relation problems")]
         public static void InitializePresciptions(IServiceProvider serviceProvider)
         {
             var context = serviceProvider.GetService<DrugstoreDbContext>();
@@ -773,7 +774,7 @@ namespace Drugstore.Identity
             }
         }
 
-
+        [Obsolete("Might casue relation problems")]
         public static void InitializeExternalDrugstoreMedicines(IServiceProvider serviceProvider)
         {
             var medicines = serviceProvider.GetService<DrugstoreDbContext>();
@@ -918,7 +919,7 @@ namespace Drugstore.Identity
 
         }
 
-
+        [Obsolete("Might casue relation problems")]
         public static void InitializeExternalDrugstoreSoldMedicines(IServiceProvider serviceProvider)
         {
             var medicines = serviceProvider.GetService<DrugstoreDbContext>();
@@ -1301,7 +1302,7 @@ namespace Drugstore.Identity
             }
 
             CreateTestUsers(serviceProvider, adminUseCase, roles);
-            InitializePeople(serviceProvider, adminUseCase);
+            //InitializePeople(serviceProvider, adminUseCase);
         }
 
         private static void CreateTestUsers(IServiceProvider serviceProvider, AdminUseCase adminUseCase, string[] roles)

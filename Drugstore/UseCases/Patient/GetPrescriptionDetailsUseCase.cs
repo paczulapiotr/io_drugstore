@@ -1,6 +1,7 @@
 ﻿using Drugstore.Infrastructure;
 using Drugstore.Models.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -9,10 +10,12 @@ namespace Drugstore.UseCases.Patient
     public class GetPrescriptionDetailsUseCase
     {
         private readonly DrugstoreDbContext context;
+        private readonly ILogger<GetPrescriptionDetailsUseCase> logger;
 
-        public GetPrescriptionDetailsUseCase(DrugstoreDbContext context)
+        public GetPrescriptionDetailsUseCase(DrugstoreDbContext context, ILogger<GetPrescriptionDetailsUseCase> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public ResultViewModel<PrescriptionViewModel> Execute(int patientId, int prescriptionId)
@@ -33,6 +36,7 @@ namespace Drugstore.UseCases.Patient
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, ex.Message);
                 result.Succes = false;
                 result.Message = ex.Message;
             }

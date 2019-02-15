@@ -61,9 +61,12 @@ namespace Drugstore
                     DataSeeder.InitializeDepartments(scope.ServiceProvider);
                     DataSeeder.InitializeUsers(scope.ServiceProvider);
                     DataSeeder.InitializeMedicine(scope.ServiceProvider);
-                    DataSeeder.InitializeExternalDrugstoreMedicines(scope.ServiceProvider);
-                    DataSeeder.InitializeExternalDrugstoreSoldMedicines(scope.ServiceProvider);
-                    DataSeeder.InitializePresciptions(scope.ServiceProvider);
+
+                    #region Not validated seed
+                    //DataSeeder.InitializeExternalDrugstoreMedicines(scope.ServiceProvider);
+                    //DataSeeder.InitializeExternalDrugstoreSoldMedicines(scope.ServiceProvider);
+                    //DataSeeder.InitializePresciptions(scope.ServiceProvider);
+                    #endregion
                 }
             }
 

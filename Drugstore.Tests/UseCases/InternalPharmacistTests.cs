@@ -6,6 +6,8 @@ using Drugstore.Models.Shared;
 using Drugstore.UseCases.Doctor;
 using Drugstore.UseCases.InternalPharmacist;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -81,7 +83,8 @@ namespace Drugstore.Tests.UseCases
         public void Should_Not_Accept_Prescription()
         {
             // given
-            var useCase = new AcceptPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<AcceptPrescriptionUseCase>>();
+            var useCase = new AcceptPrescriptionUseCase(context, loggerMock.Object);
             var prescription = context.MedicalPrescriptions.First();
             prescription.Medicines.First().AssignedQuantity = 1000;
 
@@ -97,7 +100,8 @@ namespace Drugstore.Tests.UseCases
         public void Should_Accept_Prescription()
         {
             // given
-            var useCase = new AcceptPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<AcceptPrescriptionUseCase>>();
+            var useCase = new AcceptPrescriptionUseCase(context, loggerMock.Object);
             var prescription = context.MedicalPrescriptions.First();
             
             
@@ -114,7 +118,8 @@ namespace Drugstore.Tests.UseCases
         public void Should_Reject_Prescription()
         {
             // given
-            var useCase = new RejectPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<RejectPrescriptionUseCase>>();
+            var useCase = new RejectPrescriptionUseCase(context, loggerMock.Object);
             var prescription = context.MedicalPrescriptions.First();
 
 

@@ -57,7 +57,7 @@ namespace Drugstore.Controllers
 
             if(result.Succes)
             {
-                return View(result);
+                return View(result.Data);
             }
 
             return NotFound();

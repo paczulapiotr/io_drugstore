@@ -4,6 +4,8 @@ using Drugstore.Mapper;
 using Drugstore.Models.Shared;
 using Drugstore.UseCases.Patient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -151,7 +153,9 @@ namespace Drugstore.Tests.UseCases
             {
                 Data = Map<PrescriptionViewModel>(prescription)
             };
-            var useCase = new GetPrescriptionDetailsUseCase(context);
+
+            var loggerMock = new Mock<ILogger<GetPrescriptionDetailsUseCase>>();
+            var useCase = new GetPrescriptionDetailsUseCase(context, loggerMock.Object);
 
             // when
             var actualResult = useCase.Execute(patient.ID, prescription.ID);
@@ -169,7 +173,9 @@ namespace Drugstore.Tests.UseCases
             var prescription = context.MedicalPrescriptions
                 .First(p => p.VerificationState == VerificationState.Accepted);
             var expectedResult = false;
-            var useCase = new GetPrescriptionDetailsUseCase(context);
+
+            var loggerMock = new Mock<ILogger<GetPrescriptionDetailsUseCase>>();
+            var useCase = new GetPrescriptionDetailsUseCase(context, loggerMock.Object);
 
             // when
             var actualResult = useCase.Execute(patient.ID, prescription.ID);

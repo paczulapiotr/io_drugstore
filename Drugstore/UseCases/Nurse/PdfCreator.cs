@@ -74,7 +74,6 @@ namespace Drugstore.UseCases.Nurse
         private void WriteDescrption()
         {
             var column = this.column;
-            var space = "    ";
             graphics.DrawString(
                 "Nazwa",
                 FONT,
@@ -112,7 +111,6 @@ namespace Drugstore.UseCases.Nurse
         private void WriteMedicines(MedicineViewModel medicine)
         {
             var column = this.column;
-            var space = "    ";
             graphics.DrawString(
                 medicine.Name,
                 FONT,

@@ -5,6 +5,8 @@ using Drugstore.Models;
 using Drugstore.Models.Shared;
 using Drugstore.UseCases.Doctor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -83,7 +85,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = true;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count() - 1;
-            var useCase = new DeletePrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<DeletePrescriptionUseCase>>();
+            var useCase = new DeletePrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
             var presc = context.MedicalPrescriptions.First();
 
@@ -102,7 +105,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = false;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count();
-            var useCase = new DeletePrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<DeletePrescriptionUseCase>>();
+            var useCase = new DeletePrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
             var presc = context.MedicalPrescriptions.First();
             var uselessDoc = new Doctor { FirstName = "Useless", SecondName = "Doc" };
@@ -124,7 +128,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = true;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count();
-            var useCase = new EditPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<EditPrescriptionUseCase>>();
+            var useCase = new EditPrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
             var onlyMed = Map<MedicineViewModel>(context.Medicines.First());
             onlyMed.Quantity = 5;
@@ -145,7 +150,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = false;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count();
-            var useCase = new EditPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<EditPrescriptionUseCase>>();
+            var useCase = new EditPrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
 
             var meds = new MedicineViewModel [] { };
@@ -164,7 +170,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = true;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count() + 1;
-            var useCase = new AddPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<AddPrescriptionUseCase>>();
+            var useCase = new AddPrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
             var presc = new DoctorPrescriptionViewModel
             {
@@ -185,7 +192,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = false;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count();
-            var useCase = new AddPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<AddPrescriptionUseCase>>();
+            var useCase = new AddPrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
             var presc = new DoctorPrescriptionViewModel
             {
@@ -206,7 +214,8 @@ namespace Drugstore.Tests.UseCases
             // given
             var expectedResult = false;
             var expectedPrescriptionCount = context.MedicalPrescriptions.Count();
-            var useCase = new AddPrescriptionUseCase(context);
+            var loggerMock = new Mock<ILogger<AddPrescriptionUseCase>>();
+            var useCase = new AddPrescriptionUseCase(context, loggerMock.Object);
             var doctor = context.Doctors.First();
             var presc = new DoctorPrescriptionViewModel
             {

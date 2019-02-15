@@ -2,6 +2,7 @@
 using Drugstore.Infrastructure;
 using Drugstore.Models.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -10,10 +11,12 @@ namespace Drugstore.UseCases.Doctor
     public class EditPrescriptionUseCase
     {
         private readonly DrugstoreDbContext context;
+        private readonly ILogger<EditPrescriptionUseCase> logger;
 
-        public EditPrescriptionUseCase(DrugstoreDbContext context)
+        public EditPrescriptionUseCase(DrugstoreDbContext context, ILogger<EditPrescriptionUseCase> logger)
         {
             this.context = context;
+            this.logger = logger;
         }
 
         public ResultViewModel Execute(MedicineViewModel [] medicines, int prescriptionId, int doctorId)
@@ -56,6 +59,7 @@ namespace Drugstore.UseCases.Doctor
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, ex.Message);
                 result.Message = ex.Message;
                 result.Succes = false;
             }
