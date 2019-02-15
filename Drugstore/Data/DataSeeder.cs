@@ -203,22 +203,8 @@ namespace Drugstore.Identity
                     VerificationState = VerificationState.NotVerified,
                     Medicines = medList2
                 });
-                context.MedicalPrescriptions.Add(new MedicalPrescription
-                {
-                    Doctor = context.Doctors.First(d => d.SecondName == "Placek"),
-                    Patient = context.Patients.First(p => p.SecondName == "Morszczyn"),
-                    CreationTime = DateTime.Now,
-                    VerificationState = VerificationState.NotVerified,
-                    Medicines = medList1
-                });
-                context.MedicalPrescriptions.Add(new MedicalPrescription
-                {
-                    Doctor = context.Doctors.First(d => d.SecondName == "Placek"),
-                    Patient = context.Patients.First(p => p.SecondName == "Morszczyn"),
-                    CreationTime = DateTime.Now,
-                    VerificationState = VerificationState.Rejected,
-                    Medicines = medList2
-                });
+      
+
                 context.MedicalPrescriptions.Add(new MedicalPrescription
                 {
                     Doctor = context.Doctors.First(d => d.SecondName == "Placek"),
