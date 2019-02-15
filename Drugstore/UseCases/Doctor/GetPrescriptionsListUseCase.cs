@@ -26,6 +26,7 @@ namespace Drugstore.UseCases.Doctor
                 .Where(p=>p.Doctor.ID == doctorId);
 
             var totalPages = (int)Math.Ceiling((float)query.Count() / PageSize);
+            totalPages = totalPages < 1 ? 1 : totalPages;
 
             var prescriptions = query.OrderByDescending(p => p.CreationTime)
                 .Skip((page - 1) * PageSize)

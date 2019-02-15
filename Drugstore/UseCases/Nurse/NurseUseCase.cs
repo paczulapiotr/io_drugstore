@@ -36,7 +36,7 @@ namespace Drugstore.UseCases.Nurse
             systemUser.PasswordHash = passHash;
             userManager.CreateAsync(systemUser).Wait();
 
-            var role = newUser.Role.ToString();
+            var role = UserRoleTypes.Patient.ToString();
             userManager.AddToRoleAsync(systemUser, role).Wait();
 
             var person = new Core.Patient();
@@ -45,7 +45,7 @@ namespace Drugstore.UseCases.Nurse
             context.SaveChanges();
         }
 
-        private void SetPersonProperties(Person person, UserViewModel newUser, SystemUser systemUser)
+        private void SetPersonProperties(Core.Patient person, UserViewModel newUser, SystemUser systemUser)
         {
             if (person != null)
             {
@@ -56,7 +56,7 @@ namespace Drugstore.UseCases.Nurse
             }
         }
 
-        public PatientViewModel[] GetPatients(string search, Department department)
+        public PatientViewModel[] GetPatients(string search, int departmentId)
         {
             var searchPattern = search ?? "";
 
@@ -64,8 +64,8 @@ namespace Drugstore.UseCases.Nurse
                 .Include(p => p.Department)
                 .OrderByDescending(p => p.FullName)
                 .Where(p => p.FullName
-                                .Contains(searchPattern ?? "", StringComparison.OrdinalIgnoreCase) &&
-                            p.Department.ID == department.ID)
+                                .Contains(searchPattern ?? "", StringComparison.OrdinalIgnoreCase))
+                .Where(p=>p.Department.ID == departmentId)
                 .Take(pageSize);
 
             var result = filteredPatients.Select(p => AutoMapper.Mapper.Map<PatientViewModel>(p)).ToArray();
@@ -85,6 +85,7 @@ namespace Drugstore.UseCases.Nurse
                 .Take(pageSize);
 
             var totalPages = (int) Math.Ceiling((float) patient.TreatmentHistory.Count() / pageSize);
+            totalPages = totalPages < 1 ? 1 : totalPages;
 
             var requestTemplate = "/Nurse/TreatmentHistory?patientId=" + patientId + "&page={0}";
 

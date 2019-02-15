@@ -42,6 +42,7 @@ namespace Drugstore.Controllers
                 .ToList();
 
             var totalPages = (int)Math.Ceiling((double)drugstore.Departments.Count() / pageSize);
+            totalPages = totalPages < 1 ? 1 : totalPages;
 
             return View(new DepartmentsViewModel
             {
@@ -126,6 +127,7 @@ namespace Drugstore.Controllers
         public IActionResult Users(int page = 1)
         {
             int totalPages = (int)Math.Ceiling((float)userManager.Users.Count() / pageSize);
+            totalPages = totalPages < 1 ? 1 : totalPages;
 
             var pagedUsers = userManager.Users
                 .Skip((page - 1) * pageSize)

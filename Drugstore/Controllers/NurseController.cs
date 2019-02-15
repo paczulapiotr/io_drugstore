@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
+using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
 using Drugstore.UseCases.Nurse;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,13 +16,17 @@ namespace Drugstore.Controllers
     {
         private readonly DrugstoreDbContext context;
         private readonly NurseUseCase nurseUseCase;
+        private readonly UserManager<SystemUser> userManager;
         private readonly PdfCreator pdfCreator;
 
-        public NurseController(DrugstoreDbContext context,
-            NurseUseCase nurseUseCase)
+        public NurseController(
+            DrugstoreDbContext context,
+            NurseUseCase nurseUseCase,
+            UserManager<SystemUser> userManager)
         {
             this.context = context;
             this.nurseUseCase = nurseUseCase;
+            this.userManager = userManager;
             pdfCreator = new PdfCreator();
         }
 
@@ -70,8 +76,13 @@ namespace Drugstore.Controllers
         [HttpGet]
         public IActionResult Patients(string patientName = "")
         {
-            var deparment = context.Nurses.Include(n => n.Department).FirstOrDefault().Department;
-            var patients = nurseUseCase.GetPatients(patientName, deparment);
+            var userId = userManager.GetUserAsync(User).Result.Id;
+            var nurse = context.Nurses
+                .Include(n => n.SystemUser)
+                .Include(n => n.Department)
+                .FirstOrDefault(n => n.SystemUser.Id == userId);
+
+            var patients = nurseUseCase.GetPatients(patientName, nurse.Department.ID);
 
             return View(patients);
         }

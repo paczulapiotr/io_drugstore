@@ -35,6 +35,7 @@ namespace Drugstore.Models.InternalPharmacist
             var requestTemplate = "/InternalPharmacist/Index?patientName=" + searchTerm + "&page={0}";
 
             var totalPages = (int)Math.Ceiling((float)query.Count() / pageSize);
+            totalPages = totalPages < 1 ? 1 : totalPages;
 
             var prescriptions = query
                 .Skip((page - 1) * pageSize)

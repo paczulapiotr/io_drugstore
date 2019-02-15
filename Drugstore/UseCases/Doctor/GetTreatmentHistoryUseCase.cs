@@ -29,6 +29,7 @@ namespace Drugstore.UseCases.Doctor
                 .Take(pageSize);
 
             var totalPages = (int)Math.Ceiling((float)patient.TreatmentHistory.Count() / pageSize);
+            totalPages = totalPages < 1 ? 1 : totalPages;
 
             var requestTemplate = "/Doctor/TreatmentHistory?patientId=" + patientId + "&page={0}";
 
