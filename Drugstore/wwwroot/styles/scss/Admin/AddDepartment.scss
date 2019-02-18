@@ -1,0 +1,15 @@
+﻿body {
+    .main-section {
+        .add-department {
+            align-self: center;
+
+            strong {
+                font-size: 1.5em;
+            }
+           
+            .add-department-button {
+                float: right;
+            }
+        }
+    }
+}

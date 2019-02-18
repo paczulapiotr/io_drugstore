@@ -1,0 +1,24 @@
+﻿@import '../_variables.scss';
+
+body {
+
+    .main-section {
+        .prescription-details-panel {
+				margin: 2em;
+				padding: 2em;
+				border: 2px solid $secondary-color-dark;
+				border-radius: 1%;
+				background-color: $secondary-color-bright;
+				min-height: 70vh;
+				position: relative;
+				
+				button {
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					margin: 2em;
+				}
+
+        }
+    }
+}

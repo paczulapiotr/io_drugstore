@@ -1,11 +1,11 @@
 ﻿
-function edit() {
+function initialize() {
 
-	let medicineSearchButton = document.querySelector('.searchBar button');
-	let medicineSearchInput = document.querySelector('.searchBar input');
-    let tableBody = document.querySelector('.mainSection .editPrescription .assignedMedicines tbody');
-	let medicineSearchTable = document.querySelector('.mainSection .editPrescription .medicineSearchPanel table tbody');
-	let saveButton = document.querySelector('#saveButton');
+	let medicineSearchButton = document.querySelector('.search-bar button');
+	let medicineSearchInput = document.querySelector('.search-bar input');
+    let tableBody = document.querySelector('.main-section .edit-prescription .assigned-medicines tbody');
+	let medicineSearchTable = document.querySelector('.main-section .edit-prescription .medicine-search-panel table tbody');
+	let saveButton = document.querySelector('#save-button');
 	let id = saveButton.value;
 
     let context = [];
@@ -21,24 +21,24 @@ function edit() {
         context.forEach(medicine => {
             let tr = document.createElement('tr');
             let td1 = document.createElement('td');
-            td1.innerText = medicine.stockMedicine.name;
+            td1.innerText = medicine.name;
 
             let td2 = document.createElement('td');
-            td2.innerText = medicine.stockMedicine.pricePerOne;
+            td2.innerText = medicine.pricePerOne.toFixed(2);
 
             let td3 = document.createElement('td');
-            td3.innerText = medicine.stockMedicine.isRefunded;
+            td3.innerText = (medicine.refundation * 100).toFixed(2);
 
             let td4 = document.createElement('td');
-            td4.innerText = medicine.assignedQuantity;
+            td4.innerText = medicine.quantity;
 
             let td5 = document.createElement('td');
             let button = document.createElement('button');
             button.innerText = 'Usuń';
-			button.value = medicine.stockMedicine.id;
+			button.value = medicine.stockId;
 			button.classList.add('btn');
             button.onclick = (event) => {
-                context = context.filter(m => m.stockMedicine.id != event.target.value);
+                context = context.filter(m => m.stockId != event.target.value);
                 renderContext();
             }
             td5.appendChild(button);
@@ -55,8 +55,9 @@ function edit() {
     getMedicines = (prescriptionId) => {
         fetch('/Doctor/GetPrescriptionMedicines?prescriptionId=' + prescriptionId)
             .then(response => response.json())
-            .then(data => {
-                context = data;
+            .then(json => {
+				context = json.data;
+				console.log(context);
 				renderContext();
             })
     }
@@ -83,9 +84,9 @@ function edit() {
                     let td5 = document.createElement('td');
                     td1.innerText = m.name;
                     tr.appendChild(td1);
-                    td2.innerText = m.pricePerOne
+                    td2.innerText = m.pricePerOne.toFixed(2)
                     tr.appendChild(td2);
-                    td3.innerText = m.isRefunded;
+                    td3.innerText = (m.refundation * 100).toFixed(2);
                     tr.appendChild(td3);
                     td4.innerText = m.quantity
                     tr.appendChild(td4);
@@ -93,22 +94,20 @@ function edit() {
 
                     let button = document.createElement('button');
                     button.classList.add('btn');
-                    button.value = m.id;
+                    button.value = m.stockId;
                     button.innerText = 'Wybierz';
                     button.onclick = (event) => {
 						let id = event.target.value;
-						let orderedMeds = context.filter(m=>m.stockMedicine.id==id);
+						let orderedMeds = context.filter(m=>m.stockId==id);
 						if(orderedMeds.length !== 0) {
-							orderedMeds[0].assignedQuantity++;
+							orderedMeds[0].quantity++;
 						}
 						else {
-							let filteredMed = acquiredMedicines.filter(m => m.id == id)[0];
+                            let filteredMed = acquiredMedicines.filter(m => m.stockId == id)[0];
 							let copy = Object.assign({}, filteredMed);
-							console.log(copy)
-							context.push({
-								stockMedicine:copy,
-								assignedQuantity: 1
-							})
+							copy.quantity = 1;
+
+							context.push(copy)
 						}
                         renderContext();
                     }
@@ -135,13 +134,13 @@ function edit() {
         }).then(res => res.json())
 			.then(data=>{
 				console.log('Success:',data)
-				if(data.valid){
+				if(data.succes){
 
 					alert("Dodano recepte!");
 					button.disabled = false;
 				}
 				else {
-					alert("Błąd przy dodawaniu recepty!");
+					alert("Błąd przy dodawaniu recepty!\n"+data.message);
 					button.disabled = false;
 				}
 			})
@@ -165,5 +164,4 @@ function edit() {
 
 
 }
-
-edit();
+initialize();

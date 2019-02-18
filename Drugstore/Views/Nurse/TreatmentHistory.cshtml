@@ -1,0 +1,53 @@
+﻿@model TreatmentHistoryViewModel
+@{
+    ViewData["Title"] = "Historia Leczenia";
+}
+
+<div class="treatment-history-panel">
+    <div class="table-header">
+        @if (Model.Prescriptions.Count() > 0)
+        {
+            <h2>Recepty pacjenta @Model.Prescriptions.First().PatientName</h2>
+            <form asp-action="Download" method="get">
+                <input value="@Model.Prescriptions.First().PatientId" name="patientId" hidden/>
+                <button class="btn">Pobierz</button>
+            </form>
+        }
+        else
+        {
+            <h2>Brak recept</h2>
+        }
+        <form asp-action="Patients" method="get">
+            <button class="btn">Powrót</button>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Data wystawienia</th>
+            <th>Kto wystawił</th>
+            <th>Została wydana?</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var p in Model.Prescriptions)
+        {
+            <tr>
+                <td>@p.CreationTime.ToShortDateString()</td>
+                <td>@p.DoctorName</td>
+                <td>@ContentHelper.VerificationToString(p.VerificationState)</td>
+                <td>
+                    <form asp-action="PrescriptionDetails" method="get">
+                        <input value="@p.Id" name="prescriptionId" hidden/>
+                        <button class="btn">Zobacz</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    @await Html.PartialAsync("_Pagination", Model.Pagination)
+
+</div>

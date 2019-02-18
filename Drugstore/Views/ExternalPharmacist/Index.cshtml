@@ -1,0 +1,16 @@
+﻿@{
+    ViewData ["Title"] = "Home";
+}
+
+<div class="external-pharm container panel">
+        <h3 class="header-title">Panel aptekarza</h3>
+        <div class="update-store-panel">
+            <h6>Załaduj plik z dzisiejszą sprzedażą towaru:</h6>
+            <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                <input class="btn" name="xmlFile" type="file" />
+                <button class="btn" id="upload-button" style="display:block">Wyślij</button>
+            </form>
+        </div>
+</div>
+
+<script src="~/js/ExternalPharmacist/Index.js"></script>

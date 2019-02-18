@@ -1,0 +1,21 @@
+﻿@import '../_variables.scss';
+
+body {
+    .main-section {
+        .pharmacist-patients {
+            .search-bar form {
+                display: flex;
+                justify-content: center;
+                input {
+                    max-width:600px;
+                    min-width:400px;
+                    margin:0.5em;
+                }
+
+                border-bottom: 2px solid black;
+                margin-bottom: 1em;
+                padding-bottom:1em;
+            }
+        }
+    }
+}

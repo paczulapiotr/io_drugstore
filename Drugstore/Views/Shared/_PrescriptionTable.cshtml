@@ -1,0 +1,51 @@
+﻿@model PrescriptionViewModel
+
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Pacjent</th>
+            <td>@Model.PatientName</td>
+        </tr>
+        <tr>
+            <th>Lekarz</th>
+            <td>@Model.DoctorName</td>
+        </tr>
+        <tr>
+        <tr>
+            <th>Data wypisania</th>
+            <td>@Model.CreationTime</td>
+        </tr>
+        <tr>
+            <th>Zatwierdzona?</th>
+            <td>@ContentHelper.VerificationToString(Model.VerificationState)</td>
+        </tr>
+        <tr>
+            <th>Łączny koszt</th>
+            <td>@Model.TotalCost.ToString("N2")</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Nazwa</th>
+            <th>Cena za sztuke</th>
+            <th>Refundacja [%]</th>
+            <th>Kategoria</th>
+            <th>Ilość</th>
+        </tr>
+        @foreach (var p in Model.AssignedMedicines)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td>@p.PricePerOne.ToString("N2")</td>
+                <td>@((int)Math.Round(p.Refundation * 100))</td>
+                <td>@p.MedicineCategory</td>
+                <td>@p.Quantity</td>
+            </tr>
+        }
+    </tbody>
+</table>

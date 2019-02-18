@@ -56,6 +56,8 @@ namespace Drugstore.Infrastructure.Migrations
 
                     b.Property<int?>("MedicalPrescriptionID");
 
+                    b.Property<double>("PricePerOne");
+
                     b.Property<int?>("StockMedicineID");
 
                     b.HasKey("ID");
@@ -106,6 +108,48 @@ namespace Drugstore.Infrastructure.Migrations
                     b.HasIndex("SystemUserId");
 
                     b.ToTable("Doctors");
+                });
+
+            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreMedicine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<double>("PricePerOne");
+
+                    b.Property<long>("Quantity");
+
+                    b.Property<int>("StockMedicineID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StockMedicineID");
+
+                    b.ToTable("ExternalDrugstoreMedicines");
+                });
+
+            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreSoldMedicine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<double>("PricePerOne");
+
+                    b.Property<int>("SoldQuantity");
+
+                    b.Property<int>("StockMedicineID");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StockMedicineID");
+
+                    b.ToTable("ExternalDrugstoreSoldMedicines");
                 });
 
             modelBuilder.Entity("Drugstore.Core.ExternalPharmacist", b =>
@@ -168,13 +212,13 @@ namespace Drugstore.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Approved");
-
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<int>("DoctorID");
 
                     b.Property<int>("PatientID");
+
+                    b.Property<int>("VerificationState");
 
                     b.HasKey("ID");
 
@@ -191,16 +235,17 @@ namespace Drugstore.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsRefunded");
-
                     b.Property<int>("MedicineCategory");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<float>("PricePerOne");
+                    b.Property<double>("PricePerOne");
 
                     b.Property<long>("Quantity");
+
+                    b.Property<double>("Refundation");
 
                     b.HasKey("ID");
 
@@ -480,6 +525,22 @@ namespace Drugstore.Infrastructure.Migrations
                     b.HasOne("Drugstore.Identity.SystemUser", "SystemUser")
                         .WithMany()
                         .HasForeignKey("SystemUserId");
+                });
+
+            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreMedicine", b =>
+                {
+                    b.HasOne("Drugstore.Core.MedicineOnStock", "StockMedicine")
+                        .WithMany()
+                        .HasForeignKey("StockMedicineID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Drugstore.Core.ExternalDrugstoreSoldMedicine", b =>
+                {
+                    b.HasOne("Drugstore.Core.MedicineOnStock", "StockMedicine")
+                        .WithMany()
+                        .HasForeignKey("StockMedicineID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Drugstore.Core.ExternalPharmacist", b =>

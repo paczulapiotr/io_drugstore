@@ -1,0 +1,30 @@
+﻿@import '../_variables.scss';
+
+body {
+	.main-section {
+		.patient-menu {
+
+			.date-picker {
+				display: flex;
+				justify-content: flex-start;
+				input {
+					width: 250px;
+                    text-align: center;
+				}
+				padding-bottom: 1em;
+				margin-bottom:1em;
+				border-bottom:2px solid black;
+			}
+            .navigation {
+                display:flex;
+                margin-bottom:1em;
+                .previous {
+
+                }
+                .next {
+
+                }
+            }
+		}
+	}
+}

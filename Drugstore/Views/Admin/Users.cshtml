@@ -1,30 +1,35 @@
-﻿@model List<UserModel>
+﻿@model UsersViewModel
 @{
-    ViewData["Title"] = "Edit Users";
+    ViewData ["Title"] = "Edit Users";
 }
-<div class="users">
-    <div class="tableHeader">
-        <h1>Current users:</h1>
-        <form id="addUser" asp-action="AddUser" method="Get">
-            <button class="btn">Add User</button>
-        </form>
+<div class="users container panel">
+    <div class="table-header">
+        <h1>Użytkownicy systemu:</h1>
+        <div class="button-section">
+            <form asp-action="Index" method="get" class="return-button">
+                <button class="btn">Powrót</button>
+            </form>
+            <form id="add-user" asp-action="AddUser" method="Get">
+                <button class="btn">Dodaj użytkownika</button>
+            </form>
+        </div>
     </div>
     <table class="table container">
         <thead>
             <tr>
-                <th>Full Name</th>
-                <th>User Name</th>
+                <th>Imię i nazwisko</th>
+                <th>Nazwa użytkownika</th>
                 <th>Email</th>
-                <th>Phone Number</th>
+                <th>Numer kontaktowy</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model)
+            @foreach (var user in Model.Users)
             {
                 <tr>
-                    <td>@(user.FirstName + " " +user.SecondName)</td>
+                    <td>@(user.FirstName + " " + user.SecondName)</td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
                     <td>@user.PhoneNumber</td>
@@ -45,7 +50,7 @@
             }
         </tbody>
     </table>
-    <form asp-action="Index" method="get">
-        <button class="btn">Powrót</button>
-    </form>
+
+    @await Html.PartialAsync("_Pagination", Model.Pagination)
+
 </div>

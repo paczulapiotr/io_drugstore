@@ -1,0 +1,17 @@
+﻿@import '../_variables.scss';
+
+
+body {
+    .main-section {
+        .internal-prescription {
+            .table-header {
+                display: flex;
+                justify-content: space-between;
+
+                .buttons {
+                    display:flex;
+                }
+            }
+        }
+    }
+}

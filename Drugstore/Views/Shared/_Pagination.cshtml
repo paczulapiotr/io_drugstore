@@ -1,0 +1,64 @@
+﻿@model PaginationViewModel
+<ul class="pagination">
+    @{
+        var prevClassName = (Model.CurrentPage == 1) ? "page-item disabled" : "page-item";
+        var previousPageRequest = Model.GetPreviousPage();
+        var nextClassName = (Model.CurrentPage == Model.TotalPages) ? "page-item disabled" : "page-item";
+        var nextPageRequest = Model.GetNextPage();
+
+        var minusTenPage = Model.CurrentPage - 10 >= 1 ? Model.CurrentPage - 10 : 1;
+        var plusTenPage = Model.CurrentPage + 10 <= Model.TotalPages ? Model.CurrentPage + 10 : Model.TotalPages;
+        var minusTenRequest = Model.GetPage(minusTenPage);
+        var plusTenRequest = Model.GetPage(plusTenPage);
+
+        const int radius = 3;
+        var minPage = Model.CurrentPage - radius >= 1 ? Model.CurrentPage - radius : 1;
+        var maxPage = minPage + 2 * radius <= Model.TotalPages ? minPage + 2 * radius : Model.TotalPages;
+    }
+
+    @* -10 *@
+    <li class="page-item">
+        <a class="page-link" href="@minusTenRequest" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+
+    <li class="@prevClassName">
+        <a class="page-link" href="@previousPageRequest">Poprzednia</a>
+    </li>
+
+    @if (minPage > 1)
+    {
+        <li class="page-item disabled">
+            <a class="page-link" href="#">...</a>
+        </li>
+    }
+
+    @for (int i = minPage; i <= maxPage; i++)
+    {
+        string liClassName = (Model.CurrentPage == i) ? "page-item active" : "page-item";
+        string pagePageRequest = Model.GetPage(i);
+        <li class="@liClassName">
+            <a class="page-link" href="@pagePageRequest">@i</a>
+        </li>
+    }
+
+    @if (maxPage < Model.TotalPages)
+    {
+        <li class="page-item disabled">
+            <a class="page-link" href="#">...</a>
+        </li>
+    }
+
+    <li class="@nextClassName">
+        <a class="page-link" href="@nextPageRequest">Następna</a>
+    </li>
+
+    @* +10 *@
+    <li class="page-item">
+        <a class="page-link" href="@plusTenRequest" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+
+</ul>

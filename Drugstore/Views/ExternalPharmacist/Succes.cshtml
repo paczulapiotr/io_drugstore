@@ -1,0 +1,16 @@
+﻿@model UploadResultViewModel
+@{
+    ViewData ["Title"] = "Success";
+}
+
+<div class="external-pharm-succes container panel">
+    <h5>
+        Liczba sprzedanych leków: @((int)Model.Data["TotalCount"])
+    </h5>
+    <h5>
+        Łączny zysk ze sprzedaży: @String.Format("{0:0.00}", (float)Model.Data["TotalCost"])
+    </h5>
+    <form id="return-button" asp-action="Index" method="get">
+        <button class="btn">Powrót</button>
+    </form>
+</div>

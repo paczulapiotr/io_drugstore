@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <TargetLatestRuntimePath>false</TargetLatestRuntimePath>
+    <RuntimeFrameworkVersion>2.1</RuntimeFrameworkVersion>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

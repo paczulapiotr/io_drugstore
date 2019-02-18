@@ -1,0 +1,50 @@
+﻿@{
+    ViewData ["Title"] = "Prescriptions";
+}
+
+@model PrescriptionsListViewModel
+@{
+    ViewData ["Title"] = "Patients";
+}
+
+<div class="pharmacist-patients container panel">
+    <div class="header-title">
+        <h2>Pacjenci:</h2>
+    </div>
+    <div class="search-bar">
+        <form asp-action="Index" method="get">
+            <input class="form-control" name="patientName" />
+            <button class="btn">Znajdź</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Data wystawienia</th>
+                    <th>Pacjent</th>
+                    <th>Lekarz</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Prescriptions)
+                {
+                <tr>
+                    <td>@p.CreationTime</td>
+                    <td>@p.PatientName</td>
+                    <td>@p.DoctorName</td>
+                    <td>
+                        <form asp-action="Prescription" method="get">
+                            <input name="prescriptionId" value="@p.Id" type="hidden" />
+                            <button class="btn">Pokaż</button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        @await Html.PartialAsync("_Pagination",Model.Pagination)
+    </div>
+</div>

@@ -1,25 +1,27 @@
-﻿@model LoginModel
+﻿@model LoginViewModel
+@{ ViewData["LogoutBtnVisibility"] = false; }
+@{ ViewData["LogoBtnEnable"] = true; }
 
 
-
-<div class="loginPanel">
-    <div class="leftPanel">
-        <h1>System zarządzania <span style="display: block;"> apteką</h1>
+<div class="login-panel">
+    <div class="left-panel">
+        <h1>System zarządzania <span style="display: block;"> apteką </span></h1>
     </div>
-    <div class="rightPanel">
-        <h2>Log In</h2>
-        <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="right-panel">
+        <h2>Zaloguj się</h2>
+        @*<div class="text-danger" asp-validation-summary="All"></div>*@
         <form asp-action="Login" method="post">
-            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
             <div class="form-group">
-                <label asp-for="Email"></label>
+                <div><span asp-validation-for="Email" class="text-danger"></span></div>
+                <label asp-for="Email">Login</label>
                 <input asp-for="Email" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Password"></label>
+                <div><span asp-validation-for="Password" class="text-danger"></span></div>
+                <label asp-for="Password">Hasło</label>
                 <input asp-for="Password" class="form-control" />
             </div>
-            <button class="btn" type="submit">Log In</button>
+            <button class="btn" type="submit">Zaloguj</button>
         </form>
     </div>
 </div>

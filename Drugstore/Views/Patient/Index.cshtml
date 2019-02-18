@@ -1,0 +1,33 @@
+﻿@{
+    ViewData ["Title"] = "Home";
+}
+
+<div class="patient-menu container panel">
+    <h2>Historia leczenia</h2>
+    <div class="date-picker">
+        <input class="form-control" />
+        <button class="btn">Wybierz</button>
+    </div>
+    <div class="navigation">
+        <button class="previous btn">Poprzednie wyniki</button>
+        <button class="next btn">Kolejne wyniki</button>
+    </div>
+    <p>Całkowity koszt <span></span></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Data</td>
+                <td>Kto wypisał?</td>
+                <td>Koszt recepty</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="~/js/Patient/Index.js"></script>

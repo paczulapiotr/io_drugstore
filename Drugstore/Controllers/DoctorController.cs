@@ -1,12 +1,11 @@
-﻿using Drugstore.Core;
-using Drugstore.Identity;
+﻿using Drugstore.Identity;
 using Drugstore.Infrastructure;
 using Drugstore.Models;
+using Drugstore.Models.Shared;
+using Drugstore.UseCases.Doctor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 
 namespace Drugstore.Controllers
@@ -14,159 +13,151 @@ namespace Drugstore.Controllers
     [Authorize(Roles = "Doctor")]
     public class DoctorController : Controller
     {
-        const int PageSize = 10;
+        private const int PageSize = 5;
         private readonly DrugstoreDbContext context;
         private readonly UserManager<SystemUser> userManager;
+        private readonly GetPrescriptionUseCase getPrescription;
+        private readonly GetMedicinesUseCase getMedicines;
+        private readonly GetPatientsUseCase getPatients;
+        private readonly DeletePrescriptionUseCase deletePrescription;
+        private readonly GetTreatmentHistoryUseCase getTreatmentHistory;
+        private readonly GetPrescriptionMedicinesUseCase getPrescriptionMedicines;
+        private readonly EditPrescriptionUseCase editPrescription;
+        private readonly AddPrescriptionUseCase addPrescription;
+        private readonly GetPrescriptionsListUseCase getPrescriptionsList;
+        private readonly GetPrescriptionDetailsUseCase getPrescriptionDetails;
 
-        public DoctorController(DrugstoreDbContext context, UserManager<SystemUser> userManager)
+        public DoctorController(DrugstoreDbContext context,
+            UserManager<SystemUser> userManager,
+            GetPrescriptionsListUseCase getPrescriptions,
+            GetPrescriptionDetailsUseCase getPrescriptionDetails,
+            GetPrescriptionUseCase getPrescription,
+            GetMedicinesUseCase getMedicines,
+            GetPatientsUseCase getPatients,
+            DeletePrescriptionUseCase deletePrescription,
+            GetTreatmentHistoryUseCase getTreatmentHistory,
+            GetPrescriptionMedicinesUseCase getPrescriptionMedicines,
+            EditPrescriptionUseCase editPrescription,
+            AddPrescriptionUseCase addPrescription)
         {
             this.context = context;
             this.userManager = userManager;
+            this.getPrescription = getPrescription;
+            this.getMedicines = getMedicines;
+            this.getPatients = getPatients;
+            this.deletePrescription = deletePrescription;
+            this.getTreatmentHistory = getTreatmentHistory;
+            this.getPrescriptionMedicines = getPrescriptionMedicines;
+            this.editPrescription = editPrescription;
+            this.addPrescription = addPrescription;
+            getPrescriptionsList = getPrescriptions;
+            this.getPrescriptionDetails = getPrescriptionDetails;
         }
 
         [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
         [HttpGet]
-        public IActionResult Prescriptions()
+        public IActionResult Prescriptions(int page = 1)
         {
             var user = userManager.GetUserAsync(User).Result;
-            var prescriptions = context
-                .Doctors
-                .Include(d => d.IssuedPresciptions)
-                .ThenInclude(p => p.Patient)
-                .First(d => d.SystemUser.Id == user.Id)
-                .IssuedPresciptions
-                .Take(PageSize)
-                .ToList();
+            var doctor = context.Doctors.FirstOrDefault(d => d.SystemUser.Id == user.Id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
 
-            return View(prescriptions);
+            var result = getPrescriptionsList.Execute(doctor.ID, page);
+
+            return View(result);
         }
 
         [HttpGet]
         public IActionResult Prescription(int prescriptionId)
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var prescription = context
-                .Doctors
-                .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Patient)
-                  .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Medicines).ThenInclude(a=>a.StockMedicine)
-                .First(d => d.SystemUser.Id == user.Id)
-                .IssuedPresciptions
-                .First(p => p.ID == prescriptionId);
-            prescription.Doctor = null;
 
-            return View(prescription);
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors.Single(d => d.SystemUser.Id == user.Id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+            var result = getPrescription.Execute(doctor.ID, prescriptionId);
+
+            return View(result);
         }
 
         [HttpGet]
-        public IActionResult NewPrescription()
-        {
-            return View();
-        }
+        public IActionResult NewPrescription() => View();
 
         [HttpPost]
-        public IActionResult AddPrescription([FromBody]PrescriptionModel prescription)
+        public IActionResult AddPrescription([FromBody]DoctorPrescriptionViewModel prescription)
         {
+            var systemUser = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors.First(d => d.SystemUser.Id == systemUser.Id);
+            ResultViewModel result = null;
+
+
             if (ModelState.IsValid && prescription.Medicines.Length > 0)
             {
-                var systemUser = userManager.GetUserAsync(User).Result;
-                var doctor = context.Doctors.First(d => d.SystemUser.Id == systemUser.Id);
-                var patient = context.Patients.First(p => p.ID == prescription.Patient.ID);
-
-                var assignedMedicines = prescription.Medicines.Select(m =>
-                {
-                    m.StockMedicine = context.Medicines
-                        .First(med => med.ID == m.StockMedicine.ID);
-                    return m;
-                }).ToList();
-
-
-                doctor.IssuedPresciptions.Add(new MedicalPrescription
-                {
-                    Medicines = assignedMedicines,
-                    Doctor = doctor,
-                    Patient = patient,
-                    CreationTime = DateTime.Now,
-                    Approved = false
-
-                });
-                context.SaveChanges();
-                return Json(new { valid = true });
+                result = addPrescription.Execute(prescription, doctor.ID);
             }
             else
             {
-                return Json(new { valid = false });
+                result = new ResultViewModel { Succes = false, Message = "Normy recepty nie zostały spełnione" };
             }
+
+            return Json(result);
         }
 
         [HttpGet]
         public IActionResult EditPrescription(int prescriptionId)
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var prescription = context
-                .Doctors
-                .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Patient)
-                  .Include(d => d.IssuedPresciptions).ThenInclude(p => p.Medicines).ThenInclude(a => a.StockMedicine)
-                .First(d => d.SystemUser.Id == user.Id)
-                .IssuedPresciptions
-                .First(p => p.ID == prescriptionId);
-            prescription.Doctor = null;
 
-            return View(prescription);
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors.Single(d => d.SystemUser.Id == user.Id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+            var result = getPrescription.Execute(doctor.ID, prescriptionId);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return View(result);
         }
+
         [HttpGet]
-        public IActionResult GetPrescriptionMedicines(int prescriptionId)
+        public JsonResult GetPrescriptionMedicines(int prescriptionId)
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var doctor = context.Doctors
-                .Include(d => d.IssuedPresciptions)
-                .ThenInclude(p => p.Medicines)
-                .ThenInclude(m => m.StockMedicine)
-                .First(d => d.SystemUser.Id == user.Id);
-            var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
-            var medicines = prescription.Medicines.ToList();
+            var systemUser = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors.First(d => d.SystemUser.Id == systemUser.Id);
 
-            return Json(medicines);
+            var result = getPrescriptionMedicines.Execute(doctor.ID, prescriptionId);
+
+            return Json(result);
         }
 
         [HttpPost]
-        public IActionResult EditMedicines([FromBody]AssignedMedicine[] medicines, int prescriptionId)
+        public JsonResult EditMedicines([FromBody]MedicineViewModel [] medicines, int prescriptionId)
         {
-            var user = userManager.GetUserAsync(User).Result;
-            var doctor = context.Doctors
-                .Include(d => d.IssuedPresciptions)
-                .ThenInclude(p => p.Medicines)
-                .First(d => d.SystemUser.Id == user.Id);
-            var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
-            prescription.CreationTime = DateTime.Now;
 
-            var meds = prescription.Medicines.ToList();
-            foreach (var m in meds)
+            ResultViewModel result = null;
+            var systemId = userManager.GetUserAsync(User).Result.Id;
+            var doctor = context.Doctors.FirstOrDefault(d => d.SystemUser.Id == systemId);
+            if (ModelState.IsValid && medicines.Length > 0)
             {
-                prescription.Medicines.Remove(m);
+                result = editPrescription.Execute(medicines, prescriptionId, doctor.ID);
+            }
+            else
+            {
+                result = new ResultViewModel { Succes = false, Message = "Normy recepty nie zostały spełnione" };
             }
 
-            foreach (var m in medicines)
-            {
-                prescription.Medicines.Add(new AssignedMedicine
-                {
-                    StockMedicine = context.Medicines.First(med=>med.ID==m.StockMedicine.ID),
-                    AssignedQuantity = m.AssignedQuantity
-                });
-            }
-
-            context.SaveChanges();
-            return Json(new { valid = true });
-        }
-
-        [HttpPost]
-        public IActionResult EditPrescription(MedicalPrescription prescription)
-        {
-            return RedirectToAction("Prescriptions");
+            return Json(result);
         }
 
         [HttpPost]
@@ -174,51 +165,59 @@ namespace Drugstore.Controllers
         {
             var user = userManager.GetUserAsync(User).Result;
             var doctor = context.Doctors
-                .Include(d=>d.IssuedPresciptions)
-                .ThenInclude(p => p.Medicines)
                 .First(d => d.SystemUser.Id == user.Id);
-            var prescription = doctor.IssuedPresciptions.First(p => p.ID == prescriptionId);
-            var medicines = prescription.Medicines.ToList();
-            foreach (var medicine in medicines)
+
+            var result = deletePrescription.Execute(doctor.ID, prescriptionId);
+
+            return result.Succes ?
+                RedirectToAction("Prescriptions") :
+                (IActionResult)NotFound();
+        }
+
+        [HttpGet]
+        public JsonResult FindPatient(string search)
+        {
+            var result = getPatients.Execute(search);
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        public JsonResult FindMedicine(string search)
+        {
+            var result = getMedicines.Execute(search);
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        public IActionResult Patients(string patientName = "")
+        {
+            var result = getPatients.Execute(patientName);
+
+            return View(result);
+        }
+
+        [HttpGet]
+        public IActionResult TreatmentHistory(int patientId, int page = 1)
+        {
+            var result = getTreatmentHistory.Execute(patientId, page);
+
+            return View(result);
+        }
+
+        [HttpGet]
+        public IActionResult PrescriptionDetails(int prescriptionId)
+        {
+            var user = userManager.GetUserAsync(User).Result;
+            var doctor = context.Doctors.Single(d => d.SystemUser.Id == user.Id);
+            if (doctor == null)
             {
-                prescription.Medicines.Remove(medicine);
+                return NotFound();
             }
+            var result = getPrescriptionDetails.Execute(prescriptionId);
 
-            doctor.IssuedPresciptions.Remove(prescription);
-            context.SaveChanges();
-
-            return RedirectToAction("Prescriptions");
-        }
-
-        [HttpGet]
-        public IActionResult FindPatient(string search)
-        {
-
-            var filteredPatients = context.Patients
-                .Where(p => (p.FirstName + " " + p.SecondName)
-                .Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
-                .Take(PageSize)
-                .ToList();
-
-            return Json(filteredPatients);
-        }
-
-        [HttpGet]
-        public IActionResult FindMedicine(string search)
-        {
-
-            var filteredMedicine = context.Medicines
-               .Where(m => m.Name.Contains(search ?? "", StringComparison.OrdinalIgnoreCase))
-               .Take(PageSize)
-               .ToList();
-
-            return Json(filteredMedicine);
-        }
-
-        [HttpGet]
-        public IActionResult TreatmentHistory()
-        {
-            return View();
+            return View(result);
         }
     }
 }

@@ -1,9 +1,15 @@
 
-.mainSection {
-    .prescription {
-        .tableHeader {
-            display: flex;
-            justify-content: space-between;
+body {
+    .main-section {
+        .prescription {
+            .table-header {
+                display: flex;
+                justify-content: space-between;
+
+                .buttons {
+                    display: flex;
+                }
+            }
         }
     }
 }

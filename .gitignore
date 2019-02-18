@@ -1,6 +1,10 @@
 bin/
 obj/
 .vs/
+*.xml
+Logs/
 node_modules/
 *.css
-css/
+bundle.css
+bundle.min.css
+UML/APTEKA\.ldb
